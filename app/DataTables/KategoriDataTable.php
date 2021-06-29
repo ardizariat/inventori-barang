@@ -2,6 +2,7 @@
 
 namespace App\DataTables;
 
+use Carbon\Carbon;
 use App\Models\Kategori;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
@@ -21,7 +22,22 @@ class KategoriDataTable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            ->addColumn('action', 'kategori.action');
+            ->addColumn('aksi', function ($query) {
+                return view('admin.kategori._aksi', [
+                    'edit' => route('kategori.update', $query->id),
+                    'delete' => route('kategori.destroy', $query->id),
+                    'query' => $query
+                ]);
+            })
+            // ->addColumn('#', function ($query) {
+            //     return view('admin.kategori._checkbox', [
+            //         'query' => $query
+            //     ]);
+            // })
+            ->addColumn('dibuat', function ($query) {
+                $query = Carbon::parse($query->created_at)->format('d F Y, H:i');
+                return $query;
+            });
     }
 
     /**
@@ -32,6 +48,7 @@ class KategoriDataTable extends DataTable
      */
     public function query(Kategori $model)
     {
+        $model = Kategori::orderBy('created_at', 'desc');
         return $model->newQuery();
     }
 
@@ -43,18 +60,18 @@ class KategoriDataTable extends DataTable
     public function html()
     {
         return $this->builder()
-                    ->setTableId('kategori-table')
-                    ->columns($this->getColumns())
-                    ->minifiedAjax()
-                    ->dom('Bfrtip')
-                    ->orderBy(1)
-                    ->buttons(
-                        Button::make('create'),
-                        Button::make('export'),
-                        Button::make('print'),
-                        Button::make('reset'),
-                        Button::make('reload')
-                    );
+            ->setTableId('kategori-table')
+            ->columns($this->getColumns())
+            ->minifiedAjax()
+            ->dom('Bfrtip')
+            ->orderBy(1)
+            ->buttons(
+                Button::make('create'),
+                Button::make('export'),
+                Button::make('print'),
+                Button::make('reset'),
+                Button::make('reload')
+            );
     }
 
     /**
@@ -65,15 +82,14 @@ class KategoriDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            Column::computed('action')
-                  ->exportable(false)
-                  ->printable(false)
-                  ->width(60)
-                  ->addClass('text-center'),
-            Column::make('id'),
-            Column::make('add your columns'),
-            Column::make('created_at'),
-            Column::make('updated_at'),
+            Column::make('kategori'),
+            Column::make('status'),
+            Column::make('dibuat'),
+            Column::computed('aksi')
+                ->exportable(false)
+                ->printable(false)
+                ->width(60)
+                ->addClass('text-center'),
         ];
     }
 
