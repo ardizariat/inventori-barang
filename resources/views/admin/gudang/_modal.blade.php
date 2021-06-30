@@ -10,15 +10,25 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body mb-5 mt-5">
+                <div class="modal-body">
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-md-2 pt-2">
-                                <label>Kategori</label>
+                                <label>Kode</label>
                             </div>
                             <div class="col-md-10 form-group">
-                                <input type="text" name="kategori" autocomplete="off" autofocus
-                                    class="kategori form-control" placeholder="Masukkan kategori">
+                                <input type="text" value="{{ $kode }}" name="kode" autocomplete="off" autofocus
+                                    class="kode form-control" readonly>
+                                <span class="help-block with-errors"></span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2 pt-2">
+                                <label>Nama Gudang</label>
+                            </div>
+                            <div class="col-md-10 form-group">
+                                <input type="text" name="nama" autocomplete="off" autofocus class="nama form-control"
+                                    placeholder="Masukkan nama gudang">
                                 <span class="help-block with-errors"></span>
                             </div>
                         </div>
@@ -36,6 +46,15 @@
                                         value="tidak aktif">
                                     <label class="form-check-label">Tidak Aktif</label>
                                 </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2 pt-2">
+                                <label>Lokasi</label>
+                            </div>
+                            <div class="col-md-10 form-group">
+                                <textarea name="lokasi" class="form-control lokasi" cols="30" rows="10"></textarea>
+                                <span class="help-block with-errors"></span>
                             </div>
                         </div>
                     </div>

@@ -1,5 +1,5 @@
 <div class="btn-group">
-    <button onclick="editForm('{{ $update }}')" data-toggle="tooltip" data-placement="top"
+    <button onclick="editForm('{{ $edit }}')" data-toggle="tooltip" data-placement="top"
         title="Ubah data {{ $query->nama }}" class="btn btn-sm btn-outline-success">
         <i class="fas fa-edit"></i>
     </button>

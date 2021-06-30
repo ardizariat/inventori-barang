@@ -16,7 +16,7 @@ class CreateTableGudang extends Migration
         Schema::create('gudang', function (Blueprint $table) {
             $table->uuid('id')->unique()->primary();
             $table->string('nama', 150);
-            $table->string('kode', 150)->unique();
+            $table->string('kode', 150);
             $table->text('lokasi')->nullable();
             $table->enum('status', ['aktif', 'tidak aktif'])->default('aktif');
             $table->timestamps();

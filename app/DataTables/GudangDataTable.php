@@ -2,15 +2,15 @@
 
 namespace App\DataTables;
 
+use App\Models\Gudang;
 use Carbon\Carbon;
-use App\Models\Kategori;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class KategoriDataTable extends DataTable
+class GudangDataTable extends DataTable
 {
     /**
      * Build DataTable class.
@@ -23,32 +23,27 @@ class KategoriDataTable extends DataTable
         return datatables()
             ->eloquent($query)
             ->addColumn('aksi', function ($query) {
-                return view('admin.kategori._aksi', [
-                    'update' => route('kategori.update', $query->id),
-                    'delete' => route('kategori.destroy', $query->id),
-                    'query' => $query
+                return view('admin.gudang._aksi', [
+                    'query' => $query,
+                    'delete' => route('gudang.destroy', $query->id),
+                    'update' => route('gudang.update', $query->id),
                 ]);
             })
-            // ->addColumn('#', function ($query) {
-            //     return view('admin.kategori._checkbox', [
-            //         'query' => $query
-            //     ]);
-            // })
             ->addColumn('dibuat', function ($query) {
-                $query = Carbon::parse($query->created_at)->format('d F Y, H:i');
-                return $query;
+                $dibuat = Carbon::parse($query->created_at)->format('d F Y, H:i');
+                return $dibuat;
             });
     }
 
     /**
      * Get query source of dataTable.
      *
-     * @param \App\Models\Kategori $model
+     * @param \App\Models\Gudang $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(Kategori $model)
+    public function query(Gudang $model)
     {
-        $model = Kategori::orderBy('created_at', 'desc');
+        $model = Gudang::orderBy('created_at', 'desc');
         return $model->newQuery();
     }
 
@@ -60,7 +55,7 @@ class KategoriDataTable extends DataTable
     public function html()
     {
         return $this->builder()
-            ->setTableId('kategori-table')
+            ->setTableId('gudang-table')
             ->columns($this->getColumns())
             ->minifiedAjax()
             ->dom('Bfrtip')
@@ -82,8 +77,9 @@ class KategoriDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            Column::make('kategori'),
-            Column::make('status'),
+            Column::make('nama'),
+            Column::make('kode'),
+            Column::make('lokasi'),
             Column::make('dibuat'),
             Column::computed('aksi')
                 ->exportable(false)
@@ -100,6 +96,6 @@ class KategoriDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'Kategori_' . date('YmdHis');
+        return 'Gudang_' . date('YmdHis');
     }
 }

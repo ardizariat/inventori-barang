@@ -21,9 +21,12 @@ class GudangFactory extends Factory
      */
     public function definition()
     {
+        $count = Gudang::count();
+        $count++;
+        $huruf = 'GD';
         return [
             'nama' => $this->faker->name(),
-            'kode' => 'G' . $this->faker->postcode(),
+            'kode' =>  $huruf . kode($count++, 4),
             'lokasi' => $this->faker->address(),
             'status' => $this->faker->randomElement(['aktif', 'tidak aktif']),
             'created_at' => now(),

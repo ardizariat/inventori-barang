@@ -46,8 +46,8 @@
                             </button>
                             <h4 class="card-title float-right">
                                 <button class="btn btn-rounded btn-outline-primary"
-                                    onclick="addForm('{{ route('kategori.store') }}')">
-                                    <i class="fa fa-plus" aria-hidden="true"></i> Tambah Kategori
+                                    onclick="addForm('{{ route('gudang.store') }}')">
+                                    <i class="fa fa-plus" aria-hidden="true"></i> Tambah Gudang
                                 </button>
                             </h4>
                         </div>
@@ -64,7 +64,7 @@
         </div>
     </div>
 
-    @includeIf('admin.kategori._modal')
+    @includeIf('admin.gudang._modal')
 
 @endsection
 
@@ -76,7 +76,7 @@
     {!! $dataTable->scripts() !!}
 
     <script>
-        const table = $('#kategori-table');
+        const table = $('#gudang-table');
         $(function() {
             $('.modal-form').on('submit', function(e) {
                 if (!e.preventDefault()) {
@@ -99,6 +99,7 @@
                         data: $('.modal-form form').serialize(),
                         success: function(response) {
                             $('.modal-form').modal('hide');
+                            window.location.reload();
                             $.notify({
                                 message: response.text
                             }, {
@@ -127,7 +128,7 @@
         function addForm(url) {
             event.preventDefault();
             $('.modal-form').modal('show');
-            $('.modal-form .modal-title').text('Tambah Kategori');
+            $('.modal-form .modal-title').text('Tambah Gudang');
             $('.modal-form form')[0].reset();
             $('.modal-form form').attr('action', url);
             $('.modal-form [name=_method]').val('post');
@@ -136,14 +137,17 @@
         function editForm(url) {
             event.preventDefault();
             $('.modal-form').modal('show');
-            $('.modal-form .modal-title').text('Ubah Kategori');
+            $('.modal-form .modal-title').text('Ubah Gudang');
             $('.modal-form form').attr('action', url);
             $('.modal-form [name=_method]').val('put');
             $.get(url)
                 .done((response) => {
-                    let kategori = response.data.kategori;
-                    let status = response.data.status;
-                    $('.modal-form .kategori').val(kategori);
+                    let nama = response.data.nama;
+                    let kode = response.data.kode;
+                    let lokasi = response.data.lokasi;
+                    $('.modal-form .nama').val(nama);
+                    $('.modal-form .kode').val(kode);
+                    $('.modal-form .lokasi').val(lokasi);
                 })
                 .fail((errors) => {
                     Swal.fire('Oops...', 'Kategori ini tidak dapat dihapus', 'error')
