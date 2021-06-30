@@ -21,4 +21,8 @@ class Gudang extends Model
         'lokasi',
         'status'
     ];
+    public function produks()
+    {
+        return $this->hasMany(Produk::class, 'gudang_id');
+    }
 }
