@@ -1,14 +1,13 @@
 <script src="{{ asset('admin/js/plugin/sweetalert-2/sweetalert2.min.js') }}"></script>
 <script src="{{ asset('admin/js/plugin/bootstrap-notify/bootstrap-notify.min.js') }}"></script>
 <script src="{{ asset('admin/js/plugin/notify/bootstrap-notify.js') }}"></script>
-
-@if (session('success'))
+{{-- @if (session('success'))
     <script>
         $.notify({
             // options
             icon: 'glyphicon glyphicon-warning-sign',
             title: 'Bootstrap notify',
-            message: '{{ session('success') }}',
+            message: 'pk',
             url: 'https://github.com/mouse0270/bootstrap-notify',
             target: '_blank'
         }, {
@@ -50,5 +49,22 @@
                 '<a href="{3}" target="{4}" data-notify="url"></a>' +
                 '</div>'
         });
+    </script>
+@endif --}}
+@if (session('success'))
+    <script>
+        Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: '{!! session('success') !!}',
+            showConfirmButton: false,
+            timer: 2000,
+            showClass: {
+                popup: 'animate__animated animate__jackInTheBox'
+            },
+            hideClass: {
+                popup: 'animate__animated animate__fadeOutUp'
+            }
+        })
     </script>
 @endif

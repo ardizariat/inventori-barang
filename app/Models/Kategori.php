@@ -12,7 +12,7 @@ class Kategori extends Model
     use HasFactory, HasUuid;
 
     public $incrementing = false;
-
+    protected $with = ['produk'];
     protected $table = 'kategori';
     protected $primaryKey = 'id';
     protected $keyType = 'string';

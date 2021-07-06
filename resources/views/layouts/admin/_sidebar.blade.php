@@ -78,12 +78,12 @@
                 </li>
                 <li
                     class="nav-item {{ request()->routeIs('produk.index') ? 'active' : '' }} {{ request()->routeIs('produk.create') ? 'active' : '' }} {{ request()->routeIs('produk.show') ? 'active' : '' }}">
-                    <a data-toggle="collapse" href="#sidebarLayouts">
+                    <a data-toggle="collapse" href="#base">
                         <i class="fas fa-tasks"></i>
-                        <p>produk</p>
+                        <p>Produk</p>
                         <span class="caret"></span>
                     </a>
-                    <div class="collapse" id="sidebarLayouts">
+                    <div class="collapse" id="base">
                         <ul class="nav nav-collapse">
                             <li class="{{ request()->routeIs('produk.index') ? 'active' : '' }}">
                                 <a href="{{ route('produk.index') }}">
@@ -97,6 +97,12 @@
                             </li>
                         </ul>
                     </div>
+                </li>
+                <li class="nav-item {{ request()->routeIs('barang-masuk.index') ? 'active' : '' }}">
+                    <a href="{{ route('barang-masuk.index') }}">
+                        <i class="fas fa-truck-moving"></i>
+                        <p>Barang Masuk</p>
+                    </a>
                 </li>
                 <li class="nav-item">
                     <a data-toggle="collapse" href="#forms">

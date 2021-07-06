@@ -11,7 +11,7 @@ class Gudang extends Model
     use HasFactory, HasUuid;
 
     public $incrementing = false;
-
+    protected $with = ['produk'];
     protected $table = 'gudang';
     protected $primaryKey = 'id';
     protected $keyType = 'string';

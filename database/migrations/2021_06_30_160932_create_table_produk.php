@@ -23,9 +23,7 @@ class CreateTableProduk extends Migration
             $table->string('satuan');
             $table->integer('minimal_stok');
             $table->bigInteger('stok');
-            $table->string('gambar1')->nullable();
-            $table->string('gambar2')->nullable();
-            $table->string('gambar3')->nullable();
+            $table->string('gambar')->nullable();
             $table->text('keterangan')->nullable();
             $table->timestamps();
 

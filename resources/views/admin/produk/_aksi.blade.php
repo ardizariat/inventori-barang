@@ -1,8 +1,13 @@
 <div class="btn-group">
-    <button onclick="editForm('{{ $update }}')" data-toggle="tooltip" data-placement="top"
-        title="Ubah data {{ $query->nama }}" class="btn btn-sm btn-outline-success">
+    <a href="{{ $edit }}" data-toggle="tooltip" data-placement="top" title="Ubah data {{ $query->nama }}"
+        class="btn btn-sm btn-outline-success">
         <i class="fas fa-edit"></i>
-    </button>
+    </a>
+
+    <a href="{{ $show }}" data-toggle="tooltip" data-placement="top" title="Ubah data {{ $query->nama }}"
+        class="btn btn-sm btn-outline-info">
+        <i class="fas fa-eye"></i>
+    </a>
 
     <button onclick="deleteData('{{ $delete }}')" data-toggle="tooltip" data-placement="top"
         title="Hapus data {{ $query->nama }}" class="btn btn-sm btn-outline-danger">

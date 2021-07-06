@@ -38,6 +38,65 @@
                 </ul>
             </div>
             <div class="row">
+                <div class="col-sm-6 col-md-4">
+                    <div class="card card-stats card-primary card-round">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-5">
+                                    <div class="icon-big text-center">
+                                        <i class="flaticon-users"></i>
+                                    </div>
+                                </div>
+                                <div class="col-7 col-stats">
+                                    <div class="numbers">
+                                        <p class="card-category">Total Produk</p>
+                                        <h4 class="card-title">{{ countProduk() }}</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-4">
+                    <div class="card card-stats card-info card-round">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-5">
+                                    <div class="icon-big text-center">
+                                        <i class="flaticon-interface-6"></i>
+                                    </div>
+                                </div>
+                                <div class="col-7 col-stats">
+                                    <div class="numbers">
+                                        <p class="card-category">Total Kategori</p>
+                                        <h4 class="card-title">{{ countKategori() }}</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-4">
+                    <div class="card card-stats card-success card-round">
+                        <div class="card-body ">
+                            <div class="row">
+                                <div class="col-5">
+                                    <div class="icon-big text-center">
+                                        <i class="flaticon-analytics"></i>
+                                    </div>
+                                </div>
+                                <div class="col-7 col-stats">
+                                    <div class="numbers">
+                                        <p class="card-category">Total Gudang</p>
+                                        <h4 class="card-title">{{ countGudang() }}</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
                 <div class="col-md-12">
                     <div class="card shadow animate__animated animate__slideInDown">
                         <div class="card-header">

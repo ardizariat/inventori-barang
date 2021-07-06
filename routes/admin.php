@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\BarangMasukController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\GudangController;
 use App\Http\Controllers\Admin\ProdukController;
@@ -14,3 +15,5 @@ Route::resource('/gudang', GudangController::class)->except([
 ]);
 
 Route::resource('/produk', ProdukController::class);
+
+Route::resource('/barang-masuk', BarangMasukController::class);

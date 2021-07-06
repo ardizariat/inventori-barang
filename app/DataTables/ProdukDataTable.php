@@ -26,7 +26,8 @@ class ProdukDataTable extends DataTable
                 return view('admin.produk._aksi', [
                     'query' => $query,
                     'delete' => route('produk.destroy', $query->id),
-                    'update' => route('produk.update', $query->id),
+                    'edit' => route('produk.edit', $query->id),
+                    'show' => route('produk.show', $query->id),
                 ]);
             });
     }
