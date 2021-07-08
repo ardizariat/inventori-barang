@@ -11,7 +11,6 @@ class Gudang extends Model
     use HasFactory, HasUuid;
 
     public $incrementing = false;
-    protected $with = ['produk'];
     protected $table = 'gudang';
     protected $primaryKey = 'id';
     protected $keyType = 'string';
@@ -21,8 +20,8 @@ class Gudang extends Model
         'lokasi',
         'status'
     ];
-    public function produks()
+    public function products()
     {
-        return $this->hasMany(Produk::class, 'gudang_id');
+        return $this->hasMany(Produk::class, 'gudang_id', 'id');
     }
 }

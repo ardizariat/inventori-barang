@@ -13,12 +13,17 @@
                 <div class="modal-body">
                     <div class="container-fluid">
                         <div class="row">
-                            <div class="col-md-2 pt-2">
-                                <label>Nama Gudang</label>
+                            <div class="col-md-2 pt-3">
+                                <label>Nama Barang</label>
                             </div>
                             <div class="col-md-10 form-group">
-                                <input type="text" name="nama" autocomplete="off" autofocus class="nama form-control"
-                                    placeholder="Masukkan nama gudang">
+                                <select name="produk_id" class="form-control kategori">
+                                    <option selected disabled>Pilih Barang</option>
+                                    @foreach ($products as $produk)
+                                        <option value="{{ $produk->id }}">{{ $produk->nama_produk }}
+                                        </option>
+                                    @endforeach
+                                </select>
                                 <span class="help-block with-errors"></span>
                             </div>
                         </div>

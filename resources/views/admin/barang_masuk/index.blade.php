@@ -14,6 +14,8 @@
         }
 
     </style>
+     <link rel="stylesheet" href="{{ asset('admin/js/plugin/select2/css/select2.min.css') }}">
+     <link rel="stylesheet" href="{{ asset('admin/js/plugin/file-input/css/fileinput.min.css') }}">
 @endpush
 
 @section('admin-content')
@@ -38,17 +40,17 @@
             </div>
             <div class="row">
                 <div class="col-md-12">
-                    <div class="card shadow animate__animated animate__slideInDown">
+                    <div class="card shadow animate__animated animate__jackInTheBox">
                         <div class="card-header">
                             <button onclick="" type="submit"
                                 class="animate__animated animate__zoomInDown d-none btn btn-hapus-multiple  btn-danger">
                                 <i class="fas fa-trash"></i> Hapus
                             </button>
                             <h4 class="card-title float-right">
-                                <button class="btn btn-rounded btn-outline-primary"
-                                    onclick="addForm('{{ route('gudang.store') }}')">
-                                    <i class="fa fa-plus" aria-hidden="true"></i> Tambah Gudang
-                                </button>
+                                <a class="btn btn-rounded btn-outline-primary"
+                                    onclick="addForm('{{ route('barang-masuk.store') }}')">
+                                    <i class="fa fa-plus" aria-hidden="true"></i> Tambah Barang Masuk
+                                </a>
                             </h4>
                         </div>
                         <div class="card-body">
@@ -72,8 +74,20 @@
     <!-- Datatables -->
     <script src="{{ asset('admin/js/plugin/datatables/datatables.min.js') }}"></script>
     {!! $dataTable->scripts() !!}
+    <script src="{{ asset('admin/js/plugin/select2/js/select2.min.js') }}"></script>
+    <script src="{{ asset('admin/js/plugin/file-input/js/fileinput.min.js') }}"></script>
+    <script src="{{ asset('admin/js/plugin/file-input/themes/fa/theme.js') }}"></script>
 
     <script>
+        // Select2
+        $('.select2').select2();
+
+        // File input images
+        $(".input-fa").fileinput({
+            theme: "fa",
+            uploadUrl: "/file-upload-batch/2"
+        });
+
         const table = $('#barangmasuk-table');
         $(function() {
             $('.modal-form').on('submit', function(e) {
@@ -126,7 +140,7 @@
         function addForm(url) {
             event.preventDefault();
             $('.modal-form').modal('show');
-            $('.modal-form .modal-title').text('Tambah Gudang');
+            $('.modal-form .modal-title').text('Tambah Barang Masuk');
             $('.modal-form form')[0].reset();
             $('.modal-form form').attr('action', url);
             $('.modal-form [name=_method]').val('post');

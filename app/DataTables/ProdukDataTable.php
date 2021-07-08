@@ -40,8 +40,7 @@ class ProdukDataTable extends DataTable
      */
     public function query(Produk $model)
     {
-        $model = Produk::with(['kategori', 'gudang'])->orderBy('created_at', 'desc');
-        // return $model->newQuery();
+        $model = Produk::orderBy('created_at', 'desc');
 
         $kategori = $this->request()->get('kategori');
         $gudang = $this->request()->get('gudang');
@@ -86,11 +85,11 @@ class ProdukDataTable extends DataTable
     {
         return [
             Column::make('nama_produk'),
-            Column::computed('kategori.kategori')
+            Column::computed('category.kategori')
                 ->sortable(true)
                 ->searchable(true)
                 ->title('Kategori'),
-            Column::computed('gudang.nama')
+            Column::computed('warehouse.nama')
                 ->sortable(true)
                 ->searchable(true)
                 ->title('Gudang'),

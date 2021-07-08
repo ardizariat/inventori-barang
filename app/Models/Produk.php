@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Gudang;
 use App\Models\Kategori;
 use App\Models\BarangMasuk;
 use App\Models\Traits\HasUuid;
@@ -12,7 +13,7 @@ class Produk extends Model
 {
     use HasFactory, HasUuid;
     public $incrementing = false;
-    protected $with = ['barangMasuks', 'kategori', 'gudang'];
+    protected $with = ['category', 'warehouse'];
     protected $table = 'produk';
     protected $primaryKey = 'id';
     protected $keyType = 'string';
@@ -29,17 +30,18 @@ class Produk extends Model
         'keterangan',
     ];
 
-    public function barangMasuks()
+    public function category()
     {
-        return $this->hasMany(BarangMasuk::class, 'produk_id');
+        return $this->belongsTo(Kategori::class, 'kategori_id', 'id');
     }
-    public function kategori()
+    public function warehouse()
     {
-        return $this->belongsTo(Kategori::class, 'kategori_id');
+        return $this->belongsTo(Gudang::class, 'gudang_id', 'id');
     }
-    public function gudang()
+
+    public function stockIns()
     {
-        return $this->belongsTo(Gudang::class, 'gudang_id');
+        return $this->hasMany(BarangMasuk::class, 'produk_id', 'id');
     }
 
     public function getGambar()

@@ -22,7 +22,7 @@ class CreateTableBarangMasuk extends Migration
             $table->text('keterangan')->nullable();
             $table->timestamps();
 
-            $table->foreign('produk_id')->references('id')->on('produk')->onDelete('restrict')->onUpdate('cascade');
+            $table->foreign('produk_id')->references('id')->on('produk');
             $table->engine = 'InnoDB';
         });
     }

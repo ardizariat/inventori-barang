@@ -10,21 +10,22 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class BarangMasuk extends Model
 {
     use HasFactory, HasUuid;
+
     public $incrementing = false;
-    protected  $with = ['produk'];
+    protected $with = ['product'];
     protected $table = 'barang_masuk';
     protected $primaryKey = 'id';
     protected $keyType = 'string';
     protected $fillable = [
         'produk_id',
         'jumlah',
-        'tanggal',
         'satuan',
-        'keterangan'
+        'tanggal',
+        'keterangan',
     ];
 
-    public function produk()
+    public function product()
     {
-        return $this->belongsTo(Produk::class, 'produk_id');
+        return $this->belongsTo(Produk::class, 'produk_id', 'id');
     }
 }

@@ -3,6 +3,7 @@
 namespace App\DataTables;
 
 use App\Models\BarangMasuk;
+use Carbon\Carbon;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Html\Editor\Editor;
@@ -20,7 +21,26 @@ class BarangMasukDataTable extends DataTable
     public function dataTable($query)
     {
         return datatables()
-            ->eloquent($query);
+            ->eloquent($query)
+            ->addColumn('aksi', function ($query) {
+                return view('admin.barang_masuk._aksi', [
+                    'query' => $query,
+                    'delete' => route('barang-masuk.destroy', $query->id),
+                    'update' => route('barang-masuk.edit', $query->id),
+                    'show' => route('barang-masuk.show', $query->id),
+                ]);
+            })
+            ->addColumn('jumlah', function ($query) {
+                $jumlah = $query->jumlah;
+                $satuan = $query->satuan;
+                $total = $jumlah . ' ' . $satuan;
+                return $total;
+            })
+            ->addColumn('tanggal', function ($query) {
+                $tanggal = Carbon::parse($query->tanggal)->format('d F Y');
+                return $tanggal;
+            })
+            ->addIndexColumn();
     }
 
     /**
@@ -31,7 +51,6 @@ class BarangMasukDataTable extends DataTable
      */
     public function query(BarangMasuk $model)
     {
-        $model = BarangMasuk::with(['produk'])->orderBy('created_at', 'desc');
         return $model->newQuery();
     }
 
@@ -65,12 +84,19 @@ class BarangMasukDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            Column::computed('produk.nama_produk')
+            Column::make('DT_RowIndex')
+                ->title('No'),
+            Column::computed('product.nama_produk')
                 ->sortable(true)
                 ->searchable(true)
-                ->title('Nama Produk'),
+                ->title('Nama Barang'),
             Column::make('jumlah'),
-            Column::make('satuan'),
+            Column::make('tanggal'),
+            Column::computed('aksi')
+                ->exportable(false)
+                ->printable(false)
+                ->width(60)
+                ->addClass('text-center'),
         ];
     }
 
