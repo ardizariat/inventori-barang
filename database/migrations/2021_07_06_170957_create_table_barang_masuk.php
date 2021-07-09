@@ -17,7 +17,6 @@ class CreateTableBarangMasuk extends Migration
             $table->uuid('id')->primary()->unique();
             $table->uuid('produk_id');
             $table->bigInteger('jumlah');
-            $table->string('satuan')->nullable();
             $table->date('tanggal');
             $table->text('keterangan')->nullable();
             $table->timestamps();

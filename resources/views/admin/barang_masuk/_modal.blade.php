@@ -13,12 +13,11 @@
                 <div class="modal-body">
                     <div class="container-fluid">
                         <div class="row">
-                            <div class="col-md-2 pt-3">
+                            <div class="col-md-3 pt-3">
                                 <label>Nama Barang</label>
                             </div>
-                            <div class="col-md-10 form-group">
-                                <select name="produk_id" class="form-control kategori">
-                                    <option selected disabled>Pilih Barang</option>
+                            <div class="col-md-9 form-group">
+                                <select onchange="changeData('{{ route('barang-masuk.change-data') }}')" title="Pilih barang" name="produk_id" data-live-search="true" class="selectpicker form-control produk_id">
                                     @foreach ($products as $produk)
                                         <option value="{{ $produk->id }}">{{ $produk->nama_produk }}
                                         </option>
@@ -27,31 +26,44 @@
                                 <span class="help-block with-errors"></span>
                             </div>
                         </div>
-                        <div class="row mt-3">
-                            <div class="col-md-2 pt-2">
-                                <label>Status</label>
-                            </div>
-                            <div class="col-md-10 form-group">
-                                <div class="form-check form-check-inline">
-                                    <input class="status  form-check-input" type="radio" name="status" value="aktif">
-                                    <label class="form-check-label" for="inlineRadio1">Aktif</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="status  form-check-input" type="radio" name="status"
-                                        value="tidak aktif">
-                                    <label class="form-check-label">Tidak Aktif</label>
-                                </div>
-                            </div>
-                        </div>
                         <div class="row">
-                            <div class="col-md-2 pt-2">
-                                <label>Lokasi</label>
+                            <div class="col-md-3 pt-3">
+                                <label>Stok Saat Ini</label>
                             </div>
-                            <div class="col-md-10 form-group">
-                                <textarea name="lokasi" class="form-control lokasi" cols="30" rows="10"></textarea>
+                            <div class="col-md-9 form-group">
+                                <input type="text" name="stok" autocomplete="off" autofocus
+                                    class="stok form-control" readonly>
                                 <span class="help-block with-errors"></span>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-md-3 pt-3">
+                                <label>Jumlah Barang Masuk</label>
+                            </div>
+                            <div class="col-md-9 form-group">
+                                <input type="text" name="jumlah" autocomplete="off" autofocus
+                                    class="jumlah form-control" placeholder="Masukkan jumlah barang masuk">
+                                <span class="help-block with-errors"></span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 pt-3">
+                                <label>Tanggal</label>
+                            </div>
+                            <div class="col-md-9 form-group">
+                                <input type="text" autocomplete="off" name="tanggal" value="{{ date('Y-m-d') }}" class="form-control tanggal max-date">
+                                <span class="help-block with-errors"></span>
+                            </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-3 pt-2">
+                              <label>Keterangan</label>
+                          </div>
+                          <div class="col-md-9 form-group">
+                              <textarea name="keterangan" class="form-control keterangan" cols="15" rows="7"></textarea>
+                              <span class="help-block with-errors"></span>
+                          </div>
+                      </div>
                     </div>
                 </div>
                 <div class="modal-footer">

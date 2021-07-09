@@ -14,8 +14,9 @@
         }
 
     </style>
-     <link rel="stylesheet" href="{{ asset('admin/js/plugin/select2/css/select2.min.css') }}">
+     <link rel="stylesheet" href="{{ asset('admin/js/plugin/selectpicker/css/bootstrap-select.min.css') }}">
      <link rel="stylesheet" href="{{ asset('admin/js/plugin/file-input/css/fileinput.min.css') }}">
+     <link href="{{ asset('admin/js/plugin/date-time-pickers/css/flatpicker-airbnb.css')}}" rel="stylesheet" type="text/css" />
 @endpush
 
 @section('admin-content')
@@ -71,16 +72,18 @@
 @endsection
 
 @push('js')
-    <!-- Datatables -->
     <script src="{{ asset('admin/js/plugin/datatables/datatables.min.js') }}"></script>
     {!! $dataTable->scripts() !!}
-    <script src="{{ asset('admin/js/plugin/select2/js/select2.min.js') }}"></script>
+    <script src="{{ asset('admin/js/plugin/selectpicker/js/bootstrap-select.min.js') }}"></script>
     <script src="{{ asset('admin/js/plugin/file-input/js/fileinput.min.js') }}"></script>
     <script src="{{ asset('admin/js/plugin/file-input/themes/fa/theme.js') }}"></script>
+    <script src="{{ asset('admin/js/plugin/date-time-pickers/js/flatpickr.js') }}"></script>
+<script src="{{ asset('admin/js/plugin/date-time-pickers/js/date-time-picker-script.js') }}"></script>
 
     <script>
         // Select2
-        $('.select2').select2();
+        // $('.select2').select2();
+        $('.selectpicker').selectpicker();
 
         // File input images
         $(".input-fa").fileinput({
@@ -111,7 +114,6 @@
                         data: $('.modal-form form').serialize(),
                         success: function(response) {
                             $('.modal-form').modal('hide');
-                            window.location.reload();
                             $.notify({
                                 message: response.text
                             }, {
@@ -149,17 +151,21 @@
         function editForm(url) {
             event.preventDefault();
             $('.modal-form').modal('show');
-            $('.modal-form .modal-title').text('Ubah Gudang');
+            $('.modal-form .modal-title').text('Ubah Barang Masuk');
             $('.modal-form form').attr('action', url);
             $('.modal-form [name=_method]').val('put');
             $.get(url)
                 .done((response) => {
-                    let nama = response.data.nama;
-                    let kode = response.data.kode;
-                    let lokasi = response.data.lokasi;
-                    $('.modal-form .nama').val(nama);
-                    $('.modal-form .kode').val(kode);
-                    $('.modal-form .lokasi').val(lokasi);
+                    let produk = response.data.produk_id;
+                    let jumlah = response.data.jumlah;
+                    let tanggal = response.data.tanggal;
+                    let satuan = response.data.satuan;
+                    let keterangan = response.data.keterangan;
+                    $('.modal-form .produk_id').val(produk);
+                    $('.modal-form .jumlah').val(jumlah);
+                    $('.modal-form .tanggal').val(tanggal);
+                    $('.modal-form .satuan').val(satuan).change();
+                    $('.modal-form .keterangan').val(keterangan);
                 })
                 .fail((errors) => {
                     Swal.fire('Oops...', 'Kategori ini tidak dapat dihapus', 'error')
@@ -194,6 +200,32 @@
                         .fail((errors) => {
                             Swal.fire('Oops...', 'Kategori ini tidak dapat dihapus', 'error')
                         })
+                }
+            })
+        }
+
+        function changeData(url){
+            var id = $('.produk_id select[name=produk_id]').val();
+            $.ajax({
+                url : url,
+                type : 'post',
+                dataType : 'json',
+                data : {
+                    '_token' : '{{ csrf_token() }}',
+                    'id' : id
+                },
+                success : function(res){
+                    var stok = parseInt(res.stok);
+                    $('.stok').val(stok); 
+                    $('.modal-form').on('keyup','.jumlah', function(){
+                        var me = $(this),
+                        jumlah = parseInt(me.val());
+                        total = stok + jumlah;
+                        $('.stok').val(total); 
+                    });                   
+                },
+                error: function(message){
+                    console.log('error');
                 }
             })
         }

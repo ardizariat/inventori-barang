@@ -26,7 +26,7 @@ class BarangMasukDataTable extends DataTable
                 return view('admin.barang_masuk._aksi', [
                     'query' => $query,
                     'delete' => route('barang-masuk.destroy', $query->id),
-                    'update' => route('barang-masuk.edit', $query->id),
+                    'update' => route('barang-masuk.update', $query->id),
                     'show' => route('barang-masuk.show', $query->id),
                 ]);
             })

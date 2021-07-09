@@ -14,7 +14,7 @@
         }
 
     </style>
-    <link rel="stylesheet" href="{{ asset('admin/js/plugin/select2/css/select2.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('admin/js/plugin/selectpicker/css/bootstrap-select.min.css') }}">
     <link rel="stylesheet" href="{{ asset('admin/js/plugin/file-input/css/fileinput.min.css') }}">
 @endpush
 
@@ -60,8 +60,7 @@
                                             <label>Kategori</label>
                                         </div>
                                         <div class="col-md-10 form-group">
-                                            <select name="kategori_id" class="form-control select2 kategori">
-                                                <option selected disabled>Pilih Kategori</option>
+                                            <select title="Pilih kategori" data-live-search="true" name="kategori_id" class="selectpicker form-control kategori">
                                                 @foreach ($daftar_kategori as $kategori)
                                                     <option value="{{ $kategori->id }}">{{ $kategori->kategori }}
                                                     </option>
@@ -75,8 +74,7 @@
                                             <label>Letak Barang</label>
                                         </div>
                                         <div class="col-md-10 form-group">
-                                            <select name="gudang_id" class="form-control select2 gudang">
-                                                <option selected disabled>Pilih Gudang</option>
+                                            <select title="Pilih gudang" data-live-search="true" name="gudang_id" class="form-control selectpicker gudang">
                                                 @foreach ($daftar_gudang as $gudang)
                                                     <option value="{{ $gudang->id }}">{{ $gudang->nama }}
                                                     </option>
@@ -100,8 +98,7 @@
                                             <label>Satuan Produk</label>
                                         </div>
                                         <div class="col-md-10 form-group">
-                                            <select name="satuan" class="form-control select2 satuan">
-                                                <option selected disabled>Pilih Satuan Produk</option>
+                                            <select title="Pilih satuan produk" data-live-search="true" name="satuan" class="form-control selectpicker satuan">
                                                 <option value="Pcs">Pcs</option>
                                                 <option value="Box">Box</option>
                                                 <option value="Kg">Kg</option>
@@ -176,15 +173,12 @@
 @endsection
 
 @push('js')
-    <!-- Datatables -->
-    <script src="{{ asset('admin/js/plugin/select2/js/select2.min.js') }}"></script>
+    <script src="{{ asset('admin/js/plugin/selectpicker/js/bootstrap-select.min.js') }}"></script>
     <script src="{{ asset('admin/js/plugin/file-input/js/fileinput.min.js') }}"></script>
     <script src="{{ asset('admin/js/plugin/file-input/themes/fa/theme.js') }}"></script>
 
 
     <script>
-        // Select2
-        $('.select2').select2();
 
         // File input images
         $(".input-fa").fileinput({
