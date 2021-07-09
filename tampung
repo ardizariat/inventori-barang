@@ -1,51 +1,10 @@
- // $('.modal-form').on('submit', function(e) {
-            //     if (!e.preventDefault()) {
 
-            //         var form = $('.modal-form form');
-            //         form.find('.help-block').remove();
-            //         form.find('.form-group').removeClass('has-error');
+        // $start = $this->request()->get('start');
+        // $end = $this->request()->get('end');
 
-            //         $.ajax({
-            //             url: $('.modal-form form').attr('action'),
-            //             type: $('.modal-form input[name=_method]').val(),
-            //             beforeSend: function() {
-            //                 $('.modal-footer .btn-save').addClass('d-none');
-            //                 $('.modal-footer .loader').removeClass('d-none');
-            //             },
-            //             complete: function() {
-            //                 $('.modal-footer .loader').addClass('d-none');
-            //                 $('.modal-footer .submit').removeClass('d-none');
-            //             },
-            //             data: $('.modal-form form').serialize(),
-            //             success: function(response) {
-            //                 $('.modal-form').modal('hide');
-            //                 window.location.reload();
-            //                 $.notify({
-            //                     message: response.text
-            //                 }, {
-            //                     type: 'success'
-            //                 });
-            //                 table.DataTable().ajax.reload();
-            //             },
-            //             error: function(xhr) {
-            //                 var res = xhr.responseJSON;
-            //                 if ($.isEmptyObject(res) == false) {
-            //                     $.each(res.errors, function(key, value) {
-            //                         console.log(res);
-            //                         $('.' + key)
-            //                             .closest('.form-group')
-            //                             .addClass('has-error')
-            //                             .append(`<span class="help-block">` + value +
-            //                                 `</span>`)
-            //                     });
-            //                 }
-            //             }
-            //         });
-            //     }
-            // });
+        // if (!empty($start) && !empty($end)) {
+        //     $start = Carbon::parse($start);
+        //     $end = Carbon::parse($end);
 
-
-              // $('.card-body').on('submit', 'form', function(e) {
-            //     e.preventDefault();
-            //     $('.card-body .loader').removeClass('d-none');
-            // })
+        //     $query = $query->whereBetween('tanggal', [$start, $end]);
+        // }

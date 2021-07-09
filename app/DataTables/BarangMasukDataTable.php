@@ -51,7 +51,16 @@ class BarangMasukDataTable extends DataTable
      */
     public function query(BarangMasuk $model)
     {
-        return $model->newQuery();
+        $model = BarangMasuk::orderBy('created_at', 'desc');
+
+        $start = $this->request()->get('awal');
+        $end = $this->request()->get('akhir');
+        $query = $model->newQuery();
+
+        if ($start && $end) {
+            $query = $query->whereBetween('tanggal', [$start, $end]);
+        }
+        return $query;
     }
 
     /**
@@ -85,18 +94,22 @@ class BarangMasukDataTable extends DataTable
     {
         return [
             Column::make('DT_RowIndex')
-                ->title('No'),
+                ->title('No')
+                ->sortable(false)
+                ->searchable(false),
             Column::computed('product.nama_produk')
-                ->sortable(true)
-                ->searchable(true)
+                ->sortable(false)
+                ->searchable(false)
                 ->title('Nama Barang'),
+            Column::computed('product.category.kategori')
+                ->sortable(false)
+                ->searchable(false)
+                ->title('Kategori'),
             Column::make('jumlah'),
             Column::make('tanggal'),
             Column::computed('aksi')
                 ->exportable(false)
-                ->printable(false)
-                ->width(60)
-                ->addClass('text-center'),
+                ->printable(false),
         ];
     }
 

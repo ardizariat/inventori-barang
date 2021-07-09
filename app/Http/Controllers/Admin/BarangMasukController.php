@@ -58,6 +58,39 @@ class BarangMasukController extends Controller
         }
     }
 
+    public function update(Request $request, $id)
+    {
+
+        $request->validate([
+            'produk_id' => 'required',
+            'tanggal' => 'required',
+            'jumlah' => 'required|numeric',
+        ]);
+
+        $data = BarangMasuk::findOrFail($id);
+        $produk = Produk::findOrFail($data->produk_id);
+
+        // Produk
+        $stokLama = $produk->stok - $data->jumlah;
+        $produk->stok = $stokLama + $request->jumlah;
+        $save = $produk->update();
+
+        // Barang Masuk
+        $data->produk_id = $request->produk_id;
+        $data->jumlah = $request->jumlah;
+        $data->keterangan = $request->keterangan;
+        $data->tanggal = $request->tanggal;
+        $data->update();
+
+
+        if ($save) {
+            return response()->json([
+                'data' => $data,
+                'text' => 'Barang masuk berhasil ditambahkan!'
+            ], 200);
+        }
+    }
+
     public function changeData(Request $request)
     {
         if (request()->ajax()) {
