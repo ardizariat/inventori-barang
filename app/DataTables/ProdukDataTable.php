@@ -41,15 +41,15 @@ class ProdukDataTable extends DataTable
     public function query(Produk $model)
     {
         $model = Produk::orderBy('created_at', 'desc');
+        $query = $model->newQuery();
 
         $kategori = $this->request()->get('kategori');
         $gudang = $this->request()->get('gudang');
-        $query = $model->newQuery();
         if ($kategori) {
-            $query = $query->where('kategori_id', $kategori);
+            $query = $query->where('kategori_id', '=', $kategori);
         }
         if ($gudang) {
-            $query = $query->where('gudang_id', $gudang);
+            $query = $query->where('gudang_id', '=', $gudang);
         }
         return $query;
     }

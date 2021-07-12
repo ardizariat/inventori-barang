@@ -2,10 +2,11 @@
 
 namespace App\DataTables;
 
-use App\Models\BarangMasuk;
 use Carbon\Carbon;
+use App\Models\BarangMasuk;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
+use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
@@ -51,15 +52,20 @@ class BarangMasukDataTable extends DataTable
      */
     public function query(BarangMasuk $model)
     {
-        $model = BarangMasuk::orderBy('created_at', 'desc');
-
         $start = $this->request()->get('awal');
         $end = $this->request()->get('akhir');
+
+        $model = BarangMasuk::orderBy('created_at', 'desc');
         $query = $model->newQuery();
 
-        if ($start && $end) {
+        if (!empty($start) && !empty($end)) {
+            // $query = $query->whereDate('tanggal', '>=', $start)->whereDate('tanggal', '<=', $end);
+            $start = Carbon::parse($start);
+            $end = Carbon::parse($end);
+
             $query = $query->whereBetween('tanggal', [$start, $end]);
         }
+
         return $query;
     }
 
@@ -98,15 +104,16 @@ class BarangMasukDataTable extends DataTable
                 ->sortable(false)
                 ->searchable(false),
             Column::computed('product.nama_produk')
-                ->sortable(false)
-                ->searchable(false)
+                ->sortable(true)
+                ->searchable(true)
                 ->title('Nama Barang'),
             Column::computed('product.category.kategori')
-                ->sortable(false)
-                ->searchable(false)
+                ->sortable(true)
+                ->searchable(true)
                 ->title('Kategori'),
             Column::make('jumlah'),
-            Column::make('tanggal'),
+            Column::make('tanggal')
+                ->searchable(true),
             Column::computed('aksi')
                 ->exportable(false)
                 ->printable(false),

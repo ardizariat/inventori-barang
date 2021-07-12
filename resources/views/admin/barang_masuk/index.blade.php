@@ -44,22 +44,28 @@
             <div class="card shadow animate__animated animate__jackInTheBox">
               <div class="card-header">
                   <form action="">
-                      <h4>Filter</h4>
+                      <h4><i class="fas fa-filter"></i> Filter</h4>
                       <div class="row">
                           <div class="col-md-3">
-                              <input type="text" autocomplete="off" name="awal" value="{{ date('Y-m-d') }}" class="form-control filter-awal max-date">
+                              <input name="awal" type="text" autocomplete="off" class="start_date-barang_masuk form-control max-date">
                           </div>
                           <div class="col-md-3">
-                              <input type="text" autocomplete="off" name="end" value="{{ date('Y-m-d') }}" class="form-control filter-akhir max-date">
+                              <input name="akhir" type="text" autocomplete="off" class="end_date-barang_masuk form-control max-date">
                           </div>
-                          <div class="col-md-2 mt-1">
-                              <button type="submit" data-toggle="tooltip" data-placement="top" title="Refresh data"
-                                  class="btn btn-sm reset btn-danger btn-flat">
-                                  Reset
-                              </button>
+                          <div class="col-md-3 mt-1">
+                              <div class="btn-group">
+                                <button type="submit" data-toggle="tooltip" data-placement="top" title="Filter data"
+                                class="btn btn-sm filter_date-barang_masuk btn-success btn-flat">
+                                <i class="fas fa-filter"></i> Filter
+                                </button>
+                                <button type="submit" data-toggle="tooltip" data-placement="top" title="Refresh data"
+                                class="btn btn-sm reset btn-danger btn-flat">
+                                <i class="fas fa-sync-alt"></i> Reset
+                                </button>
+                              </div>
                           </div>
-                          <div class="col-md-4">
-                              <a class="btn btn-rounded btn-outline-primary"
+                          <div class="col-md-3">
+                              <a data-toggle="tooltip" data-placement="top" title="Tambah data" class="btn btn-rounded btn-outline-primary"
                           onclick="addForm('{{ route('barang-masuk.store') }}')">
                           <i class="fa fa-plus" aria-hidden="true"></i> Tambah Barang Masuk
                               </a>
@@ -99,19 +105,19 @@
 <script src="{{ asset('admin/js/plugin/date-time-pickers/js/date-time-picker-script.js') }}"></script>
 
 <script>
-    // Select2
-    // $('.select2').select2();
     $('.selectpicker').selectpicker();
-
+    
     // File input images
     $(".input-fa").fileinput({
         theme: "fa",
         uploadUrl: "/file-upload-batch/2"
     });
+</script>
 
-    const table = $('#barangmasuk-table');
+<script>
+    const table = $('#barangmasuk-table');    
+      
     $(function() {
-
         $('.modal-form').on('submit', function(e) {
             if (!e.preventDefault()) {
 
@@ -156,8 +162,8 @@
                 });
             }
         });
-    });
-    
+    });    
+
     function addForm(url) {
         event.preventDefault();
         $('.modal-form').modal('show');
@@ -247,28 +253,37 @@
                 console.log('error');
             }
         })
-    }
+    }       
 
     table.on('preXhr.dt', function(e, settings, data) {
-            data.awal = $('.filter-awal').val();
-            data.akhir = $('.filter-akhir').val();
-        });
+        data.awal = $('.start_date-barang_masuk').val();
+        data.akhir = $('.end_date-barang_masuk').val();
+    });
 
-        $('form').on('click', '.generate', function(e) {
-            e.preventDefault();
-            table.DataTable().ajax.reload();
-            return false;
-        });
+    $('form').on('click', '.filter_date-barang_masuk', function(event) {
+        event.preventDefault();
+        var awal = $('.start_date-barang_masuk').val(),
+        akhir = $('.end_date-barang_masuk').val();
+        $('form h4').text('Filter barang masuk dari '+ awal + ' sampai ' + akhir);
+        table.DataTable().ajax.reload();
+        return false;
+    });
 
-        $('.reset').on('click', function(e) {
-            e.preventDefault();
-            table.on('preXhr.dt', function(e, settings, data) {
-                data.awal = '';
-                data.akhir = '';
-            });
-            table.DataTable().ajax.reload();
-            return false;
-        });    
+    $('.reset').on('click', function(e) {
+        e.preventDefault();
+        // window.location.reload();
+        $('.start_date-barang_masuk').val('');
+        $('.end_date-barang_masuk').val('');
+        $('form h4').html('<i class="fas fa-filter"> Semua data barang masuk</i>');
+        table.on('preXhr.dt', function(e, settings, data) {
+            data.awal = '';
+            data.akhir = '';
+        });
+        table.DataTable().ajax.reload();
+        return false;
+    });
+
 </script>
+
 
 @endpush

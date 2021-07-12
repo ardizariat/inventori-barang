@@ -22,9 +22,8 @@ class BarangMasukFactory extends Factory
     public function definition()
     {
         return [
-            'produk_id' => 'efeb7730-c9af-4b97-8e29-108c46eaaa07',
+            'produk_id' => '148fe2f1-471a-47fd-baab-c8917b042ad9',
             'jumlah' => rand(5, 100),
-            'satuan' => $this->faker->randomElement(['Pcs', 'Karton', 'Box', 'Jerigen']),
             'keterangan' => $this->faker->sentence(),
             'tanggal' => $this->faker->date($format = 'Y-m-d', $max = 'now'),
             'created_at' => now(),
