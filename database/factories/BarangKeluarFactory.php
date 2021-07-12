@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Models\Model;
+use App\Models\BarangKeluar;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class BarangKeluarFactory extends Factory
@@ -12,7 +12,7 @@ class BarangKeluarFactory extends Factory
      *
      * @var string
      */
-    protected $model = Model::class;
+    protected $model = BarangKeluar::class;
 
     /**
      * Define the model's default state.
@@ -22,10 +22,10 @@ class BarangKeluarFactory extends Factory
     public function definition()
     {
         return [
-            'produk_id' => '042db398-c944-4777-a13f-ce730406358e',
+            'produk_id' => '148fe2f1-471a-47fd-baab-c8917b042ad9',
             'jumlah' => rand(5, 100),
             'keterangan' => $this->faker->sentence(),
-            'tanggal' => $this->faker->date($format = 'Y-m-d', $max = 'now'),
+            'tanggal' => now(),
             'created_at' => now(),
             'updated_at' => now(),
         ];
