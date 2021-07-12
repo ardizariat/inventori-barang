@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\Gudang;
 use App\Models\Kategori;
 use App\Models\BarangMasuk;
+use App\Models\BarangKeluar;
 use App\Models\Traits\HasUuid;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -42,6 +43,11 @@ class Produk extends Model
     public function stockIns()
     {
         return $this->hasMany(BarangMasuk::class, 'produk_id', 'id');
+    }
+
+    public function stockOuts()
+    {
+        return $this->hasMany(BarangKeluar::class, 'produk_id', 'id');
     }
 
     public function getGambar()
