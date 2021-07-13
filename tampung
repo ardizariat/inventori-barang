@@ -1,10 +1,49 @@
+ $('.card-body').on('submit', 'form', function(e) {
+                if (!e.preventDefault()) {
 
-        // $start = $this->request()->get('start');
-        // $end = $this->request()->get('end');
-
-        // if (!empty($start) && !empty($end)) {
-        //     $start = Carbon::parse($start);
-        //     $end = Carbon::parse($end);
-
-        //     $query = $query->whereBetween('tanggal', [$start, $end]);
-        // }
+                    var form = $('.card-body form'),
+                    id = $('form .produk_id').val(),
+                    formData = new FormData($('#update-produk')[0]),
+                    data = $('#update-produk').serialize(),
+                    csrf_token = $('meta[name=csrf-token]').attr('content'),
+                    method = $('#update-produk [name=_method]').val(),
+                    form.find('.help-block').remove();
+                    form.find('.form-group').removeClass('has-error');
+                    $.ajax({
+                        url: $('.card-body form').attr('action'),
+                        type: $('.card-body input[name=_method]').val(),
+                        data : formData,
+                        dataType: 'JSON',
+                        contentType: false,
+                        cache: false,
+                        processData: false,
+                        beforeSend: function() {
+                            $('.btn-submit .btn-save').addClass('d-none');
+                            $('.btn-submit .loader').removeClass('d-none');
+                        },
+                        success: function(response) {
+                            $.notify({
+                                message: response.text
+                            }, {
+                                type: 'success'
+                            });
+                            $('.card-body form')[0].reset();
+                        },
+                        error: function(xhr) {
+                            var res = xhr.responseJSON;
+                            if ($.isEmptyObject(res) == false) {
+                                Swal.fire('Oops...', text,
+                                    'error')
+                                $.each(res.errors, function(key, value) {
+                                    console.log(res);
+                                    $('.' + key)
+                                        .closest('.form-group')
+                                        .addClass('has-error')
+                                        .append(`<span class="help-block">` + value +
+                                            `</span>`)
+                                });
+                            }
+                        }
+                    });
+                }
+            });

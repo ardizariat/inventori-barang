@@ -38,7 +38,7 @@
             </div>
             <div class="row">
                 <div class="col-md-12">
-                    <div class="card shadow animate__animated animate__slideInDown">
+                    <div class="card shadow animate__animated animate__bounce">
                         <div class="card-header">
                             <button onclick="" type="submit"
                                 class="animate__animated animate__zoomInDown d-none btn btn-hapus-multiple  btn-danger">

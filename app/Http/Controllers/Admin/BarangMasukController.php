@@ -54,7 +54,7 @@ class BarangMasukController extends Controller
             return response()->json([
                 'data' => $data,
                 'text' => 'Barang masuk berhasil ditambahkan!'
-            ], 200);
+            ], 201);
         }
     }
 

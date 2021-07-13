@@ -3,14 +3,14 @@
 namespace App\DataTables;
 
 use Carbon\Carbon;
-use App\Models\Produk;
+use App\Models\BarangKeluar;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class ProdukDataTable extends DataTable
+class BarangKeluarDataTable extends DataTable
 {
     /**
      * Build DataTable class.
@@ -23,34 +23,47 @@ class ProdukDataTable extends DataTable
         return datatables()
             ->eloquent($query)
             ->addColumn('aksi', function ($query) {
-                return view('admin.produk._aksi', [
+                return view('admin.barang_keluar._aksi', [
                     'query' => $query,
-                    'delete' => route('produk.destroy', $query->id),
-                    'update' => route('produk.update', $query->id),
-                    'show' => route('produk.show', $query->id),
+                    'delete' => route('barang-keluar.destroy', $query->id),
+                    'update' => route('barang-keluar.update', $query->id),
+                    'show' => route('barang-keluar.show', $query->id),
                 ]);
-            });
+            })
+            ->addColumn('jumlah', function ($query) {
+                $jumlah = $query->jumlah;
+                $satuan = $query->satuan;
+                $total = $jumlah . ' ' . $satuan;
+                return $total;
+            })
+            ->addColumn('tanggal', function ($query) {
+                $tanggal = Carbon::parse($query->tanggal)->format('d F Y');
+                return $tanggal;
+            })
+            ->addIndexColumn();
     }
 
     /**
      * Get query source of dataTable.
      *
-     * @param \App\Models\Produk $model
+     * @param \App\Models\BarangKeluar $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(Produk $model)
+    public function query(BarangKeluar $model)
     {
-        $model = Produk::orderBy('created_at', 'desc');
+        $start = $this->request()->get('awal');
+        $end = $this->request()->get('akhir');
+
+        $model = BarangKeluar::orderBy('created_at', 'desc');
         $query = $model->newQuery();
 
-        $kategori = $this->request()->get('kategori');
-        $gudang = $this->request()->get('gudang');
-        if ($kategori) {
-            $query = $query->where('kategori_id', '=', $kategori);
+        if (!empty($start) && !empty($end)) {
+            $start = Carbon::parse($start);
+            $end = Carbon::parse($end);
+
+            $query = $query->whereBetween('tanggal', [$start, $end]);
         }
-        if ($gudang) {
-            $query = $query->where('gudang_id', '=', $gudang);
-        }
+
         return $query;
     }
 
@@ -62,7 +75,7 @@ class ProdukDataTable extends DataTable
     public function html()
     {
         return $this->builder()
-            ->setTableId('produk-table')
+            ->setTableId('barangkeluar-table')
             ->columns($this->getColumns())
             ->minifiedAjax()
             ->dom('Bfrtip')
@@ -84,22 +97,24 @@ class ProdukDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            Column::make('nama_produk'),
-            Column::computed('category.kategori')
+            Column::make('DT_RowIndex')
+                ->title('No')
+                ->sortable(false)
+                ->searchable(false),
+            Column::computed('product.nama_produk')
+                ->sortable(true)
+                ->searchable(true)
+                ->title('Nama Barang'),
+            Column::computed('product.category.kategori')
                 ->sortable(true)
                 ->searchable(true)
                 ->title('Kategori'),
-            Column::computed('warehouse.nama')
-                ->sortable(true)
-                ->searchable(true)
-                ->title('Gudang'),
-            Column::make('stok'),
-            Column::make('minimal_stok'),
+            Column::make('jumlah'),
+            Column::make('tanggal')
+                ->searchable(true),
             Column::computed('aksi')
                 ->exportable(false)
-                ->printable(false)
-                ->width(60)
-                ->addClass('text-center'),
+                ->printable(false),
         ];
     }
 
@@ -110,6 +125,6 @@ class ProdukDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'Produk_' . date('YmdHis');
+        return 'BarangKeluar_' . date('YmdHis');
     }
 }

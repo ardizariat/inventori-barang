@@ -27,7 +27,7 @@
                         <i class="flaticon-right-arrow"></i>
                     </li>
                     <li class="nav-item">
-                        <p class="text-capitalize">{{ $produk->nama_produk }}</p>
+                        <p class="text-capitalize">{{ $data->nama_produk }}</p>
                     </li>
                 </ul>
             </div>
@@ -35,7 +35,7 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-4">
-                            <img src="{{ $produk->getGambar() }}" class="gambar d-block w-100">
+                            <img src="{{ $data->getGambar() }}" class="gambar d-block w-100">
                         </div>
                         <div class="col-md-8">
                             <table class="table table-hover">
@@ -48,42 +48,42 @@
                                     <tr>
                                         <td align="left">Kode Produk</td>
                                         <td align="left">:</td>
-                                        <td>{!! $produk->kode !!}</td>
+                                        <td>{!! $data->kode !!}</td>
                                     </tr>
                                     <tr>
                                         <td align="left">Nama Produk</td>
                                         <td align="left">:</td>
-                                        <td>{!! $produk->nama_produk !!}</td>
+                                        <td>{!! $data->nama_produk !!}</td>
                                     </tr>
                                     <tr>
                                         <td align="left">Kategori Produk</td>
                                         <td align="left">:</td>
-                                        <td>{!! $produk->kategori->kategori !!}</td>
+                                        <td>{!! $data->category->kategori !!}</td>
                                     </tr>
                                     <tr>
                                         <td align="left">Merek</td>
                                         <td align="left">:</td>
-                                        <td>{!! $produk->merek !!}</td>
+                                        <td>{!! $data->merek !!}</td>
                                     </tr>
                                     <tr>
                                         <td align="left">Minimal Stok</td>
                                         <td align="left">:</td>
-                                        <td>{!! $produk->minimal_stok !!} {!! $produk->satuan !!}</td>
+                                        <td>{!! $data->minimal_stok !!} {!! $data->satuan !!}</td>
                                     </tr>
-                                    <tr class="{{ $produk->stok < $produk->minimal_stok ? 'bg-danger' : '' }}">
+                                    <tr class="{{ $data->stok < $data->minimal_stok ? 'bg-danger' : '' }}">
                                         <td align="left">Stok Tersedia</td>
                                         <td align="left">:</td>
-                                        <td>{!! $produk->stok !!} {!! $produk->satuan !!}</td>
+                                        <td>{!! $data->stok !!} {!! $data->satuan !!}</td>
                                     </tr>
                                     <tr>
                                         <td align="left">Letak Barang</td>
                                         <td align="left">:</td>
-                                        <td>{!! $produk->gudang->nama !!}</td>
+                                        <td>{!! $data->warehouse->nama !!}</td>
                                     </tr>
                                     <tr>
                                         <td align="left">Keterangan</td>
                                         <td align="left">:</td>
-                                        <td>{!! $produk->keterangan !!}</td>
+                                        <td>{!! $data->keterangan !!}</td>
                                     </tr>
                                 </tbody>
                             </table>

@@ -1,7 +1,7 @@
-<div class="sidebar sidebar-style-2">
+<div class="sidebar sidebar-style-2 animate__animated animate__bounceInLeft">
     <div class="sidebar-wrapper scrollbar scrollbar-inner">
         <div class="sidebar-content">
-            <div class="user">
+            {{-- <div class="user">
                 <div class="avatar-sm float-left mr-2">
                     <img src="{{ asset('admin/img/profile.jpg') }}" alt="..." class="avatar-img rounded-circle">
                 </div>
@@ -35,7 +35,7 @@
                         </ul>
                     </div>
                 </div>
-            </div>
+            </div> --}}
             <ul class="nav nav-primary">
                 <li class="nav-item">
                     <a data-toggle="collapse" href="#dashboard" class="collapsed" aria-expanded="false">
@@ -57,12 +57,6 @@
                             </li>
                         </ul>
                     </div>
-                </li>
-                <li class="nav-section">
-                    <span class="sidebar-mini-icon">
-                        <i class="fa fa-ellipsis-h"></i>
-                    </span>
-                    <h4 class="text-section">Components</h4>
                 </li>
                 <li class="nav-item {{ request()->routeIs('kategori.index') ? 'active' : '' }}">
                     <a href="{{ route('kategori.index') }}">
@@ -104,17 +98,28 @@
                         <p>Barang Masuk</p>
                     </a>
                 </li>
+                <li class="nav-item {{ request()->routeIs('barang-keluar.index') ? 'active' : '' }}">
+                    <a href="{{ route('barang-keluar.index') }}">
+                        <i class="fas fa-truck-loading"></i>
+                        <p>Barang Keluar</p>
+                    </a>
+                </li>
                 <li class="nav-item">
                     <a data-toggle="collapse" href="#forms">
-                        <i class="fas fa-pen-square"></i>
-                        <p>Forms</p>
+                        <i class="far fa-clipboard"></i>
+                        <p>Laporan</p>
                         <span class="caret"></span>
                     </a>
                     <div class="collapse" id="forms">
                         <ul class="nav nav-collapse">
                             <li>
+                                <a href="{{ route('laporan.barang-masuk') }}">
+                                    <i class="fas fa-truck-moving"></i>Barang Masuk
+                                </a>
+                            </li>
+                            <li>
                                 <a href="forms/forms.html">
-                                    <span class="sub-item">Basic Form</span>
+                                    <i class="fas fa-truck-loading"></i>Barang Keluar
                                 </a>
                             </li>
                         </ul>

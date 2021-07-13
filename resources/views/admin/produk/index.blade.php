@@ -14,7 +14,8 @@
         }
 
     </style>
-    <link rel="stylesheet" href="{{ asset('admin/js/plugin/select2/css/select2.min.css') }}">
+     <link rel="stylesheet" href="{{ asset('admin/js/plugin/selectpicker/css/bootstrap-select.min.css') }}">
+     <link rel="stylesheet" href="{{ asset('admin/js/plugin/file-input/css/fileinput.min.css') }}">
 @endpush
 
 @section('admin-content')
@@ -154,12 +155,17 @@
 @push('js')
     <!-- Datatables -->
     <script src="{{ asset('admin/js/plugin/datatables/datatables.min.js') }}"></script>
-    <script src="{{ asset('admin/js/plugin/select2/js/select2.min.js') }}"></script>
+    <script src="{{ asset('admin/js/plugin/selectpicker/js/bootstrap-select.min.js') }}"></script>
+    <script src="{{ asset('admin/js/plugin/file-input/js/fileinput.min.js') }}"></script>
+    <script src="{{ asset('admin/js/plugin/file-input/themes/fa/theme.js') }}"></script>
 
     {!! $dataTable->scripts() !!}
     <script>
         $(document).ready(function() {
-            $('.select2').select2();
+            $(".input-fa").fileinput({
+                theme: "fa",
+                uploadUrl: "/file-upload-batch/2"
+            });
         });
     </script>
 
@@ -187,7 +193,6 @@
                         data: $('.modal-form form').serialize(),
                         success: function(response) {
                             $('.modal-form').modal('hide');
-                            window.location.reload();
                             $.notify({
                                 message: response.text
                             }, {
@@ -213,32 +218,36 @@
             });
         });
 
-        function addForm(url) {
-            event.preventDefault();
-            $('.modal-form').modal('show');
-            $('.modal-form .modal-title').text('Tambah Gudang');
-            $('.modal-form form')[0].reset();
-            $('.modal-form form').attr('action', url);
-            $('.modal-form [name=_method]').val('post');
-        }
-
         function editForm(url) {
             event.preventDefault();
+            var me = $(this),
+            id = $('.btn-edit').data('id');
             $('.modal-form').modal('show');
-            $('.modal-form .modal-title').text('Ubah Gudang');
+            $('.modal-form .modal-title').text('Ubah Produk');
+            $('.modal-form .container-fluid').append(`<div class="row"><input type="hidden" name="id" value="`+id+`"></div>`);
             $('.modal-form form').attr('action', url);
             $('.modal-form [name=_method]').val('put');
-            $.get(url)
+            $.get(url+'/edit')
                 .done((response) => {
-                    let nama = response.data.nama;
-                    let kode = response.data.kode;
-                    let lokasi = response.data.lokasi;
-                    $('.modal-form .nama').val(nama);
-                    $('.modal-form .kode').val(kode);
-                    $('.modal-form .lokasi').val(lokasi);
+                    var nama = response.data.nama_produk,
+                    kategori_id = response.data.kategori_id,
+                    gudang_id = response.data.gudang_id,
+                    merek = response.data.merek,
+                    satuan = response.data.satuan,
+                    minimal_stok = response.data.minimal_stok,
+                    stok = response.data.stok,
+                    keterangan = response.data.keterangan;
+                    $('.modal-form .nama_produk').val(nama);
+                    $('.modal-form .kategori_id').val(kategori_id).change();
+                    $('.modal-form .gudang_id').val(gudang_id).change();
+                    $('.modal-form .merek').val(merek);
+                    $('.modal-form .satuan').val(satuan).change();
+                    $('.modal-form .minimal_stok').val(minimal_stok);
+                    $('.modal-form .stok').val(stok);
+                    $('.modal-form .keterangan').val(keterangan);
                 })
                 .fail((errors) => {
-                    Swal.fire('Oops...', 'Kategori ini tidak dapat dihapus', 'error')
+                    Swal.fire('Oops...', 'Ada yang salah!', 'error')
                     return;
                 })
         }
