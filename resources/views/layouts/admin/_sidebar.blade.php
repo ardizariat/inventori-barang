@@ -122,6 +122,11 @@
                                     <i class="fas fa-truck-loading"></i>Barang Keluar
                                 </a>
                             </li>
+                            <li>
+                                <a href="{{ route('laporan.produk') }}">
+                                    <i class="fas fa-tasks"></i>Produk
+                                </a>
+                            </li                            
                         </ul>
                     </div>
                 </li>

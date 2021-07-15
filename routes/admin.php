@@ -28,3 +28,6 @@ Route::post('/barang-keluar/change-data', [BarangKeluarController::class, 'chang
 
 Route::get('/laporan/barang-masuk', [LaporanController::class, 'barangMasuk'])->name('laporan.barang-masuk');
 Route::post('/laporan/barang-masuk', [LaporanController::class, 'pdfBarangMasuk'])->name('laporan.barang-masuk.pdf');
+
+Route::get('/laporan/produk', [LaporanController::class, 'produk'])->name('laporan.produk');
+Route::post('/laporan/produk', [LaporanController::class, 'pdfProduk'])->name('laporan.produk.pdf');

@@ -22,7 +22,9 @@ class BarangKeluarFactory extends Factory
     public function definition()
     {
         return [
-            'produk_id' => '191296af-8b1a-4b8c-83ed-0ea2a55353b6',
+            'produk_id' => '0136f870-0cef-48fd-8094-e267606001a0',
+            'penerima' => $this->faker->randomElement(['Ardi', 'Zaid', 'Lia', 'Azmi', 'Hamzah']),
+            'pemberi' => $this->faker->randomElement(['Ardi', 'Zaid', 'Lia', 'Azmi', 'Hamzah']),
             'jumlah' => rand(5, 100),
             'keterangan' => $this->faker->sentence(),
             'tanggal' => $this->faker->date($format = 'Y-m-d', $max = 'now'),

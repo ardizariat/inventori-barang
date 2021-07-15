@@ -23,8 +23,8 @@ class ProdukFactory extends Factory
     {
         return [
             'nama_produk' => $this->faker->lastName(),
-            'kategori_id' => '47a9e0b8-f67a-48bf-90a3-ec92e21387a0',
-            'gudang_id' => '45913a83-b785-48b7-9ad8-40f7cc0fb118',
+            'kategori_id' => '95b93e0d-f30c-41ed-9ee1-467fb53d229b',
+            'gudang_id' => '398dc6b0-8563-4567-8f04-d0637628a6bb',
             'kode' => $this->faker->ean13,
             'merek' => $this->faker->company,
             'satuan' => $this->faker->randomElement(['Pcs', 'Box', 'Karton', 'Kg', 'Meter']),

@@ -21,6 +21,8 @@ class BarangMasuk extends Model
         'jumlah',
         'tanggal',
         'keterangan',
+        'penerima',
+        'pemberi',
     ];
 
     public function product()
