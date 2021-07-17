@@ -17,13 +17,13 @@ class CreateBarangKeluarTable extends Migration
             $table->uuid('id')->primary()->unique();
             $table->uuid('produk_id');
             $table->bigInteger('jumlah');
-            $table->string('penerima');
-            $table->string('pemberi');
+            $table->string('penerima')->nullable();
+            $table->string('pemberi')->nullable();
             $table->date('tanggal');
             $table->text('keterangan')->nullable();
             $table->timestamps();
 
-            $table->foreign('produk_id')->references('id')->on('produk');
+            $table->foreign('produk_id')->references('id')->on('produk')->onDelete('cascade')->onUpdate('cascade');
             $table->engine = 'InnoDB';
         });
     }

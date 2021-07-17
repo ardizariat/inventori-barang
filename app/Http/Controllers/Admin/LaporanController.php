@@ -28,7 +28,9 @@ class LaporanController extends Controller
         $akhir = $request->akhir;
         $data = BarangMasuk::whereBetween('tanggal', [$awal, $akhir])->get();
         $totalProdukMasuk = $data->sum('jumlah');
+        $totalProdukMasuk = number_format($totalProdukMasuk, 0, ',', '.');
         $totalItemProduk = $data->count();
+        $totalItemProduk = number_format($totalItemProduk, 0, ',', '.');
         $pdf = PDF::loadView('admin.laporan.pdf.barang_masuk', [
             'data' => $data,
             'awal' => $awal,
@@ -51,7 +53,7 @@ class LaporanController extends Controller
 
     public function produk()
     {
-        $title = "Laporan data barang produk";
+        $title = "Laporan data produk";
         $daftar_kategori = Kategori::latest()->get();
         return view('admin.laporan.produk', compact(
             'title',
@@ -66,19 +68,17 @@ class LaporanController extends Controller
         $byDate = $request->byDate;
         $awal = $request->awal;
         $akhir = $request->akhir;
-        $all = $request->opsi;
+        $opsi = $request->opsi;
         $kategori = $request->kategori;
-        if (!empty($all)) {
+        if ($opsi == 'all') {
             $data = Produk::latest()->get();
             $totalProdukMasuk = $data->sum('jumlah');
             $totalItemProduk = $data->count();
-        }
-        if ($byDate) {
+        } elseif ($opsi == 'byDate') {
             $data = Produk::whereBetween('created_at', [$awal, $akhir])->get();
             $totalProdukMasuk = $data->sum('jumlah');
             $totalItemProduk = $data->count();
-        }
-        if ($kategori) {
+        } elseif ($opsi == null && $kategori) {
             $data = Produk::where('kategori_id', '=', $kategori)->get();
             $totalProdukMasuk = $data->sum('jumlah');
             $totalItemProduk = $data->count();

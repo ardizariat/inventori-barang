@@ -56,6 +56,8 @@ class GudangDataTable extends DataTable
     {
         return $this->builder()
             ->setTableId('gudang-table')
+            ->addTableClass('table-hover')
+            ->pageLength(15)
             ->columns($this->getColumns())
             ->minifiedAjax()
             ->dom('Bfrtip')

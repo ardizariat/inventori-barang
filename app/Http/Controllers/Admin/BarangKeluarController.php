@@ -2,19 +2,50 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Carbon\Carbon;
 use App\Models\Produk;
+use App\Models\BarangKeluar;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\DataTables\BarangKeluarDataTable;
-use App\Models\BarangKeluar;
 
 class BarangKeluarController extends Controller
 {
-    public function index(BarangKeluarDataTable $tableBarangKeluar, Request $request)
+    public function index(Request $request)
     {
         $title = 'Barang Keluar';
         $products = Produk::latest()->get();
-        return $tableBarangKeluar->render('admin.barang_keluar.index', compact(
+        $from_date = $request->from_date;
+        $to_date = $request->to_date;
+        if (request()->ajax()) {
+            if (!empty($request->from_date)) {
+                $data = BarangKeluar::whereBetween('tanggal', [$from_date, $to_date])->get();
+            } else {
+                $data = BarangKeluar::latest()->get();
+            }
+            return datatables()->of($data)
+                ->addColumn('produk', function ($data) {
+                    return $data->product->nama_produk;
+                })
+                ->addColumn('kategori', function ($data) {
+                    return $data->product->category->kategori;
+                })
+                ->addColumn('tanggal', function ($data) {
+                    $tanggal = Carbon::parse($data->tanggal)->format('d F Y');
+                    return $tanggal;
+                })
+                ->addColumn('aksi', function ($data) {
+                    return view('admin.barang_keluar._aksi', [
+                        'delete' => route('barang-keluar.destroy', $data->id),
+                        'show' => route('barang-keluar.destroy', $data->id),
+                    ]);
+                })
+                ->rawColumns(['produk', 'kategori', 'tanggal', 'aksi'])
+                ->addIndexColumn()
+                ->make(true);
+        }
+
+        return view('admin.barang_keluar.index', compact(
             'title',
             'products',
         ));
@@ -24,10 +55,12 @@ class BarangKeluarController extends Controller
     {
         if (request()->ajax()) {
             $data = BarangKeluar::findOrFail($id);
-            $nama_produk = $data->product->nama_produk;
+            $tanggal = tanggal($data->tanggal);
+            $foto = $data->product->getGambar();
             return response()->json([
                 'data' => $data,
-                'nama_produk' => $nama_produk,
+                'tanggal' => $tanggal,
+                'foto' => $foto,
             ], 200);
         }
     }
@@ -48,8 +81,17 @@ class BarangKeluarController extends Controller
         if ($stok == 0) {
             $text = 'Stok barang ' . $nama_barang . ' kosong!';
             return response()->json([
-                'text' => $text
-            ], 200);
+                'text' => $text,
+                'status' => 500
+            ], 500);
+        }
+
+        if ($stok - $request->jumlah < 0) {
+            $text = 'Barang yang dikeluarkan lebih besar dari stok yang tersedia !';
+            return response()->json([
+                'text' => $text,
+                'status' => 500
+            ], 500);
         }
 
         $data = new BarangKeluar();
@@ -57,6 +99,8 @@ class BarangKeluarController extends Controller
         $data->jumlah = $request->jumlah;
         $data->tanggal = $request->tanggal;
         $data->keterangan = $request->keterangan;
+        $data->penerima = $request->penerima;
+        $data->pemberi = auth()->user()->name;
         $data->save();
 
         $save = $produk->update([
@@ -70,46 +114,20 @@ class BarangKeluarController extends Controller
             ], 201);
         }
     }
-    public function update(Request $request, $id)
+
+    public function destroy($id)
+
     {
+        $stockIn = BarangKeluar::findOrFail($id);
+        $jumlah = $stockIn->jumlah;
+        $produk_id = $stockIn->produk_id;
+        $produk = Produk::findOrFail($produk_id);
+        $produk->stok = $produk->stok + $jumlah;
+        $produk->update();
+        $delete = $stockIn->delete();
 
-        $request->validate([
-            'produk_id' => 'required',
-            'tanggal' => 'required',
-            'jumlah' => 'required|numeric',
-        ]);
-
-        $data = BarangKeluar::findOrFail($id);
-        $produk = Produk::findOrFail($data->produk_id);
-
-        $stok = $produk->stok;
-        $nama_barang = $produk->nama_barang;
-
-        if ($stok == 0) {
-            $text = 'Stok barang ' . $nama_barang . ' kosong!';
-            return response()->json([
-                'text' => $text
-            ], 200);
-        }
-
-        // Produk
-        $stokLama = $produk->stok - $data->jumlah;
-        $produk->stok = $stokLama - $request->jumlah;
-        $save = $produk->update();
-
-        // Barang Masuk
-        $data->produk_id = $request->produk_id;
-        $data->jumlah = $request->jumlah;
-        $data->keterangan = $request->keterangan;
-        $data->tanggal = $request->tanggal;
-        $data->update();
-
-
-        if ($save) {
-            return response()->json([
-                'data' => $data,
-                'text' => 'Barang masuk berhasil ditambahkan!'
-            ], 200);
-        }
+        return response()->json([
+            'text' => 'Data berhasil dihapus'
+        ], 200);
     }
 }

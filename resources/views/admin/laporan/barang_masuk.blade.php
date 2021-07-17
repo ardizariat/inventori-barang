@@ -32,6 +32,7 @@
                   <div class="card shadow animate__animated animate__bounceInRight">
                       <div class="card-body">
                         <form target="_blank" action="{{ route('laporan.barang-masuk.pdf') }}" method="post">
+                          @csrf
                           <div class="row my-4">
                             <div class="col-md-4">
                               <input type="text" placeholder="Tanggal Awal" name="awal" class="max-date form-control">

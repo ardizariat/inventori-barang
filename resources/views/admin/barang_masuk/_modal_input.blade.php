@@ -1,4 +1,4 @@
-<div class="modal fade modal-form" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade modal-form animate__animated animate__fadeInUp" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <form>
             @csrf
@@ -26,12 +26,12 @@
                                 <span class="help-block with-errors"></span>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row stok">
                             <div class="col-md-3 pt-3">
                                 <label>Stok Saat Ini</label>
                             </div>
                             <div class="col-md-9 form-group">
-                                <input type="text" name="stok" autocomplete="off" autofocus
+                                <input type="text" name="stok" autocomplete="off"
                                     class="stok form-control" readonly>
                                 <span class="help-block with-errors"></span>
                             </div>
@@ -52,6 +52,16 @@
                             </div>
                             <div class="col-md-9 form-group">
                                 <input type="text" autocomplete="off" name="tanggal" value="{{ date('Y-m-d') }}" class="form-control tanggal max-date">
+                                <span class="help-block with-errors"></span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 pt-3">
+                                <label>Pemberi Barang</label>
+                            </div>
+                            <div class="col-md-9 form-group">
+                                <input type="text" name="pemberi" autocomplete="off"
+                                    class="pemberi form-control">
                                 <span class="help-block with-errors"></span>
                             </div>
                         </div>

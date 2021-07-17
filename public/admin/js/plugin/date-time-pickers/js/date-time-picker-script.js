@@ -4,7 +4,7 @@ $(document).ready(function () {
     //Date Picker
     $("#mydate").flatpickr();
 
-    $("#date-time").flatpickr({
+    $(".date-time").flatpickr({
         enableTime: true
     });
 
@@ -53,6 +53,13 @@ $(document).ready(function () {
         enableTime: true,
         noCalendar: true,
         dateFormat: "H:i"
+    });
+
+    $(".24-hour-timepicker").flatpickr({
+        enableTime: true,
+        noCalendar: true,
+        dateFormat: "H:i",
+        time_24hr: true
     });
 
     $("#24-hour-timepicker").flatpickr({

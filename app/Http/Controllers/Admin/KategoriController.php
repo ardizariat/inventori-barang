@@ -2,17 +2,41 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Carbon\Carbon;
+use App\Models\Kategori;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\DataTables\KategoriDataTable;
-use App\Models\Kategori;
 
 class KategoriController extends Controller
 {
-    public function index(KategoriDataTable $tableKategori)
+    public function index(Request $request)
     {
         $title = 'Kategori';
-        return $tableKategori->render('admin.kategori.index', compact(
+        if (request()->ajax()) {
+            $data = Kategori::latest()->get();
+            return datatables()->of($data)
+                ->addColumn('dibuat', function ($data) {
+                    $data = Carbon::parse($data->created_at)->format('d F Y, H:i');
+                    return $data;
+                })
+                ->addColumn('status', function ($data) {
+                    return view('admin.kategori._status', [
+                        'data' => $data
+                    ]);
+                })
+                ->addColumn('aksi', function ($data) {
+                    return view('admin.kategori._aksi', [
+                        'update' => route('kategori.update', $data->id),
+                        'delete' => route('kategori.destroy', $data->id),
+                        'data' => $data
+                    ]);
+                })
+                ->rawColumns(['dibuat', 'status', 'aksi'])
+                ->addIndexColumn()
+                ->make(true);
+        }
+        return view('admin.kategori.index', compact(
             'title'
         ));
     }

@@ -22,282 +22,366 @@
 @section('admin-content')
 
 <div class="content">
-    <div class="page-inner">
-        <div class="page-header">
-            <h4 class="page-title">{{ $title }}</h4>
-            <ul class="breadcrumbs">
-                <li class="nav-home">
-                    <a href="#">
-                        <i class="flaticon-home"></i>
+  <div class="page-inner">
+    <div class="page-header">
+        <h4 class="page-title">{{ $title }}</h4>
+        <ul class="breadcrumbs">
+            <li class="nav-home">
+                <a href="#">
+                    <i class="flaticon-home"></i>
+                </a>
+            </li>
+            <li class="separator">
+                <i class="flaticon-right-arrow"></i>
+            </li>
+            <li class="nav-item">
+                <a href="#">Data Barang Keluar</a>
+            </li>
+        </ul>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card shadow animate__animated animate__zoomInRight">
+          <div class="card-header">
+            <form action="">
+              <h4><i class="fas fa-filter"></i> Filter</h4>
+              <div class="row">
+                <div class="col-md-3">
+                    <input name="from_date" type="text" autocomplete="off" class="from_date form-control max-date">
+                </div>
+                <div class="col-md-3">
+                    <input name="to_date" type="text" autocomplete="off" class="to_date form-control max-date">
+                </div>
+                <div class="col-md-3 mt-1">
+                    <div class="btn-group">
+                      <button type="submit" data-toggle="tooltip" data-placement="top" title="Filter data"
+                      class="btn btn-sm filter btn-success btn-flat">
+                      <i class="fas fa-filter"></i> Filter
+                      </button>
+                      <button type="submit" data-toggle="tooltip" data-placement="top" title="Refresh data"
+                      class="btn btn-sm refresh btn-danger btn-flat">
+                      <i class="fas fa-sync-alt"></i> Refresh
+                      </button>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <a data-toggle="tooltip" data-placement="top" title="Tambah data" class="btn btn-rounded btn-outline-primary"
+                onclick="addForm('{{ route('barang-keluar.store') }}')">
+                <i class="fa fa-plus" aria-hidden="true"></i> Tambah Barang Keluar
                     </a>
-                </li>
-                <li class="separator">
-                    <i class="flaticon-right-arrow"></i>
-                </li>
-                <li class="nav-item">
-                    <a href="#">Data Barang Keluar</a>
-                </li>
-            </ul>
-        </div>
-        <div class="row">
-          <div class="col-md-12">
-            <div class="card shadow animate__animated animate__zoomInRight">
-              <div class="card-header">
-                  <form action="">
-                      <h4><i class="fas fa-filter"></i> Filter</h4>
-                      <div class="row">
-                          <div class="col-md-3">
-                              <input name="awal" type="text" autocomplete="off" class="start_date-barang_keluar form-control max-date">
-                          </div>
-                          <div class="col-md-3">
-                              <input name="akhir" type="text" autocomplete="off" class="end_date-barang_keluar form-control max-date">
-                          </div>
-                          <div class="col-md-3 mt-1">
-                              <div class="btn-group">
-                                <button type="submit" data-toggle="tooltip" data-placement="top" title="Filter data"
-                                class="btn btn-sm filter_date-barang_keluar btn-success btn-flat">
-                                <i class="fas fa-filter"></i> Filter
-                                </button>
-                                <button type="submit" data-toggle="tooltip" data-placement="top" title="Refresh data"
-                                class="btn btn-sm reset btn-danger btn-flat">
-                                <i class="fas fa-sync-alt"></i> Reset
-                                </button>
-                              </div>
-                          </div>
-                          <div class="col-md-3">
-                              <a data-toggle="tooltip" data-placement="top" title="Tambah data" class="btn btn-rounded btn-outline-primary"
-                          onclick="addForm('{{ route('barang-keluar.store') }}')">
-                          <i class="fa fa-plus" aria-hidden="true"></i> Tambah Barang Keluar
-                              </a>
-                          </div>
-                      </div>
-                      <div class="row my-2 justify-content-center">
-                          <div class="col-md-8">
-                              
-                          </div>
-                      </div>
-                  </form>
+                </div>
               </div>
-              <div class="card-body">
-                  <div class="table-responsive">
-                      <form action="" class="form-kategori">
-                          {!! $dataTable->table() !!}
-                      </form>
-                  </div>
-              </div>
+            </form>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <form action="" class="form-kategori">
+                <table id="barangkeluar-table" class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th>No</th>
+                      <th>Nama Barang</th>
+                      <th>Kategori</th>
+                      <th>Tanggal</th>
+                      <th>Jumlah</th>
+                      <th>Option</th>
+                    </tr>
+                  </thead>
+                </table>
+              </form>
             </div>
           </div>
         </div>
+      </div>
     </div>
+  </div>
 </div>
 
-@includeIf('admin.barang_keluar._modal')
+@includeIf('admin.barang_keluar._modal_input')
+@includeIf('admin.barang_keluar._modal_show')
 
 @endsection
 
 @push('js')
 <script src="{{ asset('admin/js/plugin/datatables/datatables.min.js') }}"></script>
-{!! $dataTable->scripts() !!}
 <script src="{{ asset('admin/js/plugin/selectpicker/js/bootstrap-select.min.js') }}"></script>
 <script src="{{ asset('admin/js/plugin/file-input/js/fileinput.min.js') }}"></script>
 <script src="{{ asset('admin/js/plugin/file-input/themes/fa/theme.js') }}"></script>
 <script src="{{ asset('admin/js/plugin/date-time-pickers/js/flatpickr.js') }}"></script>
 <script src="{{ asset('admin/js/plugin/date-time-pickers/js/date-time-picker-script.js') }}"></script>
-
 <script>
-    $('.selectpicker').selectpicker();
-    
-    // File input images
-    $(".input-fa").fileinput({
-        theme: "fa",
-        uploadUrl: "/file-upload-batch/2"
+  $('.selectpicker').selectpicker();
+  
+  // File input images
+  $(".input-fa").fileinput({
+      theme: "fa",
+      uploadUrl: "/file-upload-batch/2"
+  });
+
+  // Datatables load data
+  load_data();
+
+  // Function datatables
+  function load_data(from_date = '', to_date = ''){
+    $('#barangkeluar-table').DataTable({
+      processing  : true,
+      serverSide  : true,
+      ajax        : {
+          url : "{{ route('barang-keluar.index') }}",
+          data : { from_date : from_date, to_date : to_date}
+      },
+      columns     : [
+        {
+            data : "DT_RowIndex",name : "DT_RowIndex"
+        },
+        {
+            data: 'produk', name: 'produk'
+        },
+        {
+            data: 'kategori', name: 'kategori'
+        },
+        {
+            data: 'tanggal', name: 'tanggal'
+        },
+        {
+            data: 'jumlah', name: 'jumlah'
+        },
+        {
+            data: 'aksi', name: 'aksi'
+        },
+      ],
+      pageLength : 15,
+      "lengthMenu": [ 15, 25, 50, 75, 100 ],
+      "language": {
+        "emptyTable": "Data tidak ada"
+      },
     });
-</script>
+  }
 
-<script>
+  // Refresh data
+  function refresh_data(){
+    $('#barangkeluar-table').DataTable().destroy();
+    load_data();
+  }
 
-    const table = $('#barangkeluar-table');    
-      
-    $(function() {
-        $('.modal-form').on('submit', function(e) {
-            if (!e.preventDefault()) {
+  // Filter data berdasarkan tanggal
+  $('form').on('click','.filter', function(e){
+    e.preventDefault();
+    var from_date = $('form .from_date').val(),
+    to_date = $('form .to_date').val();
 
-                var form = $('.modal-form form');
-                form.find('.help-block').remove();
-                form.find('.form-group').removeClass('has-error');
-
-                $.ajax({
-                    url: $('.modal-form form').attr('action'),
-                    type: $('.modal-form input[name=_method]').val(),
-                    beforeSend: function() {
-                        $('.modal-footer .btn-save').addClass('d-none');
-                        $('.modal-footer .loader').removeClass('d-none');
-                    },
-                    complete: function() {
-                        $('.modal-footer .loader').addClass('d-none');
-                        $('.modal-footer .submit').removeClass('d-none');
-                    },
-                    data: $('.modal-form form').serialize(),
-                    success: function(response) {
-                        $('.modal-form').modal('hide');
-                        $.notify({
-                            message: response.text
-                        }, {
-                            type: 'success'
-                        });
-                        table.DataTable().ajax.reload();
-                    },
-                    error: function(xhr) {
-                        var res = xhr.responseJSON;
-                        if ($.isEmptyObject(res) == false) {
-                            $.each(res.errors, function(key, value) {
-                                console.log(res);
-                                $('.' + key)
-                                    .closest('.form-group')
-                                    .addClass('has-error')
-                                    .append(`<span class="help-block">` + value +
-                                        `</span>`)
-                            });
-                        }
-                    }
-                });
-            }
-        });
-    });    
-
-    function addForm(url) {
-        event.preventDefault();
-        $('.modal-form').modal('show');
-        $('.modal-form .modal-title').text('Tambah Barang Masuk');
-        $('.modal-form form')[0].reset();
-        $('.modal-form form').attr('action', url);
-        $('.modal-form [name=_method]').val('post');
+    if(from_date != '' && to_date != ''){
+        $('#barangkeluar-table').DataTable().destroy();
+        load_data(from_date, to_date);
+    }else{
+        Swal.fire('Oops...', 'Filter tanggal harus diisi semua!', 'error')
+        return;
     }
+  });
 
-    function editForm(url) {
-        event.preventDefault();
-        $('.modal-form').modal('show');
-        $('.modal-form .modal-title').text('Ubah Barang Keluar');
-        $('.modal-form .btn-save').text('Update');
-        $('.modal-form form').attr('action', url);
-        $('.modal-form [name=_method]').val('put');
-        $.get(url)
-            .done((response) => {
-                let produk = response.data.produk_id;
-                let jumlah = response.data.jumlah;
-                let tanggal = response.data.tanggal;
-                let satuan = response.data.satuan;
-                let keterangan = response.data.keterangan;
-                $('.modal-form .produk_id').val(produk);
-                $('.modal-form .jumlah').val(jumlah);
-                $('.modal-form .tanggal').val(tanggal);
-                $('.modal-form .satuan').val(satuan).change();
-                $('.modal-form .keterangan').val(keterangan);
-            })
-            .fail((errors) => {
-                Swal.fire('Oops...', 'Kategori ini tidak dapat dihapus', 'error')
-                return;
-            })
-    }
+  // Refresh Datatables
+  $('form').on('click','.refresh', function(e){
+    e.preventDefault();
+    var from_date = $('form .from_date').val(''),
+    to_date = $('form .to_date').val('');
+    refresh_data();
+  });
 
-    function deleteData(url) {
-        event.preventDefault();
-        Swal.fire({
-            title: 'Apakah kamu yakin?',
-            text: "menghapus data ini",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Ya, Hapus!'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                $.post(url, {
-                        '_token': $('input[name=csrf-token]').attr('content'),
-                        '_method': 'delete'
-                    })
-                    .done((response) => {
-                        $.notify({
-                            message: response.text
-                        }, {
-                            type: 'success'
-                        });
-                        table.DataTable().ajax.reload();
-                    })
-                    .fail((errors) => {
-                        Swal.fire('Oops...', 'Kategori ini tidak dapat dihapus', 'error')
-                    })
-            }
-        })
-    }
+  // Hapus Data
+  $('body').on('click','.btn-delete', function(event){
+    event.preventDefault();
+    var me = $(this),
+    url = me.attr('href'),
+    csrf_token = $('meta[name=csrf-token]').attr('content');
 
-    function changeData(url){
-        var id = $('.produk_id select[name=produk_id]').val();
-        $.ajax({
-            url : url,
-            type : 'post',
-            dataType : 'json',
-            data : {
-                '_token' : '{{ csrf_token() }}',
-                'id' : id
+    Swal.fire({
+        title: 'Apakah kamu yakin?',
+        text: "menghapus data ini",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Ya, Hapus!'
+    }).then((result) => {
+    if (result.isConfirmed) {
+      $.ajax({
+        url : url,
+        type : "POST",
+        data : {
+          '_method' : 'DELETE',
+          '_token' : csrf_token
+        }, 
+        success : function(response){
+          Swal.fire({
+            position: 'top-end',
+            icon: 'success',
+            title: response.text,
+            showConfirmButton: false,
+            timer: 2000,
+            showClass: {
+                popup: 'animate__animated animate__lightSpeedInRight'
             },
-            success : function(res){
-                var stok = parseInt(res.stok);
-                $('.stok').val(stok); 
-                if(stok == 0){
-                    Swal.fire({
-                    icon: 'error',
-                    title: 'Stok barang ini kosong!',
-                    text: 'Silahkan ajukan pembelian barang!',
-                    showCancelButton: false,
-                    confirmButtonText: `Oke`,
-                    }).then((result) => {
-                    if (result.isConfirmed) {
-                        return window.location.reload();
-                    }
-                    })
-                }
-                $('.modal-form').on('keyup','.jumlah', function(){
-                    var me = $(this),
-                    jumlah = parseInt(me.val());
-                    total = stok - jumlah;
-                    $('.stok').val(total); 
-                });                   
-            },
-            error: function(message){
-                console.log('error');
+            hideClass: {
+                popup: 'animate__animated animate__lightSpeedOutRight'
             }
-        })
-    }       
-
-    table.on('preXhr.dt', function(e, settings, data) {
-        data.awal = $('.start_date-barang_keluar').val();
-        data.akhir = $('.end_date-barang_keluar').val();
+            })
+            $('#barangkeluar-table').DataTable().destroy();
+            load_data();
+        }
+      });
+    }
     });
 
-    $('form').on('click', '.filter_date-barang_keluar', function(event) {
-        event.preventDefault();
-        var awal = $('.start_date-barang_keluar').val(),
-        akhir = $('.end_date-barang_keluar').val();
-        $('form h4').text('Filter barang keluar dari '+ awal + ' sampai ' + akhir);
-        table.DataTable().ajax.reload();
-        return false;
-    });
+  });
 
-    $('.reset').on('click', function(e) {
-        e.preventDefault();
-        window.location.reload();
-        $('.start_date-barang_keluar').val('');
-        $('.end_date-barang_keluar').val('');
-        $('form h4').html('<i class="fas fa-filter"> Semua data barang keluar</i>');
-        table.on('preXhr.dt', function(e, settings, data) {
-            data.awal = '';
-            data.akhir = '';
-        });
-        table.DataTable().ajax.reload();
-        return false;
-    });
-      
+  $(function() {
+      $('.modal-form').on('submit', function(e) {
+          if (!e.preventDefault()) {
+
+              var form = $('.modal-form form');
+              form.find('.help-block').remove();
+              form.find('.form-group').removeClass('has-error');
+
+              $.ajax({
+                  url: $('.modal-form form').attr('action'),
+                  type: $('.modal-form input[name=_method]').val(),
+                  beforeSend: function() {
+                      $('.modal-footer .btn-save').addClass('d-none');
+                      $('.modal-footer .loader').removeClass('d-none');
+                  },
+                  complete: function() {
+                      $('.modal-footer .loader').addClass('d-none');
+                      $('.modal-footer .submit').removeClass('d-none');
+                  },
+                  data: $('.modal-form form').serialize(),
+                  success: function(response) {
+                      $('.modal-form').modal('hide');
+                      Swal.fire({
+                      position: 'top-end',
+                      icon: 'success',
+                      title: response.text,
+                      showConfirmButton: false,
+                      timer: 2000,
+                      showClass: {
+                          popup: 'animate__animated animate__lightSpeedInRight'
+                      },
+                      hideClass: {
+                          popup: 'animate__animated animate__lightSpeedOutRight'
+                      }
+                      })    
+                      refresh_data();                  
+                  },
+                  error: function(xhr) {
+                    var res = xhr.responseJSON;
+                    var status = res.status,
+                    message = res.text;
+                    if(status == 500){
+                      Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: message,
+                        confirmButtonText: `OK`,
+                        }).then((result) => {
+                          if (result.isConfirmed) {
+                            window.location.reload();
+                          } 
+                      })
+                      
+                    }
+                    if ($.isEmptyObject(res) == false) {
+                        $.each(res.errors, function(key, value) {
+                            console.log(res);
+                            $('.' + key)
+                                .closest('.form-group')
+                                .addClass('has-error')
+                                .append(`<span class="help-block">` + value +
+                                    `</span>`)
+                        });
+                    }
+                  }
+              });
+          }
+      });
+  });    
+
+  function addForm(url) {
+    event.preventDefault();
+    $('.modal-form').modal('show');
+    $('.modal-form .modal-title').text('Tambah Barang Keluar');
+    $('.modal-form form')[0].reset();
+    $('.modal-form form').attr('action', url);
+    $('.modal-form [name=_method]').val('post');
+  }
+
+  function changeData(url){
+      var id = $('.produk_id select[name=produk_id]').val();
+      $.ajax({
+          url : url,
+          type : 'post',
+          dataType : 'json',
+          data : {
+              '_token' : '{{ csrf_token() }}',
+              'id' : id
+          },
+          success : function(res){
+              var stok = parseInt(res.stok);
+              $('.stok').val(stok); 
+              if(stok <= 0){
+                  Swal.fire({
+                  icon: 'error',
+                  title: 'Stok barang ini kosong!',
+                  text: 'Silahkan ajukan pembelian barang!',
+                  showCancelButton: false,
+                  confirmButtonText: `Oke`,
+                  }).then((result) => {
+                  if (result.isConfirmed) {
+                      return window.location.reload();
+                  }
+                  })
+              }
+              $('.modal-form').on('keyup','.jumlah', function(){
+                  var me = $(this),
+                  jumlah = parseInt(me.val());
+                  total = stok - jumlah;
+                  $('.stok').val(total); 
+              });                   
+          },
+          error: function(message){
+              console.log('error');
+          }
+      })
+  }       
+
+  // menampilkan modal show
+  function showData(url) {
+      event.preventDefault();
+      $('.modal-show').modal('show');      
+      $.get(url)
+          .done((response) => {
+              var nama_produk = response.data.product.nama_produk,
+              jumlah = response.data.jumlah,
+              penerima = response.data.penerima,
+              pemberi = response.data.pemberi,
+              keterangan = response.data.keterangan,
+              tanggal = response.tanggal,
+              foto = response.foto;
+              console.log(foto);
+
+              $('.modal-show .modal-title').text('Detail '+nama_produk);
+
+              $('.modal-show .foto').prop("src",foto).width(200).height(130);
+              $('.modal-show .nama_produk').text(nama_produk);
+              $('.modal-show .jumlah').text(jumlah);
+              $('.modal-show .tanggal').text(tanggal);
+              $('.modal-show .pemberi').text(pemberi);
+              $('.modal-show .keterangan').text(keterangan);
+              $('.modal-show .penerima').text(penerima);
+          })
+          .fail((errors) => {
+              Swal.fire('Oops...', 'Data tidak ditemukan!', 'error')
+              return;
+          })
+  }
 </script>
 
 

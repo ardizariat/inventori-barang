@@ -31,11 +31,17 @@
                     </li>
                 </ul>
             </div>
+
+            {{-- Table detail produk --}}
             <div class="card shadow animate__animated animate__zoomInDown">
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-4">
-                            <img src="{{ $data->getGambar() }}" class="gambar d-block w-100">
+                            <img src="{{ $data->getGambar() }}" class=" mb-4 gambar d-block w-100">
+                            <div class="row justify-content-center">
+                                {!! $qrcode !!}
+                                <p class="mt-2">Scan QR Code untuk melihat kode produk</p>
+                            </div>
                         </div>
                         <div class="col-md-8">
                             <table class="table table-hover">
@@ -91,21 +97,85 @@
                     </div>
                 </div>
                 <div class="card-footer">
-                    <div class="row justify-content-center">
-                        {!! $qrcode !!}
+                  <div class="row d-flex justify-content-center">
+                    <div class="col-md-8">
+                      <div class="btn-group">
+                        <button class="btn btn-success btn-barang-masuk" id="btn-barang-masuk">
+                          <i class="fas fa-history"></i> Lihat Riwayat Barang Masuk
+                        </button>
+                        <button class="btn btn-danger btn-barang-keluar">
+                          <i class="fas fa-history"></i> Lihat Riwayat Barang Keluar
+                        </button>
+                      </div>
                     </div>
+                  </div>
                 </div>
+            </div>
+
+            {{-- Table barang masuk --}}
+            <div class="card shadow animate__animated animate__zoomInUp">
+              <div class="card-header">
+                <h2>Riwayat Barang Masuk</h2>
+              </div>
+              <div class="card-body">
+                <div class="row my-4">
+                  <div class="col-md-12">
+                    <table id="show_barangmasuk-table" class="table table-striped">
+                      <thead>
+                        <tr>
+                          <th>No</th>
+                          <th>Tanggal</th>
+                          <th>Penerima Barang</th>
+                          <th>Pemberi Barang</th>
+                          <th>Qty</th>
+                        </tr>
+                      </thead>
+                    </table>
+                  </div>
+                </div>
+              </div>
             </div>
         </div>
     </div>
 @endsection
 
 @push('js')
-    <script src="{{ asset('admin/js/plugin/zoom/medium-zoom.min.js') }}"></script>
-    <script>
-        mediumZoom('.gambar', {
-            margin: 50,
-            scrollOffset: 200
-        });
-    </script>
+<script src="{{ asset('admin/js/plugin/zoom/medium-zoom.min.js') }}"></script>
+<script src="{{ asset('admin/js/plugin/datatables/datatables.min.js') }}"></script>
+<script>
+    mediumZoom('.gambar', {
+        margin: 50,
+        scrollOffset: 200
+    });
+</script>
+<script>
+  load_data_barang_masuk();
+
+  // Function datatables barang masuk
+  function load_data_barang_masuk(){
+    $('#show_barangmasuk-table').DataTable({
+      serverSide  : true,
+      processing  : true,
+      url         : "{{ route('produk.show') }}",
+      columns : [
+        {data : "DT_RowIndex",name : "DT_RowIndex"},
+        {data : "tanggal",name : "tanggal"},
+        {data : "penerima",name : "penerima"},
+        {data : "pemberi",name : "pemberi"},
+        {data : "jumlah",name : "jumlah"}
+      ], 
+      pageLength : 10,
+      "lengthMenu": [ 10, 25, 50, 75, 100 ],
+      "language": {
+        "emptyTable": "Data tidak ada"
+      },
+    });
+  }
+
+
+  $('#btn-barang-masuk').on('click', function(e){
+    e.preventDefault();
+    alert('ok')
+  })
+</script>
 @endpush

@@ -16,11 +16,13 @@
       <th>:</th>
       <th>{{ $now }}</th>
     </tr>
+    @auth
     <tr>
       <th>Pembuat</th>
       <th>:</th>
-      <th>Ardi</th>
+      <th>{{ auth()->user()->name }}</th>
     </tr>
+    @endauth
   </thead>
   <table class="periode col-md-6">
     <thead>

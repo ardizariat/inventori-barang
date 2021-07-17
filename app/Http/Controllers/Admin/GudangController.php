@@ -2,20 +2,46 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Carbon\Carbon;
+use App\Models\Gudang;
 use Illuminate\Http\Request;
 use App\DataTables\GudangDataTable;
 use App\Http\Controllers\Controller;
-use App\Models\Gudang;
 
 class GudangController extends Controller
 {
-    public function index(GudangDataTable $tableGudang)
+    public function index(Request $request)
     {
         $title = 'Gudang';
         $count = Gudang::count();
         $count++;
         $kode = 'GD' . kode($count, 4);
-        return $tableGudang->render('admin.gudang.index', compact(
+
+        if (request()->ajax()) {
+            $data = Gudang::latest()->get();
+            return datatables()->of($data)
+                ->addColumn('dibuat', function ($data) {
+                    $data = Carbon::parse($data->created_at)->format('d F Y, H:i');
+                    return $data;
+                })
+                ->addColumn('status', function ($data) {
+                    return view('admin.gudang._status', [
+                        'data' => $data
+                    ]);
+                })
+                ->addColumn('aksi', function ($data) {
+                    return view('admin.gudang._aksi', [
+                        'update' => route('gudang.update', $data->id),
+                        'delete' => route('gudang.destroy', $data->id),
+                        'data' => $data
+                    ]);
+                })
+                ->rawColumns(['dibuat', 'status', 'aksi'])
+                ->addIndexColumn()
+                ->make(true);
+        }
+
+        return view('admin.gudang.index', compact(
             'title',
             'kode'
         ));
@@ -49,7 +75,7 @@ class GudangController extends Controller
         $data = Gudang::findOrFail($id);
         return response()->json([
             'data' => $data
-        ], 200);
+        ], 201);
     }
 
     public function update(Request $request, $id)

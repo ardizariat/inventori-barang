@@ -2,19 +2,49 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Carbon\Carbon;
+use App\Models\Produk;
+use App\Models\BarangMasuk;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\DataTables\BarangMasukDataTable;
-use App\Models\BarangMasuk;
-use App\Models\Produk;
 
 class BarangMasukController extends Controller
 {
-    public function index(BarangMasukDataTable $tableBarangMasuk, Request $request)
+    public function index(Request $request)
     {
         $title = 'Barang Masuk';
         $products = Produk::latest()->get();
-        return $tableBarangMasuk->render('admin.barang_masuk.index', compact(
+        $from_date = $request->from_date;
+        $to_date = $request->to_date;
+        if (request()->ajax()) {
+            if (!empty($request->from_date)) {
+                $data = BarangMasuk::whereBetween('tanggal', [$from_date, $to_date])->get();
+            } else {
+                $data = BarangMasuk::latest()->get();
+            }
+            return datatables()->of($data)
+                ->addColumn('produk', function ($data) {
+                    return $data->product->nama_produk;
+                })
+                ->addColumn('kategori', function ($data) {
+                    return $data->product->category->kategori;
+                })
+                ->addColumn('tanggal', function ($data) {
+                    $tanggal = Carbon::parse($data->tanggal)->format('d F Y');
+                    return $tanggal;
+                })
+                ->addColumn('aksi', function ($data) {
+                    return view('admin.barang_masuk._aksi', [
+                        'delete' => route('barang-masuk.destroy', $data->id),
+                        'show' => route('barang-masuk.show', $data->id),
+                    ]);
+                })
+                ->rawColumns(['produk', 'kategori', 'tanggal', 'aksi'])
+                ->addIndexColumn()
+                ->make(true);
+        }
+
+        return view('admin.barang_masuk.index', compact(
             'title',
             'products',
         ));
@@ -24,8 +54,12 @@ class BarangMasukController extends Controller
     {
         if (request()->ajax()) {
             $data = BarangMasuk::findOrFail($id);
+            $tanggal = tanggal($data->tanggal);
+            $foto = $data->product->getGambar();
             return response()->json([
-                'data' => $data
+                'data' => $data,
+                'tanggal' => $tanggal,
+                'foto' => $foto,
             ], 200);
         }
     }
@@ -37,6 +71,7 @@ class BarangMasukController extends Controller
             'produk_id' => 'required',
             'tanggal' => 'required',
             'jumlah' => 'required|numeric',
+            'pemberi' => 'required',
         ]);
 
         $data = new BarangMasuk();
@@ -44,6 +79,8 @@ class BarangMasukController extends Controller
         $data->jumlah = $request->jumlah;
         $data->keterangan = $request->keterangan;
         $data->tanggal = $request->tanggal;
+        $data->penerima = auth()->user()->name;
+        $data->pemberi = $request->pemberi;
         $data->save();
 
         $produk = Produk::findOrFail($request->produk_id);
@@ -55,39 +92,6 @@ class BarangMasukController extends Controller
                 'data' => $data,
                 'text' => 'Barang masuk berhasil ditambahkan!'
             ], 201);
-        }
-    }
-
-    public function update(Request $request, $id)
-    {
-
-        $request->validate([
-            'produk_id' => 'required',
-            'tanggal' => 'required',
-            'jumlah' => 'required|numeric',
-        ]);
-
-        $data = BarangMasuk::findOrFail($id);
-        $produk = Produk::findOrFail($data->produk_id);
-
-        // Produk
-        $stokLama = $produk->stok - $data->jumlah;
-        $produk->stok = $stokLama + $request->jumlah;
-        $save = $produk->update();
-
-        // Barang Masuk
-        $data->produk_id = $request->produk_id;
-        $data->jumlah = $request->jumlah;
-        $data->keterangan = $request->keterangan;
-        $data->tanggal = $request->tanggal;
-        $data->update();
-
-
-        if ($save) {
-            return response()->json([
-                'data' => $data,
-                'text' => 'Barang masuk berhasil ditambahkan!'
-            ], 200);
         }
     }
 

@@ -26,7 +26,7 @@
                                 <span class="help-block with-errors"></span>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row stok">
                             <div class="col-md-3 pt-3">
                                 <label>Stok Saat Ini</label>
                             </div>
@@ -38,11 +38,11 @@
                         </div>
                         <div class="row">
                             <div class="col-md-3 pt-3">
-                                <label>Jumlah Barang Masuk</label>
+                                <label>Jumlah Barang Keluar</label>
                             </div>
                             <div class="col-md-9 form-group">
                                 <input type="text" name="jumlah" autocomplete="off" autofocus
-                                    class="jumlah form-control" placeholder="Masukkan jumlah barang masuk">
+                                    class="jumlah form-control" placeholder="Masukkan jumlah barang keluar">
                                 <span class="help-block with-errors"></span>
                             </div>
                         </div>
@@ -52,6 +52,16 @@
                             </div>
                             <div class="col-md-9 form-group">
                                 <input type="text" autocomplete="off" name="tanggal" value="{{ date('Y-m-d') }}" class="form-control tanggal max-date">
+                                <span class="help-block with-errors"></span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 pt-3">
+                                <label>Penerima Barang</label>
+                            </div>
+                            <div class="col-md-9 form-group">
+                                <input type="text" name="penerima" autocomplete="off"
+                                    class="penerima form-control">
                                 <span class="help-block with-errors"></span>
                             </div>
                         </div>

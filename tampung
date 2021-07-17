@@ -1,49 +1,27 @@
- $('.card-body').on('submit', 'form', function(e) {
-                if (!e.preventDefault()) {
-
-                    var form = $('.card-body form'),
-                    id = $('form .produk_id').val(),
-                    formData = new FormData($('#update-produk')[0]),
-                    data = $('#update-produk').serialize(),
-                    csrf_token = $('meta[name=csrf-token]').attr('content'),
-                    method = $('#update-produk [name=_method]').val(),
-                    form.find('.help-block').remove();
-                    form.find('.form-group').removeClass('has-error');
-                    $.ajax({
-                        url: $('.card-body form').attr('action'),
-                        type: $('.card-body input[name=_method]').val(),
-                        data : formData,
-                        dataType: 'JSON',
-                        contentType: false,
-                        cache: false,
-                        processData: false,
-                        beforeSend: function() {
-                            $('.btn-submit .btn-save').addClass('d-none');
-                            $('.btn-submit .loader').removeClass('d-none');
-                        },
-                        success: function(response) {
-                            $.notify({
-                                message: response.text
-                            }, {
-                                type: 'success'
-                            });
-                            $('.card-body form')[0].reset();
-                        },
-                        error: function(xhr) {
-                            var res = xhr.responseJSON;
-                            if ($.isEmptyObject(res) == false) {
-                                Swal.fire('Oops...', text,
-                                    'error')
-                                $.each(res.errors, function(key, value) {
-                                    console.log(res);
-                                    $('.' + key)
-                                        .closest('.form-group')
-                                        .addClass('has-error')
-                                        .append(`<span class="help-block">` + value +
-                                            `</span>`)
-                                });
-                            }
-                        }
-                    });
-                }
-            });
+$.ajax({
+              url : url,
+              type : "POST",
+              data : {
+                '_method' : 'DELETE',
+                '_token' : csrf_token
+              },
+              success : function(response){
+                Swal.fire({
+                  position: 'top-end',
+                  icon: 'success',
+                  title: response.text,
+                  showConfirmButton: false,
+                  timer: 2000,
+                  showClass: {
+                      popup: 'animate__animated animate__lightSpeedInRight'
+                  },
+                  hideClass: {
+                      popup: 'animate__animated animate__lightSpeedOutRight'
+                  }
+                  })
+                  $('#barangmasuk-table').DataTable().destroy();
+                  load_data();
+              }, error : function(errors){
+                Swal.fire('Oops...', 'Ada yang salah!', 'error')
+                return;
+              }

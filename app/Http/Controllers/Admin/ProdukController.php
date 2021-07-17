@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Carbon\Carbon;
 use App\Models\Gudang;
 use App\Models\Produk;
 use App\Models\Kategori;
@@ -10,22 +11,53 @@ use \Milon\Barcode\DNS1D;
 use Illuminate\Http\Request;
 use App\DataTables\ProdukDataTable;
 use App\Http\Controllers\Controller;
+use App\Models\BarangMasuk;
 use Illuminate\Contracts\Cache\Store;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class ProdukController extends Controller
 {
-    public function index(ProdukDataTable $tableProduk)
+    public function index(Request $request)
     {
-        $title = 'Produk';
-        $daftar_gudang = Gudang::latest()->get();
+        $title = 'Data Barang';
         $daftar_kategori = Kategori::latest()->get();
+        $daftar_gudang = Gudang::latest()->get();
+        $kategori = $request->kategori;
+        if (request()->ajax()) {
+            if (!empty($kategori)) {
+                $data = Produk::where('kategori_id', '=', $kategori)
+                    ->get();
+            } else {
+                $data = Produk::latest()->get();
+            }
+            return datatables()->of($data)
+                ->addColumn('kategori', function ($data) {
+                    return $data->category->kategori;
+                })
+                ->addColumn('stok', function ($data) {
+                    return $data->stok . ' ' . $data->satuan;
+                })
+                ->addColumn('minimal_stok', function ($data) {
+                    return $data->minimal_stok . ' ' . $data->satuan;
+                })
+                ->addColumn('aksi', function ($data) {
+                    return view('admin.produk._aksi', [
+                        'data' => $data,
+                        'delete' => route('produk.destroy', $data->id),
+                        'update' => route('produk.update', $data->id),
+                        'show' => route('produk.show', $data->id),
+                    ]);
+                })
+                ->rawColumns(['kategori', 'aksi', 'minimal_stok', 'stok'])
+                ->addIndexColumn()
+                ->make(true);
+        }
 
-        return $tableProduk->render('admin.produk.index', compact(
+        return view('admin.produk.index', compact(
             'title',
-            'daftar_gudang',
             'daftar_kategori',
+            'daftar_gudang',
         ));
     }
 
@@ -63,6 +95,7 @@ class ProdukController extends Controller
         $count++;
         $kode = kode($count, 9);
 
+        // Input produk
         $data = new Produk();
         $data->kategori_id = $request->kategori_id;
         $data->gudang_id = $request->gudang_id;
@@ -80,7 +113,17 @@ class ProdukController extends Controller
             $path = $file->storeAs('/barang/', $filename);
             $data->gambar = $filename;
         }
-        $save = $data->save();
+        $data->save();
+
+        // Input barang masuk
+        $barang_masuk = new BarangMasuk();
+        $barang_masuk->produk_id = $data->id;
+        $barang_masuk->jumlah = $data->stok;
+        $barang_masuk->tanggal = Carbon::parse($data->created_at)->format('Y-m-d');
+        $barang_masuk->keterangan = $data->keterangan;
+        $barang_masuk->penerima = auth()->user()->name;
+        $save = $barang_masuk->save();
+
         if ($save) {
             return response()->json([
                 'data' => $data,
@@ -155,6 +198,7 @@ class ProdukController extends Controller
     {
         $data = Produk::findOrFail($id);
         $title = 'Detail Produk';
+        $barangmasuk_link = route('produk.show', $id);
         $url = route('produk.index');
         $d = new DNS1D();
         $d->setStorPath(__DIR__ . '/cache/');
@@ -164,12 +208,28 @@ class ProdukController extends Controller
         $qr->setStorPath(__DIR__ . '/cache/');
         $qrcode = $qr->getBarcodeHTML($data->kode, 'QRCODE');
 
+        if (request()->ajax()) {
+            $data = BarangMasuk::where('produk_id', '=', $id)->get();
+            return datatables()->of($data)
+                ->addColumn('jumlah', function ($data) {
+                    return $data->jumlah . ' ' . $data->product->satuan;
+                })
+                ->addColumn('tanggal', function ($data) {
+                    $tanggal = Carbon::parse($data->tanggal)->format('d F Y');
+                    return $tanggal;
+                })
+                ->rawColumns(['jumlah', 'tanggal'])
+                ->addIndexColumn()
+                ->make(true);
+        }
+
         return view('admin.produk.show', compact(
             'data',
             'title',
             'url',
             'barcode',
-            'qrcode'
+            'qrcode',
+            'barangmasuk_link'
         ));
     }
     public function destroy($id)

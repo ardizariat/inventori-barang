@@ -60,7 +60,7 @@
               <td class="no">{{ $loop->iteration }}</td>
               <td>{{ $in->nama_produk }}</td>
               <td>{{ $in->category->kategori }}</td>
-              <td>{{ $in->updated_at->diffForHumans() }}</td>
+              <td>{{ $in->created_at->format('d F Y') }}</td>
               @if ($in->stok <= $in->minimal_stok)
               <td class="jumlah reds">
                 {{ $in->stok }} {{ $in->satuan }}
