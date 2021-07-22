@@ -178,12 +178,12 @@
         data  : {kategori : kategori}
       }, 
       columns : [
-        {data : "DT_RowIndex",name : "DT_RowIndex"},
+        {data : "DT_RowIndex",name : "DT_RowIndex", searchable:false, sortable:false},
         {data : "nama_produk",name : "nama_produk"},
         {data : "kategori",name : "kategori"},
         {data : "minimal_stok",name : "minimal_stok"},
         {data : "stok",name : "stok"},
-        {data : "aksi",name : "aksi"},
+        {data : "aksi",name : "aksi", searchable:false, sortable:false},
       ], 
       pageLength : 15,
       "lengthMenu": [ 15, 25, 50, 75, 100 ],

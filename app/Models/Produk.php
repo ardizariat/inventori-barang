@@ -29,6 +29,7 @@ class Produk extends Model
         'stok',
         'gambar',
         'keterangan',
+        'status'
     ];
 
     public function category()

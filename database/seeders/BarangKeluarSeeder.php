@@ -28,6 +28,7 @@ class BarangKeluarSeeder extends Seeder
                 'pemberi' => $faker->randomElement(['Ardi', 'Zaid', 'Lia', 'Azmi', 'Hamzah']),
                 'keterangan' => $faker->sentence(),
                 'tanggal' => $faker->date($format = 'Y-m-d', $max = 'now'),
+                'status' => 'aktif',
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);

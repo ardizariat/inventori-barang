@@ -23,6 +23,7 @@ class BarangKeluar extends Model
         'keterangan',
         'penerima',
         'pemberi',
+        'status'
     ];
 
     public function product()

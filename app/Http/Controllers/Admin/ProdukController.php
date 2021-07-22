@@ -198,8 +198,8 @@ class ProdukController extends Controller
     {
         $data = Produk::findOrFail($id);
         $title = 'Detail Produk';
-        $barangmasuk_link = route('produk.show', $id);
         $url = route('produk.index');
+
         $d = new DNS1D();
         $d->setStorPath(__DIR__ . '/cache/');
         $barcode = $d->getBarcodeHTML($data->kode, 'EAN13');
@@ -208,28 +208,12 @@ class ProdukController extends Controller
         $qr->setStorPath(__DIR__ . '/cache/');
         $qrcode = $qr->getBarcodeHTML($data->kode, 'QRCODE');
 
-        if (request()->ajax()) {
-            $data = BarangMasuk::where('produk_id', '=', $id)->get();
-            return datatables()->of($data)
-                ->addColumn('jumlah', function ($data) {
-                    return $data->jumlah . ' ' . $data->product->satuan;
-                })
-                ->addColumn('tanggal', function ($data) {
-                    $tanggal = Carbon::parse($data->tanggal)->format('d F Y');
-                    return $tanggal;
-                })
-                ->rawColumns(['jumlah', 'tanggal'])
-                ->addIndexColumn()
-                ->make(true);
-        }
-
         return view('admin.produk.show', compact(
             'data',
             'title',
             'url',
             'barcode',
             'qrcode',
-            'barangmasuk_link'
         ));
     }
     public function destroy($id)

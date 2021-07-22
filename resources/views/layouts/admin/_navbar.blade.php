@@ -15,14 +15,12 @@
         </div>
         <ul class="navbar-nav topbar-nav ml-md-auto align-items-center">
             <li class="nav-item toggle-nav-search hidden-caret">
-                <a class="nav-link" data-toggle="collapse" href="#search-nav" role="button" aria-expanded="false"
-                    aria-controls="search-nav">
+                <a class="nav-link" data-toggle="collapse" href="#search-nav" role="button" aria-expanded="false" aria-controls="search-nav">
                     <i class="fa fa-search"></i>
                 </a>
             </li>
-            <li class="nav-item dropdown hidden-caret">
-                <a class="nav-link dropdown-toggle" href="#" id="messageDropdown" role="button" data-toggle="dropdown"
-                    aria-haspopup="true" aria-expanded="false">
+            <!-- <li class="nav-item dropdown hidden-caret">
+                <a class="nav-link dropdown-toggle" href="#" id="messageDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fa fa-envelope"></i>
                 </a>
                 <ul class="dropdown-menu messages-notif-box animated fadeIn" aria-labelledby="messageDropdown">
@@ -91,10 +89,9 @@
                         </a>
                     </li>
                 </ul>
-            </li>
+            </li> -->
             <li class="nav-item dropdown hidden-caret">
-                <a class="nav-link dropdown-toggle" href="#" id="notifDropdown" role="button" data-toggle="dropdown"
-                    aria-haspopup="true" aria-expanded="false">
+                <a class="nav-link dropdown-toggle" href="#" id="notifDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fa fa-bell"></i>
                     <span class="notification">{{ stok() }}</span>
                 </a>
@@ -108,6 +105,7 @@
                                 @foreach (messageStok() as $message)
                                 <a href="#">
                                     <div class="notif-icon notif-primary">
+                                        {{ $loop->iteration }}
                                         <i class="fas fa-tasks"></i>
                                     </div>
                                     <div class="notif-content">
@@ -121,13 +119,9 @@
                             </div>
                         </div>
                     </li>
-                    <li>
-                        <a class="see-all" href="javascript:void(0);">See all notifications<i
-                                class="fa fa-angle-right"></i> </a>
-                    </li>
                 </ul>
             </li>
-            <li class="nav-item dropdown hidden-caret">
+            <!-- <li class="nav-item dropdown hidden-caret">
                 <a class="nav-link" data-toggle="dropdown" href="#" aria-expanded="false">
                     <i class="fas fa-layer-group"></i>
                 </a>
@@ -179,43 +173,36 @@
                         </div>
                     </div>
                 </div>
-            </li>
+            </li> -->
             <li class="nav-item dropdown hidden-caret">
                 <a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#" aria-expanded="false">
                     <div class="avatar-sm">
                         <img src="{{ asset('admin/img/profile.jpg') }}" alt="..." class="avatar-img rounded-circle">
                     </div>
                 </a>
-               @auth
+                @auth
                 <ul class="dropdown-menu dropdown-user animated fadeIn">
                     <div class="dropdown-user-scroll scrollbar-outer">
                         <li>
                             <div class="user-box">
-                                <div class="avatar-lg"><img src="{{ asset('admin/img/profile.jpg') }}"
-                                        alt="image profile" class="avatar-img rounded"></div>
+                                <div class="avatar-lg"><img src="{{ asset('admin/img/profile.jpg') }}" alt="image profile" class="avatar-img rounded"></div>
                                 <div class="u-text">
                                     <h4>{{ auth()->user()->username }}</h4>
-                                    <p class="text-muted">{{ auth()->user()->email }}</p><a href="profile.html"
-                                        class="btn btn-xs btn-secondary btn-sm">View Profile</a>
+                                    <p class="text-muted">{{ auth()->user()->email }}</p>
                                 </div>
                             </div>
                         </li>
                         <li>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">My Profile</a>
-                            <a class="dropdown-item" href="#">My Balance</a>
-                            <a class="dropdown-item" href="#">Inbox</a>
+                            <a class="dropdown-item" href="{{route('user.index')}}"><i class="fas fa-user"></i> My Profile</a>
+                            <a class="dropdown-item" href="#"><i class="fas fa-edit"></i> Ubah Profile</a>
+                            <a class="dropdown-item" href="#"><i class="fas fa-lock-open"></i>  Ganti Password</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Account Setting</a>
-                            <div class="dropdown-divider"></div>
-                            <form action="{{ route('logout') }}" method="post">
-                            @csrf
-                            <button type="submit" class="dropdown-item">Logout</button>
-                            </form>
+                            <a class="dropdown-item btn-logout" href=""><i class="fas fa-sign-out-alt"></i> Logout</a>
                         </li>
                     </div>
                 </ul>
-               @endauth
+                @endauth
             </li>
         </ul>
     </div>

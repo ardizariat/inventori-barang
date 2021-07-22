@@ -4,11 +4,12 @@ namespace App\Http\Controllers\Admin;
 
 use PDF;
 use Carbon\Carbon;
+use App\Models\Produk;
 use App\Models\Kategori;
 use App\Models\BarangMasuk;
+use App\Models\BarangKeluar;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Produk;
 use Illuminate\Support\Facades\Auth;
 
 class LaporanController extends Controller
@@ -23,6 +24,10 @@ class LaporanController extends Controller
 
     public function pdfBarangMasuk(Request $request)
     {
+        $request->validate([
+            'awal' => 'required',
+            'akhir' => 'required',
+        ]);
         $now = Carbon::now()->format('d F Y, H:i A');
         $awal = $request->awal;
         $akhir = $request->akhir;
@@ -51,6 +56,48 @@ class LaporanController extends Controller
         return $pdf->stream('barang-masuk.pdf');
     }
 
+    public function barangKeluar()
+    {
+        $title = "Laporan data barang keluar";
+        return view('admin.laporan.barang_keluar', compact(
+            'title'
+        ));
+    }
+
+    public function pdfBarangKeluar(Request $request)
+    {
+        $request->validate([
+            'awal' => 'required',
+            'akhir' => 'required',
+        ]);
+        $now = Carbon::now()->format('d F Y, H:i A');
+        $awal = $request->awal;
+        $akhir = $request->akhir;
+        $data = BarangKeluar::whereBetween('tanggal', [$awal, $akhir])->get();
+        $totalProdukKeluar = $data->sum('jumlah');
+        $totalProdukKeluar = number_format($totalProdukKeluar, 0, ',', '.');
+        $totalItemProduk = $data->count();
+        $totalItemProduk = number_format($totalItemProduk, 0, ',', '.');
+        $pdf = PDF::loadView('admin.laporan.pdf.barang_keluar', [
+            'data' => $data,
+            'awal' => $awal,
+            'akhir' => $akhir,
+            'totalItemProduk' => $totalItemProduk,
+            'totalProdukKeluar' => $totalProdukKeluar,
+            'now' => $now,
+            'title' => 'Ardi'
+        ]);
+
+        $pdf->setOptions([
+            'page-size' => 'a4',
+            "footer-center" => "[page]",
+            'margin-top' => 8,
+            // 'header-line' => true,
+            'footer-line' => true,
+        ]);
+        return $pdf->stream('barang-keluar.pdf');
+    }
+
     public function produk()
     {
         $title = "Laporan data produk";
@@ -63,22 +110,24 @@ class LaporanController extends Controller
 
     public function pdfProduk(Request $request)
     {
-        // dd($request->all());
         $now = Carbon::now()->format('d F Y, H:i A');
-        $byDate = $request->byDate;
+        $type = $request->type;
         $awal = $request->awal;
         $akhir = $request->akhir;
-        $opsi = $request->opsi;
         $kategori = $request->kategori;
-        if ($opsi == 'all') {
+
+        if ($type == 'all') {
+            $typeExport = "Semua Produk";
             $data = Produk::latest()->get();
             $totalProdukMasuk = $data->sum('jumlah');
             $totalItemProduk = $data->count();
-        } elseif ($opsi == 'byDate') {
+        } elseif ($type == 'tanggal') {
+            $typeExport = "Berdasarkan Tanggal";
             $data = Produk::whereBetween('created_at', [$awal, $akhir])->get();
             $totalProdukMasuk = $data->sum('jumlah');
             $totalItemProduk = $data->count();
-        } elseif ($opsi == null && $kategori) {
+        } elseif ($type == 'kategori') {
+            $typeExport = "Berdasarkan Kategori";
             $data = Produk::where('kategori_id', '=', $kategori)->get();
             $totalProdukMasuk = $data->sum('jumlah');
             $totalItemProduk = $data->count();
@@ -87,6 +136,7 @@ class LaporanController extends Controller
             'data' => $data,
             'awal' => $awal,
             'akhir' => $akhir,
+            'typeExport' => $typeExport,
             'totalItemProduk' => $totalItemProduk,
             'totalProdukMasuk' => $totalProdukMasuk,
             'now' => $now,

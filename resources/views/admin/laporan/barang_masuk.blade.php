@@ -35,10 +35,20 @@
                           @csrf
                           <div class="row my-4">
                             <div class="col-md-4">
-                              <input type="text" placeholder="Tanggal Awal" name="awal" class="max-date form-control">
+                              <input type="text" value="{{ old('awal') }}" placeholder="Tanggal Awal" name="awal" class="max-date @error('awal') is-invalid @enderror form-control">
+                              @error('awal')
+                                <div class="invalid-feedback">
+                                  {{ $message }}
+                                </div>
+                              @enderror
                             </div>
                             <div class="col-md-4">
-                              <input type="text" placeholder="Tanggal Akhir" name="akhir" class="max-date form-control">
+                              <input value="{{ old('akhir') }}" type="text" placeholder="Tanggal Akhir" name="akhir" class="max-date @error('akhir') is-invalid @enderror form-control">
+                              @error('akhir')
+                                <div class="invalid-feedback">
+                                  {{ $message }}
+                                </div>
+                              @enderror
                             </div>
                             <div class="col-md-4">
                               <button type="submit" data-toggle="tooltip" data-placement="top"
@@ -59,4 +69,7 @@
 @push('js')
 <script src="{{ asset('admin/js/plugin/date-time-pickers/js/flatpickr.js') }}"></script>
 <script src="{{ asset('admin/js/plugin/date-time-pickers/js/date-time-picker-script.js') }}"></script>
+<script>
+
+</script>
 @endpush

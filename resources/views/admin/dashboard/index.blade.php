@@ -69,126 +69,10 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-md-6">
+      <div class="col-md-12">
         <div class="card full-height">
-          <div class="card-header">
-            <div class="card-title">Feed Activity</div>
-          </div>
           <div class="card-body">
-            <ol class="activity-feed">
-              <li class="feed-item feed-item-secondary">
-                <time class="date" datetime="9-25">Sep 25</time>
-                <span class="text">Responded to need <a href="#">"Volunteer opportunity"</a></span>
-              </li>
-              <li class="feed-item feed-item-success">
-                <time class="date" datetime="9-24">Sep 24</time>
-                <span class="text">Added an interest <a href="#">"Volunteer Activities"</a></span>
-              </li>
-              <li class="feed-item feed-item-info">
-                <time class="date" datetime="9-23">Sep 23</time>
-                <span class="text">Joined the group <a href="single-group.php">"Boardsmanship Forum"</a></span>
-              </li>
-              <li class="feed-item feed-item-warning">
-                <time class="date" datetime="9-21">Sep 21</time>
-                <span class="text">Responded to need <a href="#">"In-Kind Opportunity"</a></span>
-              </li>
-              <li class="feed-item feed-item-danger">
-                <time class="date" datetime="9-18">Sep 18</time>
-                <span class="text">Created need <a href="#">"Volunteer Opportunity"</a></span>
-              </li>
-              <li class="feed-item">
-                <time class="date" datetime="9-17">Sep 17</time>
-                <span class="text">Attending the event <a href="single-event.php">"Some New Event"</a></span>
-              </li>
-            </ol>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-6">
-        <div class="card full-height">
-          <div class="card-header">
-            <div class="card-head-row">
-              <div class="card-title">Support Tickets</div>
-              <div class="card-tools">
-                <ul class="nav nav-pills nav-secondary nav-pills-no-bd nav-sm" id="pills-tab" role="tablist">
-                  <li class="nav-item">
-                    <a class="nav-link" id="pills-today" data-toggle="pill" href="#pills-today" role="tab" aria-selected="true">Today</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link active" id="pills-week" data-toggle="pill" href="#pills-week" role="tab" aria-selected="false">Week</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" id="pills-month" data-toggle="pill" href="#pills-month" role="tab" aria-selected="false">Month</a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-          <div class="card-body">
-            <div class="d-flex">
-              <div class="avatar avatar-online">
-                <span class="avatar-title rounded-circle border border-white bg-info">J</span>
-              </div>
-              <div class="flex-1 ml-3 pt-1">
-                <h6 class="text-uppercase fw-bold mb-1">Joko Subianto <span class="text-warning pl-3">pending</span></h6>
-                <span class="text-muted">I am facing some trouble with my viewport. When i start my</span>
-              </div>
-              <div class="float-right pt-1">
-                <small class="text-muted">8:40 PM</small>
-              </div>
-            </div>
-            <div class="separator-dashed"></div>
-            <div class="d-flex">
-              <div class="avatar avatar-offline">
-                <span class="avatar-title rounded-circle border border-white bg-secondary">P</span>
-              </div>
-              <div class="flex-1 ml-3 pt-1">
-                <h6 class="text-uppercase fw-bold mb-1">Prabowo Widodo <span class="text-success pl-3">open</span></h6>
-                <span class="text-muted">I have some query regarding the license issue.</span>
-              </div>
-              <div class="float-right pt-1">
-                <small class="text-muted">1 Day Ago</small>
-              </div>
-            </div>
-            <div class="separator-dashed"></div>
-            <div class="d-flex">
-              <div class="avatar avatar-away">
-                <span class="avatar-title rounded-circle border border-white bg-danger">L</span>
-              </div>
-              <div class="flex-1 ml-3 pt-1">
-                <h6 class="text-uppercase fw-bold mb-1">Lee Chong Wei <span class="text-muted pl-3">closed</span></h6>
-                <span class="text-muted">Is there any update plan for RTL version near future?</span>
-              </div>
-              <div class="float-right pt-1">
-                <small class="text-muted">2 Days Ago</small>
-              </div>
-            </div>
-            <div class="separator-dashed"></div>
-            <div class="d-flex">
-              <div class="avatar avatar-offline">
-                <span class="avatar-title rounded-circle border border-white bg-secondary">P</span>
-              </div>
-              <div class="flex-1 ml-3 pt-1">
-                <h6 class="text-uppercase fw-bold mb-1">Peter Parker <span class="text-success pl-3">open</span></h6>
-                <span class="text-muted">I have some query regarding the license issue.</span>
-              </div>
-              <div class="float-right pt-1">
-                <small class="text-muted">2 Day Ago</small>
-              </div>
-            </div>
-            <div class="separator-dashed"></div>
-            <div class="d-flex">
-              <div class="avatar avatar-away">
-                <span class="avatar-title rounded-circle border border-white bg-danger">L</span>
-              </div>
-              <div class="flex-1 ml-3 pt-1">
-                <h6 class="text-uppercase fw-bold mb-1">Logan Paul <span class="text-muted pl-3">closed</span></h6>
-                <span class="text-muted">Is there any update plan for RTL version near future?</span>
-              </div>
-              <div class="float-right pt-1">
-                <small class="text-muted">2 Days Ago</small>
-              </div>
-            </div>
+            <div id="stok"></div>
           </div>
         </div>
       </div>
@@ -198,20 +82,8 @@
 @endsection
 
 @push('js')
-<!-- Chart JS -->
-    <script src="{{ asset('admin/js/plugin/chart.js/chart.min.js') }}"></script>
-
-    <!-- jQuery Sparkline -->
-    <script src="{{ asset('admin/js/plugin/jquery.sparkline/jquery.sparkline.min.js') }}"></script>
-
-    <!-- Chart Circle -->
-    <script src="{{ asset('admin/js/plugin/chart-circle/circles.min.js') }}"></script>
-
-    <!-- jQuery Vector Maps -->
-    <script src="{{ asset('admin/js/plugin/jqvmap/jquery.vmap.min.js') }}"></script>
-    <script src="{{ asset('admin/js/plugin/jqvmap/maps/jquery.vmap.world.js') }}"></script>
-
-    <script src="{{ asset('admin/js/demo.js')}}"></script>
+<script src="{{ asset('admin/js/plugin/chart-circle/circles.min.js') }}"></script>
+<script src="{{ asset('admin/js/plugin/highcharts/highcharts.js') }}"></script>
 <script>
   Circles.create({
     id:'circles-1',
@@ -243,53 +115,44 @@
     styleText:true
   })
 
-  var totalIncomeChart = document.getElementById('totalIncomeChart').getContext('2d');
-
-  var mytotalIncomeChart = new Chart(totalIncomeChart, {
-    type: 'bar',
-    data: {
-      labels: ["S", "M", "T", "W", "T", "F", "S", "S", "M", "T"],
-      datasets : [{
-        label: "Total Income",
-        backgroundColor: '#ff9e27',
-        borderColor: 'rgb(23, 125, 255)',
-        data: [6, 4, 9, 5, 4, 6, 4, 3, 8, 10],
-      }],
+  Highcharts.chart('stok', {
+    chart: {
+        type: 'column'
     },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      legend: {
-        display: false,
-      },
-      scales: {
-        yAxes: [{
-          ticks: {
-            display: false //this will remove only the label
-          },
-          gridLines : {
-            drawBorder: false,
-            display : false
-          }
-        }],
-        xAxes : [ {
-          gridLines : {
-            drawBorder: false,
-            display : false
-          }
-        }]
-      },
-    }
+    title: {
+        text: 'Monthly Average Rainfall'
+    },
+    subtitle: {
+        text: 'Source: WorldClimate.com'
+    },
+    xAxis: {
+        categories: {!! json_encode($bulan) !!},
+        crosshair: true,
+    },
+    yAxis: {
+        min: 0,
+        title: {
+            text: 'Rainfall (mm)'
+        }
+    },
+    tooltip: {
+        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+            '<td style="padding:0"><b>{point.y:.1f} mm</b></td></tr>',
+        footerFormat: '</table>',
+        shared: true,
+        useHTML: true
+    },
+    plotOptions: {
+        column: {
+            pointPadding: 0.2,
+            borderWidth: 0
+        }
+    },
+    series: [{
+        name: 'Barang Masuk',
+        data: {!! json_encode($total) !!},
+    }]
   });
-
-  $('#lineChart').sparkline([105,103,123,100,95,105,115], {
-    type: 'line',
-    height: '70',
-    width: '100%',
-    lineWidth: '2',
-    lineColor: '#ffa534',
-    fillColor: 'rgba(255, 165, 52, .14)'
-  });
-
 </script>
 @endpush

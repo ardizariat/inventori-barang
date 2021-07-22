@@ -19,15 +19,16 @@ class BarangMasukSeeder extends Seeder
     public function run()
     {
         $faker = Faker::create('id_ID');
-        for ($i = 1; $i <= 20; $i++) {
+        for ($i = 1; $i <= 10; $i++) {
             DB::table('barang_masuk')->insert([
                 'id' => Str::uuid(),
-                'produk_id' => '07dd615b-6fa9-47f3-8ffe-ad8d72a32ed1',
+                'produk_id' => '03ceb070-b975-4f7e-81df-20d341997e1a',
                 'jumlah' => rand(5, 100),
                 'penerima' => $faker->randomElement(['Ardi', 'Zaid', 'Lia', 'Azmi', 'Hamzah']),
                 'pemberi' => $faker->randomElement(['Ardi', 'Zaid', 'Lia', 'Azmi', 'Hamzah']),
                 'keterangan' => $faker->sentence(),
                 'tanggal' => $faker->date($format = 'Y-m-d', $max = 'now'),
+                'status' => 'aktif',
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);

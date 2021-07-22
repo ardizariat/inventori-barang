@@ -92,11 +92,11 @@
       serverSide  : true,
       ajax        : "{{ route('kategori.index') }}",
       columns     : [
-        {data : "DT_RowIndex", name: "DT_RowIndex"},
+        {data : "DT_RowIndex", name: "DT_RowIndex", searchable:false, sortable:false},
         {data : "kategori", name: "kategori"},
         {data : "status", name: "status"},
         {data : "dibuat", name: "dibuat"},
-        {data : "aksi", name: "aksi"},
+        {data : "aksi", name: "aksi", searchable:false, sortable:false},
       ],
       pageLength : 15,
       "lengthMenu": [ 15, 25, 50, 75, 100 ],

@@ -133,7 +133,7 @@
       },
       columns     : [
         {
-            data : "DT_RowIndex",name : "DT_RowIndex"
+            data : "DT_RowIndex",name : "DT_RowIndex", searchable:false, sortable:false
         },
         {
             data: 'produk', name: 'produk'
@@ -148,7 +148,7 @@
             data: 'jumlah', name: 'jumlah'
         },
         {
-            data: 'aksi', name: 'aksi'
+            data: 'aksi', name: 'aksi', searchable:false, sortable:false
         },
       ],
       pageLength : 15,

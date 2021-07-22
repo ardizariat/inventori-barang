@@ -6,8 +6,8 @@
 </header>
 <table class="periode col-md-6">
   <thead>
-    <tr>
-      <th>Periode</th>
+    <tr>    
+         <th>Periode</th>
       <th>:</th>
       {{-- <th>{{ tanggal($awal) }} - {{ tanggal($akhir) }}</th> --}}
     </tr>
@@ -40,39 +40,39 @@
         <th>Ardi</th>
       </tr>
     </thead>
-</table>
-<hr class="black">
-<div class="container-fluid inner">
-  <table class="tableizer-table">
-    <thead>
-      <tr class="tableizer-firstrow">
-        <th class="red">No</th>
-        <th>Nama Produk</th>
-        <th>Kategori</th>
-        <th>Tanggal</th>
-        <th>Stok</th>
-        <th>Minimal Stok</th>
-      </tr>
-    </thead>
+  </table>
+  <hr class="black">
+  <div class="container-fluid inner">
+    <table class="tableizer-table">
+      <thead>
+        <tr class="tableizer-firstrow">
+          <th class="red">No</th>
+          <th>Nama Produk</th>
+          <th>Kategori</th>
+          <th>Tanggal</th>
+          <th>Stok</th>
+          <th>Minimal Stok</th>
+        </tr>
+      </thead>
       <tbody>
         @foreach ($data as $in)
         <tr>
-              <td class="no">{{ $loop->iteration }}</td>
-              <td>{{ $in->nama_produk }}</td>
-              <td>{{ $in->category->kategori }}</td>
-              <td>{{ $in->created_at->format('d F Y') }}</td>
-              @if ($in->stok <= $in->minimal_stok)
-              <td class="jumlah reds">
-                {{ $in->stok }} {{ $in->satuan }}
-              </td>
-              @else
-              <td class="jumlah">
-                {{ $in->stok }} {{ $in->satuan }}
-              </td>
-              @endif
-              <td class="jumlah">{{ $in->minimal_stok }} {{ $in->satuan }}</td>
-            </tr>
+          <td class="no">{{ $loop->iteration }}</td>
+          <td>{{ $in->nama_produk }}</td>
+          <td>{{ $in->category->kategori }}</td>
+          <td>{{ $in->created_at->format('d F Y') }}</td>
+          @if ($in->stok <= $in->minimal_stok)
+            <td class="jumlah reds">
+              {{ $in->stok }} {{ $in->satuan }}
+            </td>
+            @else
+            <td class="jumlah">
+              {{ $in->stok }} {{ $in->satuan }}
+            </td>
+            @endif
+            <td class="jumlah">{{ $in->minimal_stok }} {{ $in->satuan }}</td>
+        </tr>
         @endforeach
       </tbody>
-  </table>
-@endsection
+    </table>
+    @endsection

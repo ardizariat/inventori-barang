@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTableKategori extends Migration
+class CreateGudangTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,11 @@ class CreateTableKategori extends Migration
      */
     public function up()
     {
-        Schema::create('kategori', function (Blueprint $table) {
+        Schema::create('gudang', function (Blueprint $table) {
             $table->uuid('id')->unique()->primary();
-            $table->string('kategori', 150);
+            $table->string('nama', 150);
+            $table->string('kode', 150);
+            $table->text('lokasi')->nullable();
             $table->enum('status', ['aktif', 'tidak aktif'])->default('aktif');
             $table->timestamps();
 
@@ -30,6 +32,6 @@ class CreateTableKategori extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('kategori');
+        Schema::dropIfExists('gudang');
     }
 }

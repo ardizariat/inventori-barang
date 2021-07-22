@@ -22,8 +22,8 @@ class ProdukSeeder extends Seeder
             DB::table('produk')->insert([
                 'id' => Str::uuid(),
                 'nama_produk' => $faker->lastName(),
-                'kategori_id' => '4c23294d-6787-4569-83de-a2237c29e32a',
-                'gudang_id' => '703e611d-78ec-42ca-9250-e7f9a929c27e',
+                'kategori_id' => '6482154f-86df-4939-96c1-23e0992d9c04',
+                'gudang_id' => '0017c705-1dcb-4c1f-bd97-75243a62b1b5',
                 'kode' => $faker->ean13,
                 'merek' => $faker->company,
                 'satuan' => $faker->randomElement(['Pcs', 'Box', 'Karton', 'Kg', 'Meter']),
@@ -33,6 +33,7 @@ class ProdukSeeder extends Seeder
                 'keterangan' => $faker->sentence(20),
                 'created_at' => now(),
                 'updated_at' => now(),
+                'status' => 'aktif',
             ]);
         }
     }
