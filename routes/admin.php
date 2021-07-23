@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\LaporanController;
 use App\Http\Controllers\Admin\KategoriController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\BarangMasukController;
+use App\Http\Controllers\Admin\ProfileUserController;
 use App\Http\Controllers\Admin\BarangKeluarController;
 
 Route::group(['middleware' => ['auth', 'role:super-admin|admin']], function () {
@@ -43,5 +44,9 @@ Route::group(['middleware' => ['auth', 'role:super-admin|admin']], function () {
   Route::get('/laporan/produk', [LaporanController::class, 'produk'])->name('laporan.produk');
   Route::post('/laporan/produk', [LaporanController::class, 'pdfProduk'])->name('laporan.produk.pdf');
 
-  Route::get('/user', [UserController::class, 'index'])->name('user.index');
+  Route::resource('/profile-user', ProfileUserController::class)->except([
+    'create', 'show'
+  ]);
+
+  Route::resource('/user', UserController::class);
 });

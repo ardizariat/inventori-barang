@@ -212,19 +212,7 @@
           '_token' : csrf_token
         }, 
         success : function(response){
-          Swal.fire({
-            position: 'top-end',
-            icon: 'success',
-            title: response.text,
-            showConfirmButton: false,
-            timer: 2000,
-            showClass: {
-                popup: 'animate__animated animate__lightSpeedInRight'
-            },
-            hideClass: {
-                popup: 'animate__animated animate__lightSpeedOutRight'
-            }
-            })
+          alert_success('success',  response.text)
             $('#barangkeluar-table').DataTable().destroy();
             load_data();
         }
@@ -256,19 +244,7 @@
                   data: $('.modal-form form').serialize(),
                   success: function(response) {
                       $('.modal-form').modal('hide');
-                      Swal.fire({
-                      position: 'top-end',
-                      icon: 'success',
-                      title: response.text,
-                      showConfirmButton: false,
-                      timer: 2000,
-                      showClass: {
-                          popup: 'animate__animated animate__lightSpeedInRight'
-                      },
-                      hideClass: {
-                          popup: 'animate__animated animate__lightSpeedOutRight'
-                      }
-                      })    
+                      alert_success('success',  response.text) 
                       refresh_data();                  
                   },
                   error: function(xhr) {

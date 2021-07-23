@@ -140,11 +140,16 @@
     <script>
         $(document).ready(function(){
             $('.dropdown-user').on('click','.btn-logout',function(e){
-            e.preventDefault();
-            console.log('ok');
-            $('.modal-logout').modal('show');
-        })
-    });
+                e.preventDefault();
+                console.log('ok');
+                $('.modal-logout').modal('show');
+            })
+        });
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
     </script>
 </body>
 

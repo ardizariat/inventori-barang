@@ -43,18 +43,6 @@
                 <p>Dashboard</p>
             </a>
         </li>
-        <li class="nav-item {{ request()->routeIs('kategori.index') ? 'active' : '' }}">
-            <a href="{{ route('kategori.index') }}">
-                <i class="fas fa-layer-group"></i>
-                <p>Kategori</p>
-            </a>
-        </li>
-        <li class="nav-item {{ request()->routeIs('gudang.index') ? 'active' : '' }}">
-            <a href="{{ route('gudang.index') }}">
-                <i class="fas fa-hotel"></i>
-                <p>Gudang</p>
-            </a>
-        </li>
         <li class="nav-item {{ request()->routeIs('produk.index') ? 'active' : '' }} {{ request()->routeIs('produk.create') ? 'active' : '' }} {{ request()->routeIs('produk.show') ? 'active' : '' }}">
             <a data-toggle="collapse" href="#base">
                 <i class="fas fa-tasks"></i>
@@ -76,7 +64,19 @@
                 </ul>
             </div>
         </li>
-        <li class="nav-item {{ request()->routeIs('barang-masuk.index') ? 'active' : '' }}">
+        <li class="nav-item {{ request()->routeIs('kategori.index') ? 'active' : '' }}">
+            <a href="{{ route('kategori.index') }}">
+                <i class="fas fa-layer-group"></i>
+                <p>Kategori</p>
+            </a>
+        </li>
+        <li class="nav-item {{ request()->routeIs('gudang.index') ? 'active' : '' }}">
+            <a href="{{ route('gudang.index') }}">
+                <i class="fas fa-hotel"></i>
+                <p>Gudang</p>
+            </a>
+        </li>
+                <li class="nav-item {{ request()->routeIs('barang-masuk.index') ? 'active' : '' }}">
             <a href="{{ route('barang-masuk.index') }}">
                 <i class="fas fa-truck-moving"></i>
                 <p>Barang Masuk</p>
@@ -113,6 +113,12 @@
                     </li>
                 </ul>
             </div>
+        </li>
+        <li class="nav-item {{ request()->routeIs('user.index') ? 'active' : '' }}">
+            <a href="{{ route('user.index') }}">
+                <i class="fas fa-users"></i>
+                <p>Pengguna</p>
+            </a>
         </li>
     </ul>
 </div>

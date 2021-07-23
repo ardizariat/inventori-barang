@@ -1,78 +1,68 @@
 @extends('admin.laporan.pdf.layouts')
 
 @section('content-pdf')
-<header class="lv-bg">
-  <h1 class="site-title">Laporan Barang Masuk</h1>
-</header>
-<table class="periode col-md-6">
-  <thead>
-    <tr>    
-         <th>Periode</th>
-      <th>:</th>
-      {{-- <th>{{ tanggal($awal) }} - {{ tanggal($akhir) }}</th> --}}
-    </tr>
-    <tr>
-      <th>Tanggal Ekspor Data</th>
-      <th>:</th>
-      {{-- <th>{{ $now }}</th> --}}
-    </tr>
-    <tr>
-      <th>Pembuat</th>
-      <th>:</th>
-      <th>Ardi</th>
-    </tr>
-  </thead>
-  <table class="periode col-md-6">
-    <thead>
-      <tr>
-        <th>Total Item Produk</th>
-        <th>:</th>
-        {{-- <th>{{ $totalItemProduk }}</th> --}}
-      </tr>
-      <tr>
-        <th>Total Produk Masuk</th>
-        <th>:</th>
-        {{-- <th>{{ $totalProdukMasuk }}</th> --}}
-      </tr>
-      <tr>
-        <th>Pembuat</th>
-        <th>:</th>
-        <th>Ardi</th>
-      </tr>
-    </thead>
-  </table>
-  <hr class="black">
-  <div class="container-fluid inner">
-    <table class="tableizer-table">
-      <thead>
-        <tr class="tableizer-firstrow">
-          <th class="red">No</th>
-          <th>Nama Produk</th>
-          <th>Kategori</th>
-          <th>Tanggal</th>
-          <th>Stok</th>
-          <th>Minimal Stok</th>
-        </tr>
-      </thead>
-      <tbody>
-        @foreach ($data as $in)
-        <tr>
-          <td class="no">{{ $loop->iteration }}</td>
-          <td>{{ $in->nama_produk }}</td>
-          <td>{{ $in->category->kategori }}</td>
-          <td>{{ $in->created_at->format('d F Y') }}</td>
-          @if ($in->stok <= $in->minimal_stok)
-            <td class="jumlah reds">
-              {{ $in->stok }} {{ $in->satuan }}
-            </td>
-            @else
-            <td class="jumlah">
-              {{ $in->stok }} {{ $in->satuan }}
-            </td>
-            @endif
-            <td class="jumlah">{{ $in->minimal_stok }} {{ $in->satuan }}</td>
-        </tr>
-        @endforeach
-      </tbody>
-    </table>
-    @endsection
+  <div class="container-fluid bg-white">
+    <header>
+      <div class="row d-flex justify-content-center">
+        <div class="col-md-12">
+          <img height="100px" src="{{ asset('images/default/avatar-1.png') }}" class="rounded mx-auto d-block float-right">
+          <h1 class="text-bold text-center">Laporan Stok Barang</h1>
+          <table>
+            <tr>
+              <th>Tanggal Ekspor Data</th>
+              <th>:</th>
+              <td> {{ $now }}</td>
+            </tr>
+            <tr>    
+              <th>Tipe Ekspor</th>
+              <th>:</th>
+              <td> {{ $typeExport }}</td>
+            </tr>
+            <tr>
+              <th>Pembuat</th>
+              <th>:</th>
+              <td> {{ auth()->user()->name }}</td>
+            </tr>
+            <tr>
+              <th>Total Item Produk</th>
+              <th>:</th>
+              <td> {{ number_format($totalItemProduk,0,',','.') }} Item</td>
+            </tr>
+        </table>
+        </div>
+      </div>
+    </header>
+    
+    <hr class="bg-dark">
+    <div class="row justify-content-center">
+      <div class="col-md-12">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>No</th>
+              <th>Nama Produk</th>
+              <th>Kategori</th>
+              <th>Tanggal</th>
+              <th>Stok</th>
+              <th>Minimal Stok</th>
+            </tr>
+          </thead>
+          <tbody>
+            @foreach ($data as $in)
+            <tr>
+              <td>{{ $loop->iteration }}</td>
+              <td>{{ $in->nama_produk }}</td>
+              <td>{{ $in->category->kategori }}</td>
+              <td>{{ $in->created_at->format('d F Y') }}</td>
+              <td @if ($in->stok <= $in->minimal_stok) class="text-danger" @endif>
+                {{ $in->stok }} {{ $in->satuan }}
+              </td>
+              <td>{{ $in->minimal_stok }} {{ $in->satuan }}</td>
+            </tr>
+            @endforeach
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+@endsection

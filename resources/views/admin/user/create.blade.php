@@ -211,9 +211,21 @@
                             $('.btn-submit .btn-save').removeClass('d-none');
                         },
                         success: function(response) {
+                            Swal.fire({
+                            position: 'top-end',
+                            icon: 'success',
+                            title: response.text,
+                            showConfirmButton: false,
+                            timer: 2000,
+                            showClass: {
+                                popup: 'animate__animated animate__lightSpeedInRight'
+                            },
+                            hideClass: {
+                                popup: 'animate__animated animate__lightSpeedOutRight'
+                            }
+                            })
                             $('.card-body form')[0].reset();
                             $('.select2').val(null).trigger('change');
-                            alert_success('success',  response.text)
                         },
                         error: function(xhr) {
                             var res = xhr.responseJSON;

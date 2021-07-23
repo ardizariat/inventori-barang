@@ -44,7 +44,7 @@
                       <label class="form-radio-label">
                         <input class="form-radio-input all type" type="radio" name="type" value="all">
                         <span class="form-radio-sign">Semua Produk</span>
-                                               </label>
+                      </label>
                     </div>
                     <div class="col-md-4">
                       <label class="form-radio-label ml-3">
@@ -63,18 +63,23 @@
                 <div class="row my-4 form-tanggal d-none">
                   <div class="col-md-6 mb-2">
                     <label for="awal">Tanggal Awal</label>
-                    <input id="date" type="text" placeholder="Tanggal Awal" name="awal" class="date-time form-control awal">
+                    <input type="text" placeholder="Tanggal Awal" name="awal" class="max-date form-control awal">
                   </div>
                   <div class="col-md-6 mb-2">
                     <label for="akhir">Tanggal Akhir</label>
-                    <input type="text" placeholder="Tanggal Akhir" name="akhir" class="date-time form-control akhir">
+                    <input type="text" placeholder="Tanggal Akhir" name="akhir" class="max-date form-control akhir">
                   </div>
                 </div>
                 <div class="row my-4 form-kategori d-none">
-                  <select title="Pilih kategori" data-live-search="true" name="kategori" class="selectpicker form-control kategori">
+                  <select title="Pilih kategori" data-live-search="true" name="kategori" class="selectpicker form-control @error('kategori') is-invalid @enderror kategori">
                     @foreach ($daftar_kategori as $kategori)
                     <option value="{{ $kategori->id }}">{{ $kategori->kategori }}
                     </option>
+                    @error('kategori')
+                      <div class="invalid-feedback">
+                        {{ $message }}
+                      </div>
+                    @enderror
                     @endforeach
                   </select>
                 </div>
@@ -111,17 +116,18 @@
 
       if (val == "all") {
         $('.btn-ekspor').removeClass('d-none');
+        $('.form-kategori').addClass('d-none');
+        $('.form-tanggal').addClass('d-none');
       }
       if (val == "tanggal") {
-        $('.btn-ekspor').addClass('d-none');
+        $('.btn-ekspor').removeClass('d-none');
+        $('.form-kategori').addClass('d-none');
         $('.form-tanggal').removeClass('d-none');
-        if ($('.akhir').on('change')) {
-          $('.btn-ekspor').removeClass('d-none');
-        }
       }
       if (val == "category") {
-        $('.btn-ekspor').addClass('d-none');
+        $('.btn-ekspor').removeClass('d-none');
         $('.form-kategori').removeClass('d-none');
+        $('.form-tanggal').addClass('d-none');
       }
     });
   });

@@ -244,19 +244,7 @@
                   data: $('.modal-form form').serialize(),
                   success: function(response) {
                       $('.modal-form').modal('hide');
-                      Swal.fire({
-                      position: 'top-end',
-                      icon: 'success',
-                      title: response.text,
-                      showConfirmButton: false,
-                      timer: 2000,
-                      showClass: {
-                          popup: 'animate__animated animate__lightSpeedInRight'
-                      },
-                      hideClass: {
-                          popup: 'animate__animated animate__lightSpeedOutRight'
-                      }
-                      })
+                      alert_success('success',  response.text)
                       $('#produk-table').DataTable().destroy();
                       load_data();
                   },
@@ -313,54 +301,41 @@
   }
 
  // Hapus Data
- $('body').on('click','.btn-delete', function(event){
-    event.preventDefault();
-    var me = $(this),
-    url = me.attr('href'),
-    csrf_token = $('meta[name=csrf-token]').attr('content');
+    $('body').on('click','.btn-delete', function(event){
+        event.preventDefault();
+        var me = $(this),
+        url = me.attr('href'),
+        csrf_token = $('meta[name=csrf-token]').attr('content');
 
-    Swal.fire({
-        title: 'Apakah kamu yakin?',
-        text: "menghapus data ini",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Ya, Hapus!'
-    }).then((result) => {
-    if (result.isConfirmed) {
-      $.ajax({
-          url : url,
-          type : "POST",
-          data : {
-            '_method' : 'DELETE',
-            '_token' : csrf_token
-          }, 
-          success : function(response){
-            Swal.fire({
-              position: 'top-end',
-              icon: 'success',
-              title: response.text,
-              showConfirmButton: false,
-              timer: 2000,
-              showClass: {
-                  popup: 'animate__animated animate__lightSpeedInRight'
-              },
-              hideClass: {
-                  popup: 'animate__animated animate__lightSpeedOutRight'
-              }
-              })
-              refresh_data();
-          },
-          error : function(xhr){
-            Swal.fire('Oops...', 'Data ini tidak bisa dihapus, karena produk ini terdapat data di barang masuk dan barang keluar', 'error')
-              return;
-          }
+        Swal.fire({
+            title: 'Apakah kamu yakin?',
+            text: "menghapus data ini",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, Hapus!'
+        }).then((result) => {
+        if (result.isConfirmed) {
+        $.ajax({
+            url : url,
+            type : "POST",
+            data : {
+                '_method' : 'DELETE',
+                '_token' : csrf_token
+            }, 
+            success : function(response){
+                alert_success('success',  response.text)
+                refresh_data();
+            },
+            error : function(xhr){
+                Swal.fire('Oops...', 'Data ini tidak bisa dihapus, karena produk ini terdapat data di barang masuk dan barang keluar', 'error')
+                return;
+            }
+            });
+        }
         });
-      }
     });
-
-  });
 
 </script>
 

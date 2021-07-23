@@ -18,7 +18,7 @@ class ProdukSeeder extends Seeder
     public function run()
     {
         $faker = Faker::create('id_ID');
-        for ($i = 1; $i <= 50; $i++) {
+        for ($i = 1; $i <= 1000; $i++) {
             DB::table('produk')->insert([
                 'id' => Str::uuid(),
                 'nama_produk' => $faker->lastName(),

@@ -115,20 +115,25 @@ class LaporanController extends Controller
         $awal = $request->awal;
         $akhir = $request->akhir;
         $kategori = $request->kategori;
-
         if ($type == 'all') {
             $typeExport = "Semua Produk";
             $data = Produk::latest()->get();
             $totalProdukMasuk = $data->sum('jumlah');
             $totalItemProduk = $data->count();
         } elseif ($type == 'tanggal') {
-            $typeExport = "Berdasarkan Tanggal";
+            $typeExport = "Berdasarkan Tanggal Pembelian " . tanggal($awal) . " sampai " . tanggal($akhir);
+            $awal = Carbon::parse($awal)->format('Y-m-d H:i:s');
+            $akhir = Carbon::parse($akhir)->format('Y-m-d H:i:s');
             $data = Produk::whereBetween('created_at', [$awal, $akhir])->get();
             $totalProdukMasuk = $data->sum('jumlah');
             $totalItemProduk = $data->count();
-        } elseif ($type == 'kategori') {
-            $typeExport = "Berdasarkan Kategori";
+        } elseif ($type == 'category') {
+            $request->validate([
+                'kategori' => 'required'
+            ]);
             $data = Produk::where('kategori_id', '=', $kategori)->get();
+            $category = Kategori::where('id', '=', $kategori)->pluck('kategori')->first();
+            $typeExport = "Berdasarkan Kategori " . $category;
             $totalProdukMasuk = $data->sum('jumlah');
             $totalItemProduk = $data->count();
         }
@@ -144,9 +149,9 @@ class LaporanController extends Controller
         ]);
         $pdf->setOptions([
             'page-size' => 'a4',
-            "footer-center" => "[page]",
-            'margin-top' => 8,
-            // 'header-line' => true,
+            "footer-right" => "[page]",
+            'margin-top' => 10,
+            'margin-bottom' => 16,
             'footer-line' => true,
         ]);
         return $pdf->stream('produk.pdf');
