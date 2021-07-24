@@ -48,10 +48,10 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        $user->assignRole(['user']);
-        $user->givePermissionTo(['read']);
-        $role = Role::find(3);
-        $role->givePermissionTo(['read']);
+        $user->assignRole(['super-admin']);
+        $user->givePermissionTo(['full-permission']);
+        $role = Role::find(1);
+        $role->givePermissionTo(['full-permission']);
 
         event(new Registered($user));
 

@@ -47,7 +47,9 @@ Route::group(['middleware' => ['auth', 'role:super-admin|admin']], function () {
 
   Route::get('/profile-user', [ProfileUserController::class, 'index'])->name('profile-user.index');
   Route::get('/profile-user/edit', [ProfileUserController::class, 'edit'])->name('profile-user.edit');
-  Route::put('/profile-user', [ProfileUserController::class, 'update'])->name('profile-user.update');
+  Route::post('/profile-user', [ProfileUserController::class, 'update'])->name('profile-user.update');
+  Route::get('/profile-user/edit-password', [ProfileUserController::class, 'edit_password'])->name('profile-user.edit_password');
+  Route::post('/profile-user/edit-password', [ProfileUserController::class, 'update_password'])->name('profile-user.update_password');
 
   Route::get('/pengaturan', [SettingController::class, 'index'])->name('setting.index');
   Route::post('/pengaturan', [SettingController::class, 'update'])->name('setting.update');

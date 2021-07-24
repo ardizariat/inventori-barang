@@ -29,7 +29,7 @@ class SettingController extends Controller
         $data = Setting::first();
 
         $request->validate([
-            'nama_aplikasi' => 'required',
+            'nama_aplikasi' => 'required|max:13',
             'telepon' => 'numeric'
         ]);
 

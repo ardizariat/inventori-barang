@@ -1,142 +1,65 @@
-<style>
-    /* elements */
-    body {
-      font: 400 16px 'Muli', sans-serif !important;
-      margin: 0;
-      padding: 0;
-    }
+<div class="container-fluid bg-white">
+  <header>
+    <div class="row d-flex justify-content-center">
+      <div class="col-md-12">
+        <img height="100px" src="{{ asset('images/default/avatar-1.png') }}"
+          class="rounded mx-auto d-block float-right">
+        <h1 class="text-bold text-center">Laporan Stok Barang</h1>
+        <table>
+          <tr>
+            <th>Tanggal Ekspor Data</th>
+            <th>:</th>
+            <td> {{ $now }}</td>
+          </tr>
+          <tr>
+            <th>Tipe Ekspor</th>
+            <th>:</th>
+            <td> {{ $typeExport }}</td>
+          </tr>
+          <tr>
+            <th>Pembuat</th>
+            <th>:</th>
+            <td> {{ auth()->user()->name }}</td>
+          </tr>
+          <tr>
+            <th>Total Item Produk</th>
+            <th>:</th>
+            <td> {{ number_format($totalItemProduk,0,',','.') }} Item</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </header>
 
-    header {
-      margin: 0;
-      max-width: 100%;
-      padding: 5px;
-      text-align: center;
-      overflow: auto;
-    }
-
-    ul {
-      list-style-type: none;
-      margin: 0 auto;
-      padding: 0
-    }
-
-    li {
-      background: slategrey;
-      display: inline-block;
-      margin: 5px;
-      padding: 5px 7px;
-    }
-
-    li>a {
-      color: white;
-      font-size: 16px;
-    }
-
-    li>a:hover {
-      color: #262626;
-      text-decoration: none;
-    }
-
-      /* .periode {
-      margin-left: 10px;
-      max-width: 100%;
-      padding: 5px;
-      text-align: left;
-      overflow: auto;
-    } */
-
-      .col-md-6 {
-        display: inline-block;
-        margin-left: 4%;
-        max-width: 48%;
-        padding: 5px;
-        text-align: left;
-        overflow: auto;
-      }
-
-      /* .inner {
-      padding: 30px;
-    } */
-      /* headings */
-
-    .container-fluid h2 {
-      font-family: 'Montserrat', sans-serif;
-    }
-
-    .reds {
-      font-color: red;
-      background-color: salmon;
-    }
-
-    .site-title {
-      font-size: 50px;
-      font-weight: 100;
-      text-transform: uppercase;
-    }
-
-    /* text colors */
-
-    .black,
-    .k {
-      font-color: #262626;
-      background: #000;
-    }
-
-    /* background colors */
-
-    .sq {
-      /*  alignment  */
-      float: left;
-      margin: 5px;
-      /*  size  */
-      width: 200px;
-      height: 200px;
-      /*  box text  */
-      color: #262626;
-      text-align: center;
-    }
-
-    .sq:hover {
-      border: 6px solid rgba(255, 255, 255, 0.5);
-    }
-
-    .sq p {
-      vertical-align: middle;
-      text-align: center;
-      position: relative;
-      top: 40px;
-    }
-
-    .c {
-      display: block;
-      width: 100px;
-      height: 100px;
-      border-radius: 100%;
-      margin: 10px;
-    }
-
-    /* table */
-    table {
-      margin: 10px auto;
-    }
-
-    .jumlah {
-      text-align: center;
-    }
-
-    .no {
-      text-align: center;
-    }
-
-    table>tbody>tr.tableizer-firstrow>th {
-      padding: 10px;
-      background: lavenderblush;
-    }
-
-    body>div.container-fluid.inner>table>tbody>tr>td {
-      border: 1px solid #fff;
-      width: 170px;
-      padding: 10px;
-      background: #e4f7fd;
-    }
-  </style>
+  <hr class="bg-dark">
+  <div class="row justify-content-center">
+    <div class="col-md-12">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>No</th>
+            <th>Nama Produk</th>
+            <th>Kategori</th>
+            <th>Tanggal</th>
+            <th>Stok</th>
+            <th>Minimal Stok</th>
+          </tr>
+        </thead>
+        <tbody>
+          @foreach ($data as $in)
+          <tr>
+            <td>{{ $loop->iteration }}</td>
+            <td>{{ $in->nama_produk }}</td>
+            <td>{{ $in->category->kategori }}</td>
+            <td>{{ $in->created_at->format('d F Y') }}</td>
+            <td @if ($in->stok <= $in->minimal_stok) class="text-danger" @endif>
+                {{ $in->stok }} {{ $in->satuan }}
+            </td>
+            <td>{{ $in->minimal_stok }} {{ $in->satuan }}</td>
+          </tr>
+          @endforeach
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

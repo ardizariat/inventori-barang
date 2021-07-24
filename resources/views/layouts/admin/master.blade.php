@@ -44,21 +44,22 @@
             <!-- Logo Header -->
             <div class="animate__animated animate__bounceInUp logo-header" data-background-color="blue">
 
-                <a href="index.html" class="logo">
-                    <img src="{{ asset('admin/img/logo.svg') }}" alt="navbar brand" class="navbar-brand">
+                <a href="index.html" class="logo text-white">
+                    <img src="{{ $setting->getLogo() }}" class="navbar-brand rounded" width="40" height="40">
+                    <span class="px-3 nama-aplikasi font-weight-bold" style="width: 6rem;"">{{ $setting->nama_aplikasi }}</span>
                 </a>
-                <button class="navbar-toggler sidenav-toggler ml-auto" type="button" data-toggle="collapse"
-                    data-target="collapse" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon">
-                        <i class="icon-menu"></i>
-                    </span>
-                </button>
-                <button class="topbar-toggler more"><i class="icon-options-vertical"></i></button>
-                <div class="nav-toggle">
-                    <button class="btn btn-toggle toggle-sidebar">
-                        <i class="icon-menu"></i>
-                    </button>
-                </div>
+                <button class=" navbar-toggler sidenav-toggler ml-auto" type="button" data-toggle="collapse"
+                        data-target="collapse" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon">
+                            <i class="icon-menu"></i>
+                        </span>
+                        </button>
+                        <button class="topbar-toggler more"><i class="icon-options-vertical"></i></button>
+                        <div class="nav-toggle">
+                            <button class="btn btn-toggle toggle-sidebar">
+                                <i class="icon-menu"></i>
+                            </button>
+                        </div>
             </div>
             <!-- End Logo Header -->
 
@@ -82,7 +83,8 @@
 
     {{-- Modal logout user --}}
     @auth
-    <div class="modal fade modal-logout" id="modal-logout" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade modal-logout" id="modal-logout" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <form action="{{ route('logout') }}" method="post">
                 @csrf
@@ -102,17 +104,15 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="text-uppercase btn btn-danger"
-                            data-dismiss="modal">Batal</button>
-                        <button type="submit"
-                            class="none btn-save text-uppercase btn d-flex btn-primary">Ya</button>
+                        <button type="button" class="text-uppercase btn btn-danger" data-dismiss="modal">Batal</button>
+                        <button type="submit" class="none btn-save text-uppercase btn d-flex btn-primary">Ya</button>
                     </div>
                 </div>
             </form>
         </div>
     </div>
     @endauth
-    
+
     <!--   Core JS Files   -->
     <script src="{{ asset('admin/js/core/jquery-3.6.0.min.js') }}"></script>
 
@@ -166,6 +166,16 @@
                 $(`<span class="error invalid-feedback">${errors[error][0]}</span>`)
                 .insertAfter($(`[name=${error}]`));
             }
+        }
+
+        function loading() {
+        $(".btn .fa-spinner").show();
+        $(".btn .btn-text").html("Sending..");   
+        }
+
+        function hideLoader(){
+        $(".btn .fa-spinner").fadeOut();
+        $(".btn .btn-text").html("Simpan");  
         }
     </script>
 </body>
