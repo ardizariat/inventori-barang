@@ -3,10 +3,10 @@
 
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>@yield('title')</title>
+    <title>{{ $setting->nama_aplikasi  }} | @yield('title')</title>
     <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
+    <link rel="icon" href="{{ $setting->getLogo() }}" type="image/png">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <link rel="icon" href="{{ asset('admin/img/icon.ico') }}" type="image/x-icon" />
 
     <!-- Fonts and icons -->
     <script src="{{ asset('admin/js/plugin/webfont/webfont.min.js') }}"></script>
@@ -150,6 +150,23 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
+
+        function preview(selector, temporarayFile, width = 200, height=300) {
+            $(selector).empty();
+            $(selector).append(`<img class="img-fluid img-thumbnail" src="${window.URL.createObjectURL(temporarayFile)}" width="${width}" height="${height}" />`)
+        }
+
+        function loopErrors(errors) {
+            if(errors == undefined){
+            return;
+            }
+
+            for(error in errors){
+            $(`[name=${error}]`).addClass('is-invalid');
+                $(`<span class="error invalid-feedback">${errors[error][0]}</span>`)
+                .insertAfter($(`[name=${error}]`));
+            }
+        }
     </script>
 </body>
 

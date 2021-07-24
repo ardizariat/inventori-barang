@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\GudangController;
 use App\Http\Controllers\Admin\ProdukController;
 use App\Http\Controllers\Admin\LaporanController;
+use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\KategoriController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\BarangMasukController;
@@ -44,9 +45,12 @@ Route::group(['middleware' => ['auth', 'role:super-admin|admin']], function () {
   Route::get('/laporan/produk', [LaporanController::class, 'produk'])->name('laporan.produk');
   Route::post('/laporan/produk', [LaporanController::class, 'pdfProduk'])->name('laporan.produk.pdf');
 
-  Route::resource('/profile-user', ProfileUserController::class)->except([
-    'create', 'show'
-  ]);
+  Route::get('/profile-user', [ProfileUserController::class, 'index'])->name('profile-user.index');
+  Route::get('/profile-user/edit', [ProfileUserController::class, 'edit'])->name('profile-user.edit');
+  Route::put('/profile-user', [ProfileUserController::class, 'update'])->name('profile-user.update');
+
+  Route::get('/pengaturan', [SettingController::class, 'index'])->name('setting.index');
+  Route::post('/pengaturan', [SettingController::class, 'update'])->name('setting.update');
 
   Route::resource('/user', UserController::class);
 });

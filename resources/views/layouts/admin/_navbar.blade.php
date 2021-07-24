@@ -195,7 +195,7 @@
                         <li>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="{{route('profile-user.index')}}"><i class="fas fa-user"></i> My Profile</a>
-                            <a class="dropdown-item" href="#"><i class="fas fa-edit"></i> Ubah Profile</a>
+                            <a class="dropdown-item" href="{{ route('profile-user.edit') }}"><i class="fas fa-edit"></i> Ubah Profile</a>
                             <a class="dropdown-item" href="#"><i class="fas fa-lock-open"></i>  Ganti Password</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item btn-logout" href=""><i class="fas fa-sign-out-alt"></i> Logout</a>
