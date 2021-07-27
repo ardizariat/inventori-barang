@@ -21,7 +21,7 @@
           <i class="flaticon-right-arrow"></i>
         </li>
         <li class="nav-item">
-          <a href="">Ubah Profile</a>
+          <a href="">Ubah Password</a>
         </li>
         <li class="separator">
           <i class="flaticon-right-arrow"></i>
@@ -33,41 +33,32 @@
 
     <div class="card card-post card-round">
       <div class="card-body">
-        <form class="form-setting" enctype="multipart/form-data" action="{{ route('profile-user.update') }}"
-          method="post">
+        <form class="form-setting" action="{{ route('profile-user.update_password') }}" method="post">
           @csrf
           <div class="row my-3  form-group">
             <div class="col-md-3">
-              <label>Nama</label>
+              <label>Password Lama</label>
             </div>
             <div class="col-md-9">
-              <input type="text" name="name" class="form-control name">
+              <input type="password" name="old_password" placeholder="Masukkan password lama"
+                class="form-control old_password">
             </div>
           </div>
           <div class="row my-3  form-group">
             <div class="col-md-3">
-              <label>Username</label>
+              <label>Password Baru</label>
             </div>
             <div class="col-md-9">
-              <input type="text" name="username" class="username form-control">
+              <input type="password" name="password" placeholder="Masukkan password baru" class="password form-control">
             </div>
           </div>
           <div class="row my-3  form-group">
             <div class="col-md-3">
-              <label>Email</label>
+              <label>Konfirmasi Password</label>
             </div>
             <div class="col-md-9">
-              <input type="email" name="email" class="email form-control">
-            </div>
-          </div>
-          <div class="row my-3  form-group">
-            <div class="col-md-3">
-              <label>Foto Profil</label>
-            </div>
-            <div class="col-md-9">
-              <input type="file" onchange="preview('.show-image', this.files[0])" class="form-control-file" name="foto">
-              <br>
-              <div class="show-image"></div>
+              <input type="password" name="password_confirmation" placeholder="Konfirmasi password"
+                class="password_confirmation form-control">
             </div>
           </div>
           <div class="row my-3 d-flex justify-content-center">
@@ -87,12 +78,9 @@
 @push('js')
 <script>
   $(function(){
-    showData();
     $('form').on('click','.btn-update', function (e) {
       e.preventDefault();
       let form  = $('.card-body .form-setting');
-      let method = $('.form-setting [name=_method]').val();
-      let action = $('.form-setting').attr('action');
 
       form.find('.invalid-feedback').remove();
       form.find('.form-control').removeClass('is-invalid');
@@ -106,13 +94,10 @@
         complete : function(){
           hideLoader();
         },  
-        data  : new FormData($('.form-setting')[0]),
-        async : false,
-        processData: false,
-        contentType : false,
+        data  : $('.form-setting').serialize(),
       })
       .done(response => {
-        showData();
+        window.location.reload();
         alert_success('success', response.text);
       })
       .fail(errors => {
@@ -126,20 +111,5 @@
 
     })
   });
-
-  function showData() {
-    $.get(`{{ route('profile-user.edit') }}`)
-    .done(response => {
-      $('[name=name]').val(response.name);
-      $('[name=username]').val(response.username);
-      $('[name=email]').val(response.email);
-
-      $('.user-foto').attr('src',`{{ asset('/storage/user') }}/${response.foto}`);
-    })
-    .fail(errors => {
-      alert_error('error', message.errors.message);
-      return;
-    })
-  }
 </script>
 @endpush

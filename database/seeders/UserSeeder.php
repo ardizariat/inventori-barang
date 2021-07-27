@@ -38,7 +38,7 @@ class UserSeeder extends Seeder
             $permissions = $faker->randomElement(['read', 'create', 'update', 'delete']);
             $user->assignRole([$roles]);
             $user->givePermissionTo([$permissions]);
-            $role = Role::find(2);
+            $role = Role::find(rand(2, 3));
             $role->givePermissionTo([$permissions]);
         }
     }

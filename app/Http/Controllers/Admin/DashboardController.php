@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Models\Produk;
 use App\Models\Kategori;
 use App\Models\BarangMasuk;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;

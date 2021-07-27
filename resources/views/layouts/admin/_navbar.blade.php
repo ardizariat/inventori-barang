@@ -15,7 +15,8 @@
         </div>
         <ul class="navbar-nav topbar-nav ml-md-auto align-items-center">
             <li class="nav-item toggle-nav-search hidden-caret">
-                <a class="nav-link" data-toggle="collapse" href="#search-nav" role="button" aria-expanded="false" aria-controls="search-nav">
+                <a class="nav-link" data-toggle="collapse" href="#search-nav" role="button" aria-expanded="false"
+                    aria-controls="search-nav">
                     <i class="fa fa-search"></i>
                 </a>
             </li>
@@ -91,7 +92,8 @@
                 </ul>
             </li> -->
             <li class="nav-item dropdown hidden-caret">
-                <a class="nav-link dropdown-toggle" href="#" id="notifDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <a class="nav-link dropdown-toggle" href="#" id="notifDropdown" role="button" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
                     <i class="fa fa-bell"></i>
                     <span class="notification">{{ stok() }}</span>
                 </a>
@@ -177,7 +179,8 @@
             <li class="nav-item dropdown hidden-caret">
                 <a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#" aria-expanded="false">
                     <div class="avatar-sm">
-                        <img src="{{ asset('admin/img/profile.jpg') }}" alt="..." class="avatar-img rounded-circle">
+                        <img src="{{ auth()->user()->getFoto() }}" alt="..."
+                            class="user-foto avatar-img rounded-circle">
                     </div>
                 </a>
                 @auth
@@ -185,7 +188,8 @@
                     <div class="dropdown-user-scroll scrollbar-outer">
                         <li>
                             <div class="user-box">
-                                <div class="avatar-lg"><img src="{{ asset('admin/img/profile.jpg') }}" alt="image profile" class="avatar-img rounded"></div>
+                                <div class="avatar-lg user-foto"><img src="{{ auth()->user()->getFoto() }}"
+                                        alt="image profile" class="avatar-img rounded"></div>
                                 <div class="u-text">
                                     <h4>{{ auth()->user()->username }}</h4>
                                     <p class="text-muted">{{ auth()->user()->email }}</p>
@@ -194,9 +198,12 @@
                         </li>
                         <li>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="{{route('profile-user.index')}}"><i class="fas fa-user"></i> My Profile</a>
-                            <a class="dropdown-item" href="{{ route('profile-user.edit') }}"><i class="fas fa-edit"></i> Ubah Profile</a>
-                            <a class="dropdown-item" href="#"><i class="fas fa-lock-open"></i>  Ganti Password</a>
+                            <a class="dropdown-item" href="{{route('profile-user.index')}}"><i class="fas fa-user"></i>
+                                My Profile</a>
+                            <a class="dropdown-item" href="{{ route('profile-user.edit') }}"><i class="fas fa-edit"></i>
+                                Ubah Profile</a>
+                            <a class="dropdown-item" href="{{ route('profile-user.edit_password') }}"><i
+                                    class="fas fa-lock-open"></i> Ganti Password</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item btn-logout" href=""><i class="fas fa-sign-out-alt"></i> Logout</a>
                         </li>

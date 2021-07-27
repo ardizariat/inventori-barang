@@ -1,155 +1,145 @@
 @extends('layouts.admin.master')
 @section('title')
-    {{ $title }}
+{{ $title }}
 @endsection
 
 @push('css')
-    {{-- <style>
-        .none {
-            display: none;
-        }
-
-        .error {
-            color: red;
-        }
-
-    </style> --}}
-    
-     {{-- <link href="{{ asset('admin/js/plugin/select2/css/select2.min.css')}}"/> --}}
-     <link rel="stylesheet" href="{{ asset('admin/js/plugin/selectpicker/css/bootstrap-select.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('admin/js/plugin/file-input/css/fileinput.min.css') }}">
+<link rel="stylesheet" href="{{ asset('admin/js/plugin/selectpicker/css/bootstrap-select.min.css') }}">
+<link rel="stylesheet" href="{{ asset('admin/js/plugin/file-input/css/fileinput.min.css') }}">
 @endpush
 
 @section('admin-content')
 
-  <div class="content">
-    <div class="page-inner">
-      <div class="page-header">
-          <h4 class="page-title">{{ $title }}</h4>
-          <ul class="breadcrumbs">
-              <li class="nav-home">
-                  <a href="#">
-                      <i class="flaticon-home"></i>
+<div class="content">
+  <div class="page-inner">
+    <div class="page-header">
+      <h4 class="page-title">{{ $title }}</h4>
+      <ul class="breadcrumbs">
+        <li class="nav-home">
+          <a href="#">
+            <i class="flaticon-home"></i>
+          </a>
+        </li>
+        <li class="separator">
+          <i class="flaticon-right-arrow"></i>
+        </li>
+        <li class="nav-item">
+          <a href="#">Data Barang</a>
+        </li>
+      </ul>
+    </div>
+    <div class="row">
+      <div class="col-sm-6 col-md-4">
+        <div class="card card-stats card-primary card-round">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-5">
+                <div class="icon-big text-center">
+                  <i class="flaticon-users"></i>
+                </div>
+              </div>
+              <div class="col-7 col-stats">
+                <div class="numbers">
+                  <p class="card-category">Total Produk</p>
+                  <h4 class="card-title">{{ countProduk() }}</h4>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6 col-md-4">
+        <div class="card card-stats card-info card-round">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-5">
+                <div class="icon-big text-center">
+                  <i class="flaticon-interface-6"></i>
+                </div>
+              </div>
+              <div class="col-7 col-stats">
+                <div class="numbers">
+                  <p class="card-category">Total Kategori</p>
+                  <h4 class="card-title">{{ countKategori() }}</h4>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6 col-md-4">
+        <div class="card card-stats card-success card-round">
+          <div class="card-body ">
+            <div class="row">
+              <div class="col-5">
+                <div class="icon-big text-center">
+                  <i class="flaticon-analytics"></i>
+                </div>
+              </div>
+              <div class="col-7 col-stats">
+                <div class="numbers">
+                  <p class="card-category">Total Gudang</p>
+                  <h4 class="card-title">{{ countGudang() }}</h4>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card shadow animate__animated animate__slideInDown">
+          <div class="card-header">
+            <form action="">
+              <h4 class="judul">Filter</h4>
+              <div class="row">
+                <div class="col-md-5">
+                  <select title="Pilih kategori" data-live-search="true" name="kategori"
+                    class="form-control selectpicker filter-kategori">
+                    @foreach ($daftar_kategori as $kategori)
+                    <option value="{{ $kategori->id }}">{{ $kategori->kategori }}</option>
+                    @endforeach
+                  </select>
+                </div>
+                <div class="col-md-4 mt-1">
+                  <button type="submit" data-toggle="tooltip" data-placement="top" title="Refresh data"
+                    class="btn btn-sm refresh btn-success btn-flat">
+                    <i class="fas fa-sync-alt"></i> Refresh
+                  </button>
+                </div>
+                <div class="col-md-3">
+                  <a href="{{ route('produk.create') }}" data-toggle="tooltip" data-placement="top" title="Tambah data"
+                    class="btn btn-rounded btn-outline-primary">
+                    <i class="fa fa-plus" aria-hidden="true"></i> Tambah Produk
                   </a>
-              </li>
-              <li class="separator">
-                  <i class="flaticon-right-arrow"></i>
-              </li>
-              <li class="nav-item">
-                  <a href="#">Data Barang</a>
-              </li>
-          </ul>
-      </div>
-      <div class="row">
-          <div class="col-sm-6 col-md-4">
-              <div class="card card-stats card-primary card-round">
-                  <div class="card-body">
-                      <div class="row">
-                          <div class="col-5">
-                              <div class="icon-big text-center">
-                                  <i class="flaticon-users"></i>
-                              </div>
-                          </div>
-                          <div class="col-7 col-stats">
-                              <div class="numbers">
-                                  <p class="card-category">Total Produk</p>
-                                  <h4 class="card-title">{{ countProduk() }}</h4>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
+                </div>
               </div>
+            </form>
           </div>
-          <div class="col-sm-6 col-md-4">
-              <div class="card card-stats card-info card-round">
-                  <div class="card-body">
-                      <div class="row">
-                          <div class="col-5">
-                              <div class="icon-big text-center">
-                                  <i class="flaticon-interface-6"></i>
-                              </div>
-                          </div>
-                          <div class="col-7 col-stats">
-                              <div class="numbers">
-                                  <p class="card-category">Total Kategori</p>
-                                  <h4 class="card-title">{{ countKategori() }}</h4>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-              </div>
+          <div class="card-body">
+            <form action="" class="form-kategori">
+              <table id="produk-table" class="table table-hover">
+                <thead>
+                  <tr>
+                    <th>No</th>
+                    <th>Nama Produk</th>
+                    <th>Kategori</th>
+                    <th>Minimal Stok</th>
+                    <th>Stok</th>
+                    <th>Opsi</th>
+                  </tr>
+                </thead>
+              </table>
+            </form>
           </div>
-          <div class="col-sm-6 col-md-4">
-              <div class="card card-stats card-success card-round">
-                  <div class="card-body ">
-                      <div class="row">
-                          <div class="col-5">
-                              <div class="icon-big text-center">
-                                  <i class="flaticon-analytics"></i>
-                              </div>
-                          </div>
-                          <div class="col-7 col-stats">
-                              <div class="numbers">
-                                  <p class="card-category">Total Gudang</p>
-                                  <h4 class="card-title">{{ countGudang() }}</h4>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-          </div>
-      </div>
-      <div class="row">
-          <div class="col-md-12">
-              <div class="card shadow animate__animated animate__slideInDown">
-                  <div class="card-header">
-                      <form action="">
-                          <h4 class="judul">Filter</h4>
-                          <div class="row">
-                              <div class="col-md-5">
-                                  <select title="Pilih kategori" data-live-search="true" name="kategori" class="form-control selectpicker filter-kategori">
-                                      @foreach ($daftar_kategori as $kategori)
-                                          <option value="{{ $kategori->id }}">{{ $kategori->kategori }}</option>
-                                      @endforeach
-                                  </select>
-                              </div>
-                              <div class="col-md-4 mt-1">
-                                <button type="submit" data-toggle="tooltip" data-placement="top" title="Refresh data"
-                                    class="btn btn-sm refresh btn-success btn-flat">
-                                  <i class="fas fa-sync-alt"></i> Refresh
-                                </button>
-                              </div>
-                              <div class="col-md-3">
-                                <a href="{{ route('produk.create') }}" data-toggle="tooltip" data-placement="top" title="Tambah data" class="btn btn-rounded btn-outline-primary">
-                                  <i class="fa fa-plus" aria-hidden="true"></i> Tambah Produk
-                                </a>
-                              </div>
-                          </div>
-                      </form>
-                  </div>
-                  <div class="card-body">
-                    <form action="" class="form-kategori">
-                      <table id="produk-table" class="table table-hover">
-                        <thead>
-                          <tr>
-                            <th>No</th>
-                            <th>Nama Produk</th>
-                            <th>Kategori</th>
-                            <th>Minimal Stok</th>
-                            <th>Stok</th>
-                            <th>Opsi</th>
-                          </tr>
-                        </thead>
-                      </table>
-                    </form>
-                  </div>
-              </div>
-          </div>
+        </div>
       </div>
     </div>
   </div>
+</div>
 
-  @includeIf('admin.produk._modal')
+@includeIf('admin.produk._modal')
 
 @endsection
 

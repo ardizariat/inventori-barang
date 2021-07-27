@@ -4,6 +4,26 @@
 @endsection
 
 @push('css')
+<style>
+  .buttonload {
+    background-color: #04AA6D;
+    /* Green background */
+    border: none;
+    /* Remove borders */
+    color: white;
+    /* White text */
+    padding: 12px 24px;
+    /* Some padding */
+    font-size: 16px;
+    /* Set a font-size */
+  }
+
+  /* Add a right margin to each icon */
+  .fa {
+    margin-left: -12px;
+    margin-right: 8px;
+  }
+</style>
 @endpush
 
 @section('admin-content')
@@ -35,50 +55,53 @@
       <div class="card-body">
         <form class="form-setting" enctype="multipart/form-data" action="{{ route('setting.update') }}" method="post">
           @csrf
-          <div class="row my-3">
+          <div class="row my-3 form-group">
             <div class="col-md-3">
               <label>Nama Aplikasi</label>
             </div>
-            <div class="col-md-9 form-group">
+            <div class="col-md-9">
               <input type="text" name="nama_aplikasi" class="form-control nama_aplikasi">
             </div>
           </div>
-          <div class="row my-3">
+          <div class="row my-3 form-group">
             <div class="col-md-3">
               <label>Nomor Telepon</label>
             </div>
-            <div class="col-md-9 form-group">
+            <div class="col-md-9">
               <input type="text" name="telepon" class="telepon form-control">
             </div>
           </div>
-          <div class="row my-3">
+          <div class="row my-3 form-group">
             <div class="col-md-3">
               <label>Logo</label>
             </div>
-            <div class="col-md-9 form-group">
-              <input type="file" onchange="preview('.show-logo', this.files[0])" class="form-control-file" name="logo">
+            <div class="col-md-9">
+              <input type="file" onchange="preview('.show-image', this.files[0])" class="form-control-file" name="logo">
               <br>
-              <div class="show-logo"></div>
+              <div class="show-image"></div>
             </div>
           </div>
-          <div class="row my-3">
+          <div class="row my-3 form-group">
             <div class="col-md-3">
               <label>Alamat</label>
             </div>
-            <div class="col-md-9 form-group">
+            <div class="col-md-9">
               <textarea rows="5" name="alamat" class="form-control alamat"></textarea>
             </div>
           </div>
-          <div class="row my-3">
+          <div class="row my-3 form-group">
             <div class="col-md-3">
               <label>Deskripsi Aplikasi</label>
             </div>
-            <div class="col-md-9 form-group">
+            <div class="col-md-9">
               <textarea rows="5" name="deskripsi" class="form-control deskripsi"></textarea>
             </div>
           </div>
           <div class="row my-3 d-flex justify-content-center">
-            <button type="submit" class="btn btn-success btn-update">Ubah</button>
+            <button class="btn btn-dark btn-update mx-3" id="submit" type="submit">
+              <span class="btn-text">Update</span>
+              <i class="fas fa-spinner fa-spin" style="display:none;"></i>
+            </button>
           </div>
         </form>
       </div>
@@ -100,7 +123,13 @@
 
       $.ajax({
         url   : $('.form-setting').attr('action'),
-        type  : $('.form-setting').attr('method'),
+        type  : $('.form-setting').attr('method'),        
+        beforeSend : function(){
+          loading();
+        },  
+        complete : function(){
+          hideLoader();
+        },   
         data  : new FormData($('.form-setting')[0]),
         async : false,
         processData: false,
@@ -131,10 +160,11 @@
       $('[name=alamat]').val(response.alamat);
       $('[name=deskripsi]').val(response.deskripsi);
 
-      $('.show-logo').html(`<img src="{{ asset('/storage/setting') }}/${response.logo}" class="" width="200"/>`);
+      $('.show-image').html(`<img src="{{ asset('/storage/setting') }}/${response.logo}" class="" width="200"/>`);
       $('[rel=icon]').attr(`href`, `{{ asset('/storage/setting') }}/${response.logo}`);
       $('[rel=icon]').attr(`href`, `{{ asset('/storage/setting') }}/${response.logo}`);
       $('title').text(response.nama_aplikasi + ' | Pengaturan');
+      $('.nama-aplikasi').text(response.nama_aplikasi);
     })
     .fail(errors => {
       alert_error('error', message.errors.message);
