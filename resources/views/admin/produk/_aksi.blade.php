@@ -1,8 +1,8 @@
 <div class="btn-group">
-    <button onclick="editForm('{{$update}}')" data-toggle="tooltip" data-placement="top" title="Ubah data {{ $data->nama_produk }}"
-        data-id="{{ $data->id }}" class="btn btn-sm btn-edit btn-outline-success">
+    <a href="{{ $edit }}" data-toggle="tooltip" data-placement="top" title="Detail data {{ $data->nama_produk }}"
+        class="btn btn-sm btn-outline-success">
         <i class="fas fa-edit"></i>
-    </button>
+    </a>
 
     <a href="{{ $show }}" data-toggle="tooltip" data-placement="top" title="Detail data {{ $data->nama_produk }}"
         class="btn btn-sm btn-outline-info">

@@ -76,12 +76,13 @@
                       </div>
                     </div>
                 </div>
-                <div class="modal-footer">
+                <div class="modal-footer d-flex justify-content-center">
                     <button type="button" class="text-uppercase btn btn-sm btn-danger"
                         data-dismiss="modal">Batal</button>
-                    <button type="submit"
-                        class="none btn-save text-uppercase btn d-flex btn-sm btn-primary">Simpan</button>
-                    <img class="loader d-none" src="{{ asset('/images/loader.gif') }}" alt="">
+                    <button class="btn btn-primary btn-save btn-sm" type="submit">
+                        <span class="btn-text text-uppercase">Simpan</span>
+                        <i class="fas fa-spinner fa-spin" style="display:none;"></i>
+                    </button>
                 </div>
             </div>
         </form>

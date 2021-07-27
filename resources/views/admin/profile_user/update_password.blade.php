@@ -62,7 +62,7 @@
             </div>
           </div>
           <div class="row my-3 d-flex justify-content-center">
-            <button class="btn btn-dark btn-update mx-3" id="submit" type="submit">
+            <button class="btn btn-dark btn-update mx-3" type="submit">
               <span class="btn-text">Update</span>
               <i class="fas fa-spinner fa-spin" style="display:none;"></i>
             </button>

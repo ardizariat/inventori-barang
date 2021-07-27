@@ -30,7 +30,7 @@ class ProdukController extends Controller
                 $data = Produk::where('kategori_id', '=', $kategori)
                     ->get();
             } else {
-                $data = Produk::latest()->get();
+                $data = Produk::query()->orderBy('created_at', 'desc');
             }
             return datatables()->of($data)
                 ->addColumn('kategori', function ($data) {
@@ -46,7 +46,7 @@ class ProdukController extends Controller
                     return view('admin.produk._aksi', [
                         'data' => $data,
                         'delete' => route('produk.destroy', $data->id),
-                        'update' => route('produk.update', $data->id),
+                        'edit' => route('produk.edit', $data->id),
                         'show' => route('produk.show', $data->id),
                     ]);
                 })
@@ -65,8 +65,13 @@ class ProdukController extends Controller
     public function create()
     {
         $title = 'Tambah Produk';
-        $daftar_gudang = Gudang::latest()->get();
-        $daftar_kategori = Kategori::latest()->get();
+
+        $gudang = Gudang::all();
+        $daftar_gudang = collect($gudang)->pluck('nama', 'id');
+
+        $kategori = Kategori::all();
+        $daftar_kategori = collect($kategori)->pluck('kategori', 'id');
+
         $url = route('produk.index');
 
         $count = Produk::count();
@@ -108,6 +113,9 @@ class ProdukController extends Controller
         $data->stok = $request->stok;
         $data->keterangan = $request->keterangan;
         if ($request->hasFile('gambar')) {
+            $request->validate([
+                'gambar' => 'image|max:2048|mimes:png,jpg,jpeg,svg'
+            ]);
             $file = $request->file('gambar');
             $extension = $file->getClientOriginalExtension();
             $filename = $request->nama_produk . '_' . time() . uniqid() . '.' . $extension;
@@ -135,34 +143,42 @@ class ProdukController extends Controller
 
     public function edit($id)
     {
+        $title = 'Ubah Produk';
+        $url = route('produk.index');
         $data = Produk::findOrFail($id);
-        return response()->json([
-            'data' => $data,
-        ], 200);
+
+        $gudang = Gudang::all();
+        $daftar_gudang = collect($gudang)->pluck('nama', 'id');
+
+        $kategori = Kategori::all();
+        $daftar_kategori = collect($kategori)->pluck('kategori', 'id');
+
+        return view('admin.produk.edit', compact(
+            'url',
+            'title',
+            'daftar_gudang',
+            'daftar_kategori',
+            'data'
+        ));
     }
 
     public function update(Request $request, $id)
     {
-        $validator = Validator::make($request->input(), array(
+        // Cari id
+        $data = Produk::findOrFail($id);
+        $request->validate([
             'kategori_id' => 'required',
             'nama_produk' => 'required|unique:produk,nama_produk,' . $id,
             'merek' => 'required',
             'satuan' => 'required',
             'minimal_stok' => 'required|numeric',
             'stok' => 'required|numeric',
-        ));
-        if ($validator->fails()) {
-            return response()->json([
-                'error'    => true,
-                'text' => $validator->errors(),
-            ], 422);
-        }
-
-        // Cari id
-        $data = Produk::findOrFail($id);
+        ]);
 
         if ($request->hasFile('gambar')) {
-
+            $request->validate([
+                'gambar' => 'image|max:2048|mimes:png,jpg,jpeg,svg'
+            ]);
             // Gambar lama dihapus
             $oldFile = $data->gambar;
             if (!empty($oldFile)) {

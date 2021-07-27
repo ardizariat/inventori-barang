@@ -46,13 +46,13 @@
             <form action="">
               <h4><i class="fas fa-filter"></i> Filter</h4>
               <div class="row">
-                <div class="col-md-3">
+                <div class="col-md-3 my-2">
                     <input name="from_date" type="text" autocomplete="off" class="from_date form-control max-date">
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-3 my-2">
                     <input name="to_date" type="text" autocomplete="off" class="to_date form-control max-date">
                 </div>
-                <div class="col-md-3 mt-1">
+                <div class="col-md-3 my-2">
                     <div class="btn-group">
                       <button type="submit" data-toggle="tooltip" data-placement="top" title="Filter data"
                       class="btn btn-sm filter btn-success btn-flat">
@@ -64,7 +64,7 @@
                       </button>
                     </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-3 my-2">
                     <a data-toggle="tooltip" data-placement="top" title="Tambah data" class="btn btn-rounded btn-outline-primary"
                 onclick="addForm('{{ route('barang-keluar.store') }}')">
                 <i class="fa fa-plus" aria-hidden="true"></i> Tambah Barang Keluar
@@ -105,19 +105,9 @@
 @push('js')
 <script src="{{ asset('admin/js/plugin/datatables/datatables.min.js') }}"></script>
 <script src="{{ asset('admin/js/plugin/selectpicker/js/bootstrap-select.min.js') }}"></script>
-<script src="{{ asset('admin/js/plugin/file-input/js/fileinput.min.js') }}"></script>
-<script src="{{ asset('admin/js/plugin/file-input/themes/fa/theme.js') }}"></script>
 <script src="{{ asset('admin/js/plugin/date-time-pickers/js/flatpickr.js') }}"></script>
 <script src="{{ asset('admin/js/plugin/date-time-pickers/js/date-time-picker-script.js') }}"></script>
 <script>
-  $('.selectpicker').selectpicker();
-  
-  // File input images
-  $(".input-fa").fileinput({
-      theme: "fa",
-      uploadUrl: "/file-upload-batch/2"
-  });
-
   // Datatables load data
   load_data();
 
@@ -223,61 +213,37 @@
   });
 
   $(function() {
-      $('.modal-form').on('submit', function(e) {
-          if (!e.preventDefault()) {
+    $('.modal-form').on('click','.btn-save', function (e) {
+      e.preventDefault();
+      var form = $('.modal-form form');
+        form.find('.invalid-feedback').remove();
+        form.find('.form-control').removeClass('is-invalid');
 
-              var form = $('.modal-form form');
-              form.find('.help-block').remove();
-              form.find('.form-group').removeClass('has-error');
-
-              $.ajax({
-                  url: $('.modal-form form').attr('action'),
-                  type: $('.modal-form input[name=_method]').val(),
-                  beforeSend: function() {
-                      $('.modal-footer .btn-save').addClass('d-none');
-                      $('.modal-footer .loader').removeClass('d-none');
-                  },
-                  complete: function() {
-                      $('.modal-footer .loader').addClass('d-none');
-                      $('.modal-footer .submit').removeClass('d-none');
-                  },
-                  data: $('.modal-form form').serialize(),
-                  success: function(response) {
-                      $('.modal-form').modal('hide');
-                      alert_success('success',  response.text) 
-                      refresh_data();                  
-                  },
-                  error: function(xhr) {
-                    var res = xhr.responseJSON;
-                    var status = res.status,
-                    message = res.text;
-                    if(status == 500){
-                      Swal.fire({
-                        icon: 'error',
-                        title: 'Oops...',
-                        text: message,
-                        confirmButtonText: `OK`,
-                        }).then((result) => {
-                          if (result.isConfirmed) {
-                            window.location.reload();
-                          } 
-                      })
-                      
-                    }
-                    if ($.isEmptyObject(res) == false) {
-                        $.each(res.errors, function(key, value) {
-                            console.log(res);
-                            $('.' + key)
-                                .closest('.form-group')
-                                .addClass('has-error')
-                                .append(`<span class="help-block">` + value +
-                                    `</span>`)
-                        });
-                    }
-                  }
-              });
+        $.ajax({
+          url: $('.modal-form form').attr('action'),
+          type: $('.modal-form input[name=_method]').val(),
+          beforeSend : function(){
+              loading();
+            },  
+            complete : function(){
+              hideLoader("Simpan");
+            }, 
+          data: $('.modal-form form').serialize()
+        })
+        .done(response => {
+          $('.modal-form').modal('hide');
+          refresh_data();
+          alert_success('success', response.text);
+        })
+        .fail(errors => {
+          if(errors.status == 422){
+            loopErrors(errors.responseJSON.errors);
+          }else{
+            alert_error('error', 'Jumlah barang keluar melebihi stok yang tersedia');
+            return;
           }
-      });
+        });
+    });
   });    
 
   function addForm(url) {

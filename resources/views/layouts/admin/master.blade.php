@@ -162,20 +162,25 @@
             }
 
             for(error in errors){
-            $(`[name=${error}]`).addClass('is-invalid');
-                $(`<span class="error invalid-feedback">${errors[error][0]}</span>`)
-                .insertAfter($(`[name=${error}]`));
+            $(`[name=${error}]`).addClass('is-invalid');                
+                if($(`[name=${error}]`).hasClass('selectpicker')){
+                  $(`<span class="error invalid-feedback">${errors[error][0]}</span>`)
+                  .insertAfter($(`[name=${error}]`).next()); 
+                }else{
+                  $(`<span class="error invalid-feedback">${errors[error][0]}</span>`)
+                  .insertAfter($(`[name=${error}]`));
+                }
             }
         }
 
         function loading() {
-        $(".btn .fa-spinner").show();
-        $(".btn .btn-text").html("Sending..");   
+            $(".btn .fa-spinner").show();
+            $(".btn .btn-text").html("Sending..");   
         }
 
-        function hideLoader(){
-        $(".btn .fa-spinner").fadeOut();
-        $(".btn .btn-text").html("Simpan");  
+        function hideLoader(text = "Simpan"){
+            $(".btn .fa-spinner").fadeOut();
+            $(".btn .btn-text").html(text);  
         }
     </script>
 </body>

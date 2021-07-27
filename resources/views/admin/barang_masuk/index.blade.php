@@ -46,13 +46,13 @@
               <form action="">
                 <h4><i class="fas fa-filter"></i> Filter</h4>
                 <div class="row">
-                  <div class="col-md-3">
+                  <div class="col-md-3 my-2">
                       <input name="from_date" type="text" autocomplete="off" class="from_date form-control max-date">
                   </div>
-                  <div class="col-md-3">
+                  <div class="col-md-3 my-2">
                       <input name="to_date" type="text" autocomplete="off" class="to_date form-control max-date">
                   </div>
-                  <div class="col-md-3 mt-1">
+                  <div class="col-md-3 mt-1 my-2">
                       <div class="btn-group">
                         <button type="submit" data-toggle="tooltip" data-placement="top" title="Filter data"
                         class="btn btn-sm filter btn-success btn-flat">
@@ -64,7 +64,7 @@
                         </button>
                       </div>
                   </div>
-                  <div class="col-md-3">
+                  <div class="col-md-3 my-2">
                       <a data-toggle="tooltip" data-placement="top" title="Tambah data" class="btn btn-rounded btn-outline-primary"
                   onclick="addForm('{{ route('barang-masuk.store') }}')">
                   <i class="fa fa-plus" aria-hidden="true"></i> Tambah Barang Masuk

@@ -212,50 +212,6 @@
     load_data();
   });
 
-  $(function() {
-      $('.modal-form').on('submit', function(e) {
-          if (!e.preventDefault()) {
-
-              var form = $('.modal-form form');
-              form.find('.help-block').remove();
-              form.find('.form-group').removeClass('has-error');
-
-              $.ajax({
-                  url: $('.modal-form form').attr('action'),
-                  type: $('.modal-form input[name=_method]').val(),
-                  beforeSend: function() {
-                      $('.modal-footer .btn-save').addClass('d-none');
-                      $('.modal-footer .loader').removeClass('d-none');
-                  },
-                  complete: function() {
-                      $('.modal-footer .loader').addClass('d-none');
-                      $('.modal-footer .submit').removeClass('d-none');
-                  },
-                  data: $('.modal-form form').serialize(),
-                  success: function(response) {
-                      $('.modal-form').modal('hide');
-                      alert_success('success',  response.text)
-                      $('#produk-table').DataTable().destroy();
-                      load_data();
-                  },
-                  error: function(xhr) {
-                      var res = xhr.responseJSON;
-                      if ($.isEmptyObject(res) == false) {
-                          $.each(res.errors, function(key, value) {
-                              console.log(res);
-                              $('.' + key)
-                                  .closest('.form-group')
-                                  .addClass('has-error')
-                                  .append(`<span class="help-block">` + value +
-                                      `</span>`)
-                          });
-                      }
-                  }
-              });
-          }
-      });
-  });
-
   function editForm(url) {
       event.preventDefault();
       var me = $(this),
@@ -264,7 +220,7 @@
       $('.modal-form .modal-title').text('Ubah Produk');
       $('.modal-form .container-fluid').append(`<div class="row"><input type="hidden" name="id" value="`+id+`"></div>`);
       $('.modal-form form').attr('action', url);
-      $('.modal-form [name=_method]').val('put');
+      $('.modal-form [name=_method]').val('patch');
       $.get(url+'/edit')
           .done((response) => {
               var nama = response.data.nama_produk,
@@ -283,12 +239,54 @@
               $('.modal-form .minimal_stok').val(minimal_stok);
               $('.modal-form .stok').val(stok);
               $('.modal-form .keterangan').val(keterangan);
+              $('.show-image').html(`<img src="${response.gambar}" class="" width="200"/>`);
           })
           .fail((errors) => {
               Swal.fire('Oops...', 'Ada yang salah!', 'error')
               return;
           })
   }
+
+  $(function() {
+    $('#form-produk').on('click','.btn-save', function (e) {
+      e.preventDefault();
+      var form = $('#form-produk'),
+      url = $('#form-produk').attr('action'),
+      method = $('#form-produk input[name=_method]').val();
+      form.find('.invalid-feedback').remove();
+      form.find('.form-control').removeClass('is-invalid');
+
+      $.ajax({
+        url: url,
+        type: method,
+        beforeSend : function(){
+          loading();
+        },  
+        complete : function(){
+          hideLoader();
+        },
+        data  : new FormData($('#form-produk')[0]),
+        async : false,
+        processData: false,
+        contentType : false,
+      })
+      .done(response => {
+        $('.modal-form').modal('hide');
+        refresh_data();
+        alert_success('success', response.text);
+      })
+      .fail(errors => {
+        if(errors.status == 422){
+          loopErrors(errors.responseJSON.errors);
+        }else{
+          alert_error('error', 'Gagal ubah pengaturan');
+          return;
+        }
+      });
+    });
+  });
+
+ 
 
  // Hapus Data
     $('body').on('click','.btn-delete', function(event){

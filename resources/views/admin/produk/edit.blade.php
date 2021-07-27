@@ -30,18 +30,18 @@
             <div class="col-md-12">
                 <div class="card shadow animate__animated animate__zoomInDown">
                     <div class="card-body">
-                        <form action="{{ route('produk.store') }}" method="POST" enctype="multipart/form-data">
+                        <form action="{{ route('produk.update',$data->id) }}" method="POST" enctype="multipart/form-data" class="form-produk">
                             @csrf
-                            @method('post')
+                            @method('patch')
                             <div class="container-fluid">
+                              <input type="hidden" name="id" value="{{ $data->id }}">
                                 <div class="row form-group">
                                     <div class="col-md-2 ">
                                         <label>Nama Produk</label>
                                     </div>
                                     <div class="col-md-10">
-                                        <input type="text" name="nama_produk" autocomplete="off" autofocus
+                                        <input type="text" value="{{ $data->nama_produk }}" name="nama_produk" autocomplete="off"
                                             class="nama_produk form-control" placeholder="Masukkan nama produk">
-                                        <span class="help-block with-errors"></span>
                                     </div>
                                 </div>
                                 <div class="row form-group">
@@ -52,11 +52,10 @@
                                         <select title="Pilih kategori" data-live-search="true" name="kategori_id"
                                             class="selectpicker form-control kategori">
                                             @foreach ($daftar_kategori as $id => $kategori)
-                                            <option value="{{ $id }}">{{ $kategori }}
+                                            <option @if ($id == $data->kategori_id) selected @endif value="{{ $id }}">{{ $kategori }}
                                             </option>
                                             @endforeach
                                         </select>
-                                        <span class="help-block with-errors"></span>
                                     </div>
                                 </div>
                                 <div class="row form-group">
@@ -67,11 +66,10 @@
                                         <select title="Pilih gudang" data-live-search="true" name="gudang_id"
                                             class="form-control selectpicker gudang">
                                             @foreach ($daftar_gudang as $id => $nama)
-                                            <option value="{{ $id }}">{{ $nama }}
+                                            <option @if ($id == $data->gudang_id) selected @endif value="{{ $id }}">{{ $nama }}
                                             </option>
                                             @endforeach
                                         </select>
-                                        <span class="help-block with-errors"></span>
                                     </div>
                                 </div>
                                 <div class="row form-group">
@@ -79,9 +77,8 @@
                                         <label>Merek</label>
                                     </div>
                                     <div class="col-md-10">
-                                        <input type="text" name="merek" autocomplete="off" autofocus
-                                            class="merek form-control" placeholder="Masukkan nama merek">
-                                        <span class="help-block with-errors"></span>
+                                        <input type="text" name="merek" autocomplete="off"
+                                            class="merek form-control" value="{{ $data->merek }}" placeholder="Masukkan nama merek">
                                     </div>
                                 </div>
                                 <div class="row form-group">
@@ -91,15 +88,14 @@
                                     <div class="col-md-10">
                                         <select title="Pilih satuan produk" data-live-search="true" name="satuan"
                                             class="form-control selectpicker satuan">
-                                            <option value="Pcs">Pcs</option>
-                                            <option value="Box">Box</option>
-                                            <option value="Kg">Kg</option>
-                                            <option value="Karton">Karton</option>
-                                            <option value="Liter">Liter</option>
-                                            <option value="Jerigen">Jerigen</option>
-                                            <option value="Rim">Rim</option>
+                                            <option @if ($data->satuan == "Pcs") selected @endif value="Pcs">Pcs</option>
+                                            <option @if ($data->satuan == "Box") selected @endif value="Box">Box</option>
+                                            <option @if ($data->satuan == "Kg") selected @endif value="Kg">Kg</option>
+                                            <option @if ($data->satuan == "Karton") selected @endif value="Karton">Karton</option>
+                                            <option @if ($data->satuan == "Liter") selected @endif value="Liter">Liter</option>
+                                            <option @if ($data->satuan == "Jerigen") selected @endif value="Jerigen">Jerigen</option>
+                                            <option @if ($data->satuan == "Rim") selected @endif value="Rim">Rim</option>
                                         </select>
-                                        <span class="help-block with-errors"></span>
                                     </div>
                                 </div>
                                 <div class="row form-group">
@@ -107,10 +103,9 @@
                                         <label>Minimal Stok</label>
                                     </div>
                                     <div class="col-md-10">
-                                        <input type="number" name="minimal_stok" autocomplete="off" autofocus
+                                        <input value="{{ $data->minimal_stok }}" type="number" name="minimal_stok" autocomplete="off"
                                             class="minimal_stok form-control"
                                             placeholder="Masukkan minimal stok digudang">
-                                        <span class="help-block with-errors"></span>
                                     </div>
                                 </div>
                                 <div class="row form-group">
@@ -118,9 +113,7 @@
                                         <label>Stok</label>
                                     </div>
                                     <div class="col-md-10">
-                                        <input type="number" name="stok" autocomplete="off" autofocus
-                                            class="stok form-control" placeholder="Masukkan stok yang masuk ke gudang">
-                                        <span class="help-block with-errors"></span>
+                                        <input type="number" value="{{ $data->stok }}" name="stok" autocomplete="off" class="stok form-control" placeholder="Masukkan stok yang masuk ke gudang">
                                     </div>
                                 </div>
                                 <div class="row form-group">
@@ -139,19 +132,14 @@
                                     </div>
                                     <div class="col-md-10">
                                         <textarea name="keterangan" class="form-control keterangan" cols="30"
-                                            rows="10"></textarea>
-                                        <span class="help-block with-errors"></span>
+                                            rows="10">{{ $data->keterangan }}</textarea>
                                     </div>
                                 </div>
                             </div>
                             <div class="row justify-content-center d-flex btn-submit btn-row">
                                 <div class="col-md-2">
-                                    <button class="btn btn-outline-danger float-right" type="reset"
-                                        value="Reset">Reset</button>
-                                </div>
-                                <div class="col-md-2">
-                                    <button class="btn btn-dark btn-save" id="submit" type="submit">
-                                        <span class="btn-text">Simpan</span>
+                                    <button class="btn btn-success btn-save" type="submit">
+                                        <span class="btn-text">Update</span>
                                         <i class="fas fa-spinner fa-spin" style="display:none;"></i>
                                     </button>
                                 </div>
@@ -170,66 +158,48 @@
 
 
 <script>
-        $(function() {
-            $('.card-body').on('submit', 'form', function(e) {
-                if (!e.preventDefault()) {
-
-                  var form = $('.card-body form');
-                  form.find('.invalid-feedback').remove();
-                  form.find('.form-control').removeClass('is-invalid');
-                  $.ajax({
-                      url   : form.attr('action'),
-                      type  : form.attr('method'),        
-                      beforeSend : function(){
-                        loading();
-                      },  
-                      complete : function(){
-                        hideLoader();
-                      },   
-                      data  : new FormData($(form)[0]),
-                      async : false,
-                      processData: false,
-                      contentType : false,
-                    })
-                    .done(response => {
-                      form[0].reset();
-                      $('.show-image').addClass('d-none');
-                      $('.selectpicker').val(null).trigger('change');
-                      alert_success('success',  response.text)
-                    })
-                    .fail(errors => {
-                      if(errors.status == 422){
-                        loopErrors(errors.responseJSON.errors);
-                      }else{
-                      alert_error('error', 'Gagal ubah pengaturan');
-                      return;
-                    }
-                  });
-                    
-                }
-            });
-        });
-
-        function editForm(url) {
-            event.preventDefault();
-            $('.modal-form').modal('show');
-            $('.modal-form .modal-title').text('Ubah Gudang');
-            $('.modal-form form').attr('action', url);
-            $('.modal-form [name=_method]').val('put');
-            $.get(url)
-                .done((response) => {
-                    let nama = response.data.nama;
-                    let kode = response.data.kode;
-                    let lokasi = response.data.lokasi;
-                    $('.modal-form .nama').val(nama);
-                    $('.modal-form .kode').val(kode);
-                    $('.modal-form .lokasi').val(lokasi);
-                })
-                .fail((errors) => {
-                    Swal.fire('Oops...', 'Kategori ini tidak dapat dihapus', 'error')
-                    return;
-                })
+  $(function() {
+    $('.form-produk').on('click', '.btn-save', function(e) {
+      e.preventDefault();
+      var form = $('.row .form-produk');
+      form.find('.invalid-feedback').remove();
+      form.find('.form-control').removeClass('is-invalid');
+      $.ajax({
+        url   : form.attr('action'),
+        type  : form.attr('method'),        
+        beforeSend : function(){
+          loading();
+        },  
+        complete : function(){
+          hideLoader("Update");
+        },   
+        data  : new FormData($(form)[0]),
+        async : false,
+        processData: false,
+        contentType : false,
+      })
+      .done(response => {
+        $('[name=nama_produk]').val(response.data.nama_produk);
+        $('[name=merek]').val(response.data.merek);
+        $('[name=satuan]').val(response.data.satuan);
+        $('[name=stok]').val(response.data.stok);
+        $('[name=minimal_stok]').val(response.data.minimal_stok);
+        $('[name=keterangan]').val(response.data.keterangan);
+        $('[name=kategori_id]').val(response.data.kategori_id).change();
+        $('[name=gudang_id]').val(response.data.gudang_id).change();
+        $('[name=satuan]').val(response.data.satuan).change();
+        alert_success('success',  response.text)
+      })
+      .fail(errors => {
+        if(errors.status == 422){
+          loopErrors(errors.responseJSON.errors);
+        }else{
+          alert_error('error', 'Gagal ubah pengaturan');
+          return;
         }
+      });          
+    });
+  });
 </script>
 
 @endpush

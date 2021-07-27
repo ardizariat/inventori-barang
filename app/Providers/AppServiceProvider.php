@@ -18,7 +18,6 @@ class AppServiceProvider extends ServiceProvider
             $view->with('setting', Setting::first());
         });
     }
-
     /**
      * Bootstrap any application services.
      *

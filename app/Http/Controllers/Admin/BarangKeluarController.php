@@ -21,7 +21,7 @@ class BarangKeluarController extends Controller
             if (!empty($request->from_date)) {
                 $data = BarangKeluar::whereBetween('tanggal', [$from_date, $to_date])->get();
             } else {
-                $data = BarangKeluar::latest()->get();
+                $data = BarangKeluar::query()->orderBy('created_at', 'desc');
             }
             return datatables()->of($data)
                 ->addColumn('produk', function ($data) {
@@ -72,6 +72,7 @@ class BarangKeluarController extends Controller
             'produk_id' => 'required',
             'tanggal' => 'required',
             'jumlah' => 'required|numeric',
+            'penerima' => 'required',
         ]);
 
         $produk = Produk::findOrFail($request->produk_id);
