@@ -38,7 +38,7 @@
           <div class="card-body">
             <div class="d-flex">
               <div class="avatar">
-                <img src="{{ $user->getProfileImage() }}" class="avatar-img rounded-circle">
+                <img src="{{ $user->getFoto() }}" class="avatar-img rounded-circle">
               </div>
               <div class="info-post ml-2">
                 <p class="username">{{ $user->name }}</p>

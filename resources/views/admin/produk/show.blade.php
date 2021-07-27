@@ -115,19 +115,30 @@
               </div>
               <div class="tab-pane fade" id="pills-profile-nobd" role="tabpanel" aria-labelledby="pills-profile-tab-nobd">
                 <div class="row my-3">
-                  <div class="col-md-12">
-                    <table id="show_barangmasuk-table" class="table table-striped">
-                      <thead>
-                        <tr>
-                          <th>No</th>
-                          <th>Tanggal</th>
-                          <th>Penerima Barang</th>
-                          <th>Pemberi Barang</th>
-                          <th>Qty</th>
-                        </tr>
-                      </thead>
-                    </table>
-                  </div>
+                    <div class="col-md-12">
+                      <table id="show_barangmasuk-table" class="table table-striped">
+                        <thead>
+                          <tr>
+                            <th>No</th>
+                            <th>Tanggal</th>
+                            <th>Penerima Barang</th>
+                            <th>Pemberi Barang</th>
+                            <th>Qty</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          @foreach ($barang_masuk as $item)
+                            <tr>
+                              <td>{{ $loop->iteration }}</td>
+                              <td>{{ $item->tanggal }}</td>
+                              <td>{{ $item->penerima }}</td>
+                              <td>{{ $item->pemberi }}</td>
+                              <td>{{ $item->jumlah }}</td>
+                            </tr>
+                          @endforeach
+                        </tbody>
+                      </table>
+                    </div>
                 </div>
               </div>
               <div class="tab-pane fade" id="pills-contact-nobd" role="tabpanel" aria-labelledby="pills-contact-tab-nobd">
@@ -143,6 +154,17 @@
                           <th>Qty</th>
                         </tr>
                       </thead>
+                      <tbody>
+                        @foreach ($barang_keluar as $item)
+                          <tr>
+                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ $item->tanggal }}</td>
+                            <td>{{ $item->penerima }}</td>
+                            <td>{{ $item->pemberi }}</td>
+                            <td>{{ $item->jumlah }}</td>
+                          </tr>
+                        @endforeach
+                      </tbody>
                     </table>
                   </div>
                 </div>
@@ -165,38 +187,8 @@
     margin: 50,
     scrollOffset: 200
   });
-</script>
-<script>
-  function showBarangMasuk() {
-    $('.card-footer').on('click', '.btn-barang-masuk', function(e) {
-      e.preventDefault();
-      $('.card-barang-masuk').removeClass('d-none');
-      $('.btn-barang-masuk').addClass('d-none');
-    });
-  }
 
-  function hideBarangMasuk() {
-    $('.card-footer').on('click', '.btn-hide-barang-masuk', function(e) {
-      e.preventDefault();
-      $('.card-barang-masuk').addClass('d-none');
-      $('.btn-barang-masuk').removeClass('d-none');
-    });
-  }
-
-  function showBarangKeluar() {
-    $('.card-footer').on('click', '.btn-barang-keluar', function(e) {
-      e.preventDefault();
-      $('.card-barang-keluar').removeClass('d-none');
-      $('.btn-barang-keluar').addClass('d-none');
-    });
-  }
-
-  function hideBarangKeluar() {
-    $('.card-footer').on('click', '.btn-hide-barang-keluar', function(e) {
-      e.preventDefault();
-      $('.card-barang-keluar').addClass('d-none');
-      $('.btn-barang-keluar').removeClass('d-none');
-    });
-  }
+  $('#show_barangmasuk-table').DataTable()
+  $('#show_barangkeluar-table').DataTable()
 </script>
 @endpush

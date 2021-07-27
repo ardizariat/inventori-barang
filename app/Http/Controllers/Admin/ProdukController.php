@@ -11,6 +11,7 @@ use \Milon\Barcode\DNS1D;
 use Illuminate\Http\Request;
 use App\DataTables\ProdukDataTable;
 use App\Http\Controllers\Controller;
+use App\Models\BarangKeluar;
 use App\Models\BarangMasuk;
 use Illuminate\Contracts\Cache\Store;
 use Illuminate\Support\Facades\Storage;
@@ -200,6 +201,9 @@ class ProdukController extends Controller
         $title = 'Detail Produk';
         $url = route('produk.index');
 
+        $barang_masuk = BarangMasuk::where('produk_id', '=', $id)->latest()->get();
+        $barang_keluar = BarangKeluar::where('produk_id', '=', $id)->latest()->get();
+
         $d = new DNS1D();
         $d->setStorPath(__DIR__ . '/cache/');
         $barcode = $d->getBarcodeHTML($data->kode, 'EAN13');
@@ -214,6 +218,8 @@ class ProdukController extends Controller
             'url',
             'barcode',
             'qrcode',
+            'barang_masuk',
+            'barang_keluar',
         ));
     }
     public function destroy($id)

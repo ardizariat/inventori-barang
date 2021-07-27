@@ -57,6 +57,7 @@ class DashboardController extends Controller
             ->groupBy(['tahun', 'bulan'])
             ->whereBetween('tanggal', [$jan, $des])
             ->get();
+
         foreach ($data_barang_keluar as $data) {
             $barang_keluar[] = $data->total;
             $bulan_barang_keluar[] = $data->bulan;
