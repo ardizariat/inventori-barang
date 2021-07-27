@@ -21,7 +21,7 @@ class BarangKeluarController extends Controller
             if (!empty($request->from_date)) {
                 $data = BarangKeluar::whereBetween('tanggal', [$from_date, $to_date])->get();
             } else {
-                $data = BarangKeluar::query();
+                $data = BarangKeluar::latest()->get();
             }
             return datatables()->of($data)
                 ->addColumn('produk', function ($data) {

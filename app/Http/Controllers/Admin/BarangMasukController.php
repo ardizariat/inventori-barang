@@ -20,7 +20,7 @@ class BarangMasukController extends Controller
             if (!empty($request->from_date)) {
                 $data = BarangMasuk::whereBetween('tanggal', [$from_date, $to_date])->get();
             } else {
-                $data = BarangMasuk::query();
+                $data = BarangMasuk::latest()->get();
             }
             return datatables()->of($data)
                 ->addColumn('produk', function ($data) {

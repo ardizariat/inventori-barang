@@ -15,30 +15,63 @@ class DashboardController extends Controller
     public function index()
     {
         $title = 'Dashboard';
+
+        $tersedia = Produk::whereColumn('stok', '>', 'minimal_stok')->count();
+        $hampir_habis = Produk::whereColumn('stok', '<=', 'minimal_stok')->count();
+
         $countProduk = Produk::count();
         $countKategori = Kategori::count();
 
-        $bulan = [];
-        $total = [];
-        $datas = DB::table('barang_masuk')
+        $dt = Carbon::now();
+        $jan = $dt->startOfYear();
+        $jan = $jan->format('Y-m-d');
+        $des = $dt->lastOfYear();
+        $des = $des->format('Y-m-d');
+        $tahun = date('Y');
+
+        $bulan_barang_masuk = [];
+        $barang_masuk = [];
+        $data_barang_masuk = DB::table('barang_masuk')
             ->select([
                 DB::raw('SUM(jumlah) as total'),
-                DB::raw('EXTRACT(MONTH from tanggal) as bulan'),
-                DB::raw('EXTRACT(YEAR from tanggal) as tahun')
+                DB::raw('MONTH(tanggal) as bulan'),
+                DB::raw('YEAR(tanggal) as tahun'),
             ])
-            ->groupBy(['bulan', 'tahun'])
+
+            ->groupBy(['bulan', 'tahun',])
             ->get();
-        foreach ($datas as $data) {
-            $bulan[] = $data->bulan;
-            $total[] = $data->total;
+        foreach ($data_barang_masuk as $data) {
+            $barang_masuk[] = $data->total;
+            $bulan_barang_masuk[] = $data->bulan;
+        }
+
+        $bulan_barang_keluar = [];
+        $barang_keluar = [];
+        $data_barang_keluar = DB::table('barang_keluar')
+            ->select([
+                DB::raw('SUM(jumlah) as total'),
+                DB::raw('MONTH(tanggal) as bulan'),
+                DB::raw('YEAR(tanggal) as tahun'),
+            ])
+            ->groupBy(['tahun', 'bulan'])
+            ->whereBetween('tanggal', [$jan, $des])
+            ->get();
+        foreach ($data_barang_keluar as $data) {
+            $barang_keluar[] = $data->total;
+            $bulan_barang_keluar[] = $data->bulan;
         }
 
         return view('admin.dashboard.index', compact(
             'title',
             'countProduk',
             'countKategori',
-            'bulan',
-            'total',
+            'bulan_barang_masuk',
+            'barang_masuk',
+            'barang_keluar',
+            'bulan_barang_keluar',
+            'tahun',
+            'tersedia',
+            'hampir_habis',
         ));
     }
 }

@@ -29,7 +29,7 @@ class ProdukController extends Controller
                 $data = Produk::where('kategori_id', '=', $kategori)
                     ->get();
             } else {
-                $data = Produk::query();
+                $data = Produk::latest()->get();
             }
             return datatables()->of($data)
                 ->addColumn('kategori', function ($data) {

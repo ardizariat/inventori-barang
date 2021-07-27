@@ -18,7 +18,7 @@ class GudangController extends Controller
         $kode = 'GD' . kode($count, 4);
 
         if (request()->ajax()) {
-            $data = Gudang::query();
+            $data = Gudang::latest()->get();
             return datatables()->of($data)
                 ->addColumn('dibuat', function ($data) {
                     $data = Carbon::parse($data->created_at)->format('d F Y, H:i');

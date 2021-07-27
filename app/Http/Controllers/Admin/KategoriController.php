@@ -14,7 +14,7 @@ class KategoriController extends Controller
     {
         $title = 'Kategori';
         if (request()->ajax()) {
-            $data = Kategori::query();
+            $data = Kategori::latest()->get();
             return datatables()->of($data)
                 ->addColumn('dibuat', function ($data) {
                     $data = Carbon::parse($data->created_at)->format('d F Y, H:i');

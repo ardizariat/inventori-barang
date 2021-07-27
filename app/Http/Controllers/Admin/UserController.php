@@ -20,7 +20,7 @@ class UserController extends Controller
         $data = User::where('status', '=', $status)
           ->get();
       } else {
-        $data = User::query();
+        $data = User::latest()->get();
       }
       return datatables()->of($data)
         ->addColumn('dibuat', function ($data) {
