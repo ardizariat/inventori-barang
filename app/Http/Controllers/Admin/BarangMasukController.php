@@ -87,6 +87,8 @@ class BarangMasukController extends Controller
         $produk->stok = $produk->stok + $request->jumlah;
         $save = $produk->update();
 
+        activity()->log('menambahkan barang masuk ' . $data->product->nama_produk);
+
         if ($save) {
             return response()->json([
                 'data' => $data,
@@ -117,6 +119,7 @@ class BarangMasukController extends Controller
         $produk = Produk::findOrFail($produk_id);
         $produk->stok = $produk->stok - $jumlah;
         $produk->update();
+        activity()->log('menghapus barang masuk ' . $produk->nama_produk);
         $delete = $stockIn->delete();
 
         return response()->json([

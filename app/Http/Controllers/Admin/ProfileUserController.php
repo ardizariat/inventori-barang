@@ -105,6 +105,8 @@ class ProfileUserController extends Controller
             }
         }
 
+        activity()->log('mengubah password');
+
         if ($save) {
             return response()->json([
                 'data' => $data,

@@ -53,6 +53,8 @@ class LoginRequest extends FormRequest
             ]);
         }
 
+        activity()->log('login');
+
         RateLimiter::clear($this->throttleKey());
     }
 

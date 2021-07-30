@@ -7,6 +7,8 @@ use App\Models\Kategori;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\DataTables\KategoriDataTable;
+use Spatie\Activitylog\Models\Activity;
+use Spatie\Activitylog\Facade\CauserResolver;
 
 class KategoriController extends Controller
 {
@@ -55,6 +57,10 @@ class KategoriController extends Controller
         $data->status = $status;
         $save = $data->save();
 
+        activity()->log('membuat kategori ' . $data->kategori);
+
+
+
         if ($save) {
             return response()->json([
                 'data' => $data,
@@ -85,6 +91,8 @@ class KategoriController extends Controller
         $data->status = $status;
         $update = $data->update();
 
+        activity()->log('mengubah kategori ' . $data->kategori);
+
         if ($update) {
             return response()->json([
                 'data' => $data,
@@ -96,6 +104,7 @@ class KategoriController extends Controller
     public function destroy($id)
     {
         $data = Kategori::findOrFail($id);
+        activity()->log('menghapus kategori ' . $data->kategori);
         $delete = $data->delete();
 
         if ($delete) {

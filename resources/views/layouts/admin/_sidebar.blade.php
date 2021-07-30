@@ -120,6 +120,12 @@
                 <p>Pengguna</p>
             </a>
         </li>
+        <li class="nav-item {{ request()->routeIs('activity-log.index') ? 'active' : '' }}">
+            <a href="{{ route('activity-log.index') }}">
+                <i class="fas fa-history"></i>
+                <p>Riwayat Pengguna</p>
+            </a>
+        </li>
         <li class="nav-item {{ request()->routeIs('setting.index') ? 'active' : '' }}">
             <a href="{{ route('setting.index') }}">
                 <i class="fas fa-cogs"></i>

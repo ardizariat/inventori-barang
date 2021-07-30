@@ -133,6 +133,8 @@ class ProdukController extends Controller
         $barang_masuk->penerima = auth()->user()->name;
         $save = $barang_masuk->save();
 
+        activity()->log('menambahkan produk ' . $data->nama_produk);
+
         if ($save) {
             return response()->json([
                 'data' => $data,
@@ -203,6 +205,8 @@ class ProdukController extends Controller
             'keterangan' => $request->keterangan,
         ]);
 
+        activity()->log('mengubah produk ' . $data->nama_produk);
+
         if ($update) {
             return response()->json([
                 'text' => 'Produk berhasil diubah!',
@@ -242,6 +246,7 @@ class ProdukController extends Controller
 
     {
         $produk = Produk::findOrFail($id);
+        activity()->log('menghapus produk ' . $produk->nama_produk);
         if ($produk->gambar == null) {
             $delete = $produk->delete();
         } else {

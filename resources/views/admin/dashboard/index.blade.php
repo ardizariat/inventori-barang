@@ -15,46 +15,81 @@
         <div>
           <h2 class="text-white pb-2 fw-bold">Dashboard</h2>
         </div>
-        {{-- <div class="ml-md-auto py-2 py-md-0">
-          <a href="#" class="btn btn-white btn-border btn-round mr-2">Manage</a>
-          <a href="#" class="btn btn-secondary btn-round">Add Customer</a>
-        </div> --}}
       </div>
     </div>
   </div>
   <div class="page-inner mt--5">
-    <div class="row mt--2">
-      <div class="col-md-8">
-        <div class="card full-height">
+    <div class="row">
+      <div class="col-sm-6 col-md-3">
+        <div class="card shadow card-stats card-primary card-round">
           <div class="card-body">
-            <div class="card-title">Statistik</div>
-            {{-- <div class="card-category">Daily information about statistics in system</div> --}}
-            <div class="d-flex flex-wrap justify-content-around pb-2 pt-2">
-              <div class="px-2 pb-2 pb-md-0 text-center">
-                <div id="circles-1"></div>
-                <h6 class="fw-bold mt-3 mb-0">Produk</h6>
+            <div class="row">
+              <div class="col-5">
+                <div class="icon-big text-center">
+                  <i class="la flaticon-technology-1"></i>
+                </div>
               </div>
-              <div class="px-2 pb-2 pb-md-0 text-center">
-                <div id="circles-2"></div>
-                <h6 class="fw-bold mt-3 mb-0">Kategori</h6>
+              <div class="col-7 col-stats">
+                <div class="numbers">
+                  <p class="card-category">Total Produk</p>
+                  <h4 class="card-title">{!! number_format($countProduk,0,',','.') !!}</h4>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div class="col-md-4">
-        <div class="card full-height">
+      <div class="col-sm-6 col-md-3">
+        <div class="card shadow card-stats card-info card-round">
           <div class="card-body">
-            <div class="card-title">Data Barang</div>
-            <div class="row py-3">
-              <div class="col-md-12 d-flex flex-column justify-content-around">
-                <div>
-                  <h6 class="fw-bold text-uppercase text-success op-8">Total Barang Tersedia</h6>
-                  <h3 class="fw-bold">{!! number_format($tersedia,0,',','.') !!}</h3>
+            <div class="row">
+              <div class="col-5">
+                <div class="icon-big text-center">
+                  <i class="la flaticon-list"></i>
                 </div>
-                <div>
-                  <h6 class="fw-bold text-uppercase text-danger op-8">Total Barang Yang Mau Habis</h6>
-                  <h3 class="fw-bold">{!! number_format($hampir_habis,0,',','.') !!}</h3>
+              </div>
+              <div class="col-7 col-stats">
+                <div class="numbers">
+                  <p class="card-category">Total Kategori</p>
+                  <h4 class="card-title">{!! number_format($countKategori,0,',','.') !!}</h4>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6 col-md-3">
+        <div class="card shadow card-stats card-success card-round">
+          <div class="card-body ">
+            <div class="row">
+              <div class="col-5">
+                <div class="icon-big text-center">
+                  <i class="la flaticon-box-3"></i>
+                </div>
+              </div>
+              <div class="col-7 col-stats">
+                <div class="numbers">
+                  <p class="card-category">Rata2 Stok In</p>
+                  <h4 class="card-title">{!! number_format($rata2_barang_masuk_sebulan,0,',','.') !!}</h4>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6 col-md-3">
+        <div class="card shadow card-stats card-secondary card-round">
+          <div class="card-body ">
+            <div class="row">
+              <div class="col-5">
+                <div class="icon-big text-center">
+                  <i class="la flaticon-delivery-truck"></i>
+                </div>
+              </div>
+              <div class="col-7 col-stats">
+                <div class="numbers">
+                  <p class="card-category">Rata2 Stok Out</p>
+                  <h4 class="card-title">{!! number_format($rata2_barang_keluar_sebulan,0,',','.') !!}</h4>
                 </div>
               </div>
             </div>
@@ -86,7 +121,7 @@
 
 @push('js')
 <script src="{{ asset('admin/js/plugin/chart-circle/circles.min.js') }}"></script>
-<script src="{{ asset('admin/js/plugin/chart.js/Chart.min.js') }}"></script>
+<script src="{{ asset('admin/js/plugin/chart.js/chart.min.js') }}"></script>
 <script>
   Circles.create({
     id:'circles-1',
@@ -156,8 +191,7 @@
       }
     }
   });
-</script>
-<script>
+
   var ctx = document.getElementById("barang-keluar").getContext('2d');
   var myChart = new Chart(ctx, {
     type: 'line',

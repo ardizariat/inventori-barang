@@ -48,10 +48,20 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        $user->assignRole(['super-admin']);
-        $user->givePermissionTo(['full-permission']);
-        $role = Role::find(1);
-        $role->givePermissionTo(['full-permission']);
+        // $user->assignRole(['super-admin']);
+        // $user->givePermissionTo(['create', 'read', 'update', 'delete']);
+        // $role = Role::find(1);
+        // $role->givePermissionTo(['create', 'read', 'update', 'delete']);
+
+        // $user->assignRole(['admin']);
+        // $user->givePermissionTo(['create', 'read', 'update']);
+        // $role = Role::find(2);
+        // $role->givePermissionTo(['create', 'read', 'update']);
+
+        $user->assignRole(['user']);
+        $user->givePermissionTo(['read']);
+        $role = Role::find(3);
+        $role->givePermissionTo(['read']);
 
         event(new Registered($user));
 

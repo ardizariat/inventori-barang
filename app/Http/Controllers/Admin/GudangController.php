@@ -62,6 +62,8 @@ class GudangController extends Controller
         $data->status = $request->status;
         $save = $data->save();
 
+        activity()->log('menambahkan gudang ' . $data->nama);
+
         if ($save) {
             return response()->json([
                 'data' => $data,
@@ -92,6 +94,8 @@ class GudangController extends Controller
         $data->status = $request->status;
         $update = $data->update();
 
+        activity()->log('mengubah gudang ' . $data->nama);
+
         if ($update) {
             return response()->json([
                 'data' => $data,
@@ -103,6 +107,7 @@ class GudangController extends Controller
     public function destroy($id)
     {
         $data = Gudang::findOrFail($id);
+        activity()->log('menghapus gudang ' . $data->nama);
         $delete = $data->delete();
         return response()->json([
             'text' => 'Gudang berhasil dihapus!'

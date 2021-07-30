@@ -175,12 +175,12 @@
 
         function loading() {
             $(".btn .fa-spinner").show();
-            $(".btn .btn-text").html("Sending..");   
+            $(".btn .btn-text").text("Sending..");   
         }
 
         function hideLoader(text = "Simpan"){
             $(".btn .fa-spinner").fadeOut();
-            $(".btn .btn-text").html(text);  
+            $(".btn .btn-text").text(text);  
         }
     </script>
 </body>

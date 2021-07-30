@@ -11,7 +11,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Kategori extends Model
 {
-    use HasFactory, HasUuid;
+    use HasFactory,
+        HasUuid;
 
     public $incrementing = false;
     protected $table = 'kategori';

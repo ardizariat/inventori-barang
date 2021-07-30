@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\KategoriController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\BarangMasukController;
+use App\Http\Controllers\Admin\LogActivityController;
 use App\Http\Controllers\Admin\ProfileUserController;
 use App\Http\Controllers\Admin\BarangKeluarController;
 
@@ -55,4 +56,6 @@ Route::group(['middleware' => ['auth', 'role:super-admin|admin']], function () {
   Route::post('/pengaturan', [SettingController::class, 'update'])->name('setting.update');
 
   Route::resource('/user', UserController::class);
+
+  Route::get('/riwayat-aktifitas', [LogActivityController::class, 'index'])->name('activity-log.index');
 });
