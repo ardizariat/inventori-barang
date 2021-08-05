@@ -19,7 +19,7 @@ class GudangSeeder extends Seeder
     public function run()
     {
         $faker = Faker::create('id_ID');
-        for ($i = 1; $i <= 10; $i++) {
+        for ($i = 1; $i <= 5; $i++) {
             $count = Gudang::count();
             $count++;
             DB::table('gudang')->insert([

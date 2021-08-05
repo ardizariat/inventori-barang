@@ -18,12 +18,29 @@ class ProdukSeeder extends Seeder
     public function run()
     {
         $faker = Faker::create('id_ID');
-        for ($i = 1; $i <= 100000; $i++) {
+        for ($i = 1; $i <= 500; $i++) {
             DB::table('produk')->insert([
                 'id' => Str::uuid(),
                 'nama_produk' => $faker->lastName(),
-                'kategori_id' => $faker->randomElement(['3b28a586-b30a-4915-b3c6-4529204355cf', '47df887e-ce9e-461b-8dd4-148d242d5d43', '6482154f-86df-4939-96c1-23e0992d9c04', '65610a3f-586b-4e9f-b374-62ebf80994bd', '946311bc-9e2d-47b0-b980-c9f44e8574e9', 'd27bc026-20f3-4a02-a574-6399a8b9765d']),
-                'gudang_id' => $faker->randomElement(['0017c705-1dcb-4c1f-bd97-75243a62b1b5', '0dbf2015-a6e6-457e-8945-22db395df15e', '1719782f-93a1-44c6-a497-944c7cf9981d', '1de4cb76-6f16-49eb-8d3c-8881fc593915', '2020a6c4-ceed-4839-bff1-4001be5a1364']),
+                'kategori_id' => $faker->randomElement([
+                    '2edd124e-3320-4e5d-b90f-e4cda865a8e9',
+                    '302d3348-a4f9-4b9f-8fc8-0795bbf77729',
+                    '4b812bc1-5b7d-48fc-a6c9-9944c5d254f1',
+                    '6db245e5-1600-444b-9d2a-51b249f04443',
+                    '7bf06de6-0ddc-4eb6-8bf6-874bf7f0fdbb',
+                    '7e15fd75-08c2-4dd9-ac78-5789bbb1719c',
+                    '95438769-2cc9-45a2-9344-77f6097aadd7',
+                    'a2fc6c6b-329f-4a36-a933-bf669e3cfe04',
+                    'bb8367a4-73a5-4909-899a-be7d321394aa',
+                    'c51183ad-62da-4476-8636-83a7e93c55dc'
+                ]),
+                'gudang_id' => $faker->randomElement([
+                    '593acd4b-97e4-4ccd-92c8-8f20f3774b49',
+                    '9d6ef65d-a831-448f-87ce-4178c93929de',
+                    '9e356847-eda7-4b2a-914b-23e0a6d62854',
+                    'aa45ca3c-2d4b-46c1-9f04-e125a7887647',
+                    'd33bcce0-2f62-4e36-9b76-4a317fc87771'
+                ]),
                 'kode' => $faker->ean13,
                 'merek' => $faker->company,
                 'satuan' => $faker->randomElement(['Pcs', 'Box', 'Karton', 'Kg', 'Meter']),

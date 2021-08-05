@@ -16,6 +16,7 @@ use App\Http\Controllers\Admin\BarangKeluarController;
 Route::group(['middleware' => ['auth', 'role:super-admin|admin']], function () {
 
   Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
+  Route::get('/dashboard/date', [DashboardController::class, 'date'])->name('dashboard.date');
 
   Route::resource('/kategori', KategoriController::class)->except([
     'edit', 'create'

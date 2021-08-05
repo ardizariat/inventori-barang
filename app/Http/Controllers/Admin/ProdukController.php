@@ -170,7 +170,7 @@ class ProdukController extends Controller
         $data = Produk::findOrFail($id);
         $request->validate([
             'kategori_id' => 'required',
-            'nama_produk' => 'required|unique:produk,nama_produk,' . $id,
+            'nama_produk' => 'required',
             'merek' => 'required',
             'satuan' => 'required',
             'minimal_stok' => 'required|numeric',

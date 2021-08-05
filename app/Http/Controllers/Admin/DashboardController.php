@@ -81,4 +81,15 @@ class DashboardController extends Controller
             'rata2_barang_keluar_sebulan',
         ));
     }
+
+    public function date()
+    {
+        date_default_timezone_set('Asia/Jakarta');
+        if (request()->json()) {
+            $timestamp = date('H:i:s');
+            return response()->json([
+                'timestamp' => $timestamp
+            ]);
+        }
+    }
 }

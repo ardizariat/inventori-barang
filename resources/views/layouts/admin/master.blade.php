@@ -3,7 +3,7 @@
 
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>{{ $setting->nama_aplikasi  }} | @yield('title')</title>
+    <title>{{ $setting->nama_aplikasi }} | @yield('title')</title>
     <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
     <link rel="icon" href="{{ $setting->getLogo() }}" type="image/png">
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -30,12 +30,13 @@
     <!-- CSS Files -->
     <link rel="stylesheet" href="{{ asset('admin/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('admin/css/atlantis.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('admin/js/plugin/izitoast/css/iziToast.min.css') }}">
     <link rel="stylesheet" href="{{ asset('admin/js/plugin/sweetalert-2/sweetalert2.min.css') }}">
     <link rel="stylesheet" href="{{ asset('admin/js/plugin/animate-css/animate.min.css') }}">
     @stack('css')
 
     <!-- CSS Just for demo purpose, don't include it in your project -->
-    <link rel="stylesheet" href="{{ asset('admin/css/demo.css') }}">
+    {{-- <link rel="stylesheet" href="{{ asset('admin/css/demo.css') }}"> --}}
 </head>
 
 <body>
@@ -83,34 +84,34 @@
 
     {{-- Modal logout user --}}
     @auth
-    <div class="modal fade modal-logout" id="modal-logout" tabindex="-1" role="dialog"
-        aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <form action="{{ route('logout') }}" method="post">
-                @csrf
-                @method('post')
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title"></h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="container-fluid">
-                            <div class="row">
-                                <p class="text-capitalize">Apakah anda ingin logout?</p>
+        <div class="modal fade modal-logout" id="modal-logout" tabindex="-1" role="dialog"
+            aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <form action="{{ route('logout') }}" method="post">
+                    @csrf
+                    @method('post')
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title"></h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <p class="text-capitalize">Apakah anda ingin logout?</p>
+                                </div>
                             </div>
                         </div>
+                        <div class="modal-footer">
+                            <button type="button" class="text-uppercase btn btn-danger" data-dismiss="modal">Batal</button>
+                            <button type="submit" class="none btn-save text-uppercase btn d-flex btn-primary">Ya</button>
+                        </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="text-uppercase btn btn-danger" data-dismiss="modal">Batal</button>
-                        <button type="submit" class="none btn-save text-uppercase btn d-flex btn-primary">Ya</button>
-                    </div>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
-    </div>
     @endauth
 
     <!--   Core JS Files   -->
@@ -138,8 +139,8 @@
     {{-- <script src="{{ asset('admin/js/setting-demo.js') }}"></script> --}}
 
     <script>
-        $(document).ready(function(){
-            $('.dropdown-user').on('click','.btn-logout',function(e){
+        $(document).ready(function() {
+            $('.dropdown-user').on('click', '.btn-logout', function(e) {
                 e.preventDefault();
                 console.log('ok');
                 $('.modal-logout').modal('show');
@@ -151,36 +152,38 @@
             }
         });
 
-        function preview(selector, temporarayFile, width = 200, height=300) {
+        function preview(selector, temporarayFile, width = 200, height = 300) {
             $(selector).empty();
-            $(selector).append(`<img class="img-fluid img-thumbnail" src="${window.URL.createObjectURL(temporarayFile)}" width="${width}" height="${height}" />`)
+            $(selector).append(
+                `<img class="img-fluid img-thumbnail" src="${window.URL.createObjectURL(temporarayFile)}" width="${width}" height="${height}" />`
+            )
         }
 
         function loopErrors(errors) {
-            if(errors == undefined){
-            return;
+            if (errors == undefined) {
+                return;
             }
 
-            for(error in errors){
-            $(`[name=${error}]`).addClass('is-invalid');                
-                if($(`[name=${error}]`).hasClass('selectpicker')){
-                  $(`<span class="error invalid-feedback">${errors[error][0]}</span>`)
-                  .insertAfter($(`[name=${error}]`).next()); 
-                }else{
-                  $(`<span class="error invalid-feedback">${errors[error][0]}</span>`)
-                  .insertAfter($(`[name=${error}]`));
+            for (error in errors) {
+                $(`[name=${error}]`).addClass('is-invalid');
+                if ($(`[name=${error}]`).hasClass('selectpicker')) {
+                    $(`<span class="error invalid-feedback">${errors[error][0]}</span>`)
+                        .insertAfter($(`[name=${error}]`).next());
+                } else {
+                    $(`<span class="error invalid-feedback">${errors[error][0]}</span>`)
+                        .insertAfter($(`[name=${error}]`));
                 }
             }
         }
 
         function loading() {
             $(".btn .fa-spinner").show();
-            $(".btn .btn-text").text("Sending..");   
+            $(".btn .btn-text").text("Sending..");
         }
 
-        function hideLoader(text = "Simpan"){
+        function hideLoader(text = "Simpan") {
             $(".btn .fa-spinner").fadeOut();
-            $(".btn .btn-text").text(text);  
+            $(".btn .btn-text").text(text);
         }
     </script>
 </body>
