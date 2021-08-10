@@ -14,9 +14,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        view()->composer('layouts.admin.master', function ($view) {
-            $view->with('setting', Setting::first());
-        });
+        // view()->composer('layouts.admin.master', function ($view) {
+        //     $view->with('setting', Setting::first());
+        // });
     }
     /**
      * Bootstrap any application services.
@@ -25,6 +25,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        $setting = Setting::first();
+        view()->share('setting', $setting);
     }
 }

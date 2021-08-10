@@ -4,13 +4,14 @@
 <script src="{{ asset('admin/js/plugin/izitoast/js/iziToast.min.js') }}"></script>
 <script>
     function alert_success(type, message) {
-        iziToast.show({
-            theme: 'dark',
+        iziToast.success({
+            theme: 'light',
             position: 'topRight',
             icon: 'fas fa-check',
             title: 'Berhasil',
             message: message,
-            progressBarColor: 'rgb(0, 255, 184)',
+            // progressBarColor: 'rgb(0, 255, 184)',
+            progressBarColor: '#000',
             layout: 1,
         });
     }

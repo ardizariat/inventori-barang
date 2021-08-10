@@ -127,16 +127,13 @@
     <!-- jQuery Scrollbar -->
     <script src="{{ asset('admin/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js') }}"></script>
 
-    <!-- Sweet Alert -->
-    @includeIf('include.sweetalert')
+    <!-- Alert -->
+    @includeIf('include.alert')
 
     <!-- Atlantis JS -->
     <script src="{{ asset('admin/js/atlantis.min.js') }}"></script>
 
     @stack('js')
-
-    <!-- Atlantis DEMO methods, don't include it in your project! -->
-    {{-- <script src="{{ asset('admin/js/setting-demo.js') }}"></script> --}}
 
     <script>
         $(document).ready(function() {
@@ -186,6 +183,9 @@
             $(".btn .btn-text").text(text);
         }
     </script>
+
+    <!-- Atlantis DEMO methods, don't include it in your project! -->
+    {{-- <script src="{{ asset('admin/js/setting-demo.js') }}"></script> --}}
 </body>
 
 </html>

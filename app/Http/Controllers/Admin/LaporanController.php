@@ -28,7 +28,7 @@ class LaporanController extends Controller
             'awal' => 'required',
             'akhir' => 'required',
         ]);
-        $now = Carbon::now()->format('d F Y, H:i A');
+        $now = Carbon::now()->format('d F Y, H:i:s');
         $awal = $request->awal;
         $akhir = $request->akhir;
         $data = BarangMasuk::whereBetween('tanggal', [$awal, $akhir])->get();
@@ -48,12 +48,12 @@ class LaporanController extends Controller
 
         $pdf->setOptions([
             'page-size' => 'a4',
-            "footer-center" => "[page]",
+            "footer-right" => "[page]",
             'margin-top' => 8,
             // 'header-line' => true,
             'footer-line' => true,
         ]);
-        return $pdf->stream('barang-masuk.pdf');
+        return $pdf->stream('Laporan barang masuk.pdf');
     }
 
     public function barangKeluar()

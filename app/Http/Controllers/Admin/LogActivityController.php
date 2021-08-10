@@ -35,7 +35,7 @@ class LogActivityController extends Controller
                     return $data->user->email;
                 })
                 ->addColumn('waktu', function ($data) {
-                    return $data->created_at->diffForHumans();
+                    return $data->created_at->format('d-m-Y, H:i');
                 })
                 ->addColumn('aktifitas', function ($data) {
                     return view('admin.activity_log._descriptions', [

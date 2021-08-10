@@ -99,12 +99,12 @@
                 </a>
                 <ul class="dropdown-menu notif-box animated fadeIn" aria-labelledby="notifDropdown">
                     <li>
-                        <div class="dropdown-title">Kamu mempunyai {{ stok() }} notifikasi</div>
+                        {{-- <div class="dropdown-title">Kamu mempunyai {{ stok() }} notifikasi</div> --}}
                     </li>
                     <li>
                         <div class="notif-scroll scrollbar-outer">
                             <div class="notif-center">
-                                @foreach (messageStok() as $message)
+                                {{-- @foreach (messageStok() as $message)
                                 <a href="#">
                                     <div class="notif-icon notif-primary">
                                         {{ $loop->iteration }}
@@ -117,7 +117,7 @@
                                         <span class="time">Stok barang ini sisa {{ $message->stok }}</span>
                                     </div>
                                 </a>
-                                @endforeach
+                                @endforeach --}}
                             </div>
                         </div>
                     </li>
@@ -184,31 +184,33 @@
                     </div>
                 </a>
                 @auth
-                <ul class="dropdown-menu dropdown-user animated fadeIn">
-                    <div class="dropdown-user-scroll scrollbar-outer">
-                        <li>
-                            <div class="user-box">
-                                <div class="avatar-lg user-foto"><img src="{{ auth()->user()->getFoto() }}"
-                                        alt="image profile" class="avatar-img rounded"></div>
-                                <div class="u-text">
-                                    <h4>{{ auth()->user()->username }}</h4>
-                                    <p class="text-muted">{{ auth()->user()->email }}</p>
+                    <ul class="dropdown-menu dropdown-user animated fadeIn">
+                        <div class="dropdown-user-scroll scrollbar-outer">
+                            <li>
+                                <div class="user-box">
+                                    <div class="avatar-lg user-foto"><img src="{{ auth()->user()->getFoto() }}"
+                                            alt="image profile" class="avatar-img rounded"></div>
+                                    <div class="u-text">
+                                        <h4>{{ auth()->user()->username }}</h4>
+                                        <p class="text-muted">{{ auth()->user()->email }}</p>
+                                    </div>
                                 </div>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="{{route('profile-user.index')}}"><i class="fas fa-user"></i>
-                                My Profile</a>
-                            <a class="dropdown-item" href="{{ route('profile-user.edit') }}"><i class="fas fa-edit"></i>
-                                Ubah Profile</a>
-                            <a class="dropdown-item" href="{{ route('profile-user.edit_password') }}"><i
-                                    class="fas fa-lock-open"></i> Ganti Password</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item btn-logout" href=""><i class="fas fa-sign-out-alt"></i> Logout</a>
-                        </li>
-                    </div>
-                </ul>
+                            </li>
+                            <li>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="{{ route('profile-user.index') }}"><i
+                                        class="fas fa-user"></i>
+                                    My Profile</a>
+                                <a class="dropdown-item" href="{{ route('profile-user.edit') }}"><i
+                                        class="fas fa-edit"></i>
+                                    Ubah Profile</a>
+                                <a class="dropdown-item" href="{{ route('profile-user.edit_password') }}"><i
+                                        class="fas fa-lock-open"></i> Ganti Password</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item btn-logout" href=""><i class="fas fa-sign-out-alt"></i> Logout</a>
+                            </li>
+                        </div>
+                    </ul>
                 @endauth
             </li>
         </ul>
