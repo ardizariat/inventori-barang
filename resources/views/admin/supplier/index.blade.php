@@ -22,13 +22,13 @@
                         <i class="flaticon-right-arrow"></i>
                     </li>
                     <li class="nav-item">
-                        <a href="#">Data Gudang</a>
+                        <a href="#">Data Supplier</a>
                     </li>
                 </ul>
             </div>
             <div class="row">
                 <div class="col-md-12">
-                    <div class="card shadow animate__animated animate__bounce">
+                    <div class="card shadow animate__animated animate__bounceInUp">
                         <div class="card-header">
                             <button onclick="" type="submit"
                                 class="animate__animated animate__zoomInDown d-none btn btn-hapus-multiple  btn-danger">
@@ -36,21 +36,21 @@
                             </button>
                             <h4 class="card-title float-right">
                                 <button class="btn btn-rounded btn-outline-primary"
-                                    onclick="addForm('{{ route('gudang.store') }}')">
-                                    <i class="fa fa-plus" aria-hidden="true"></i> Tambah Gudang
+                                    onclick="addForm('{{ route('supplier.store') }}')">
+                                    <i class="fa fa-plus" aria-hidden="true"></i> Tambah supplier
                                 </button>
                             </h4>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <form action="" class="form-kategori">
-                                    <table id="gudang-table" class="table table-hover">
+                                <form action="" class="form-supplier">
+                                    <table id="supplier-table" class="table table-hover">
                                         <thead>
                                             <tr>
                                                 <th>No</th>
-                                                <th>Kode</th>
-                                                <th>Nama</th>
-                                                <th>Lokasi</th>
+                                                <th>Supplier</th>
+                                                <th>Telpon</th>
+                                                <th>Email</th>
                                                 <th>Aksi</th>
                                             </tr>
                                         </thead>
@@ -64,7 +64,8 @@
         </div>
     </div>
 
-    @includeIf('admin.gudang._modal')
+    @includeIf('admin.supplier._modal_input')
+    @includeIf('admin.supplier._modal_show')
 
 @endsection
 
@@ -76,10 +77,10 @@
 
         // Datatables
         function load_data() {
-            $('#gudang-table').DataTable({
+            $('#supplier-table').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: "{{ route('gudang.index') }}",
+                ajax: "{{ route('supplier.index') }}",
                 columns: [{
                         data: "DT_RowIndex",
                         name: "DT_RowIndex",
@@ -87,16 +88,16 @@
                         sortable: false
                     },
                     {
-                        data: "kode",
-                        name: "kode"
-                    },
-                    {
                         data: "nama",
                         name: "nama"
                     },
                     {
-                        data: "lokasi",
-                        name: "lokasi"
+                        data: "telpon",
+                        name: "telpon"
+                    },
+                    {
+                        data: "email",
+                        name: "email"
                     },
                     {
                         data: "aksi",
@@ -113,9 +114,8 @@
             });
         }
 
-        // Refresh data
         function refresh_data() {
-            $('#gudang-table').DataTable().destroy();
+            $('#supplier-table').DataTable().destroy();
             load_data();
         }
 
@@ -159,7 +159,7 @@
         function addForm(url) {
             event.preventDefault();
             $('.modal-form').modal('show');
-            $('.modal-form .modal-title').text('Tambah Gudang');
+            $('.modal-form .modal-title').text('Tambah Supplier');
             $('.modal-form form')[0].reset();
             $('.modal-form form').attr('action', url);
             $('.modal-form [name=_method]').val('post');
@@ -169,17 +169,20 @@
         function editForm(url) {
             event.preventDefault();
             $('.modal-form').modal('show');
-            $('.modal-form .modal-title').text('Ubah Gudang');
+            $('.modal-form .modal-title').text('Ubah Supplier');
+            $('.modal-form .btn-text').text('Update');
             $('.modal-form form').attr('action', url);
             $('.modal-form [name=_method]').val('put');
             $.get(url)
                 .done((response) => {
-                    let nama = response.data.nama;
-                    let lokasi = response.data.lokasi;
-                    let status = response.data.status;
+                    var nama = response.data.nama,
+                        email = response.data.email,
+                        telpon = response.data.telpon,
+                        alamat = response.data.alamat;
                     $('.modal-form .nama').val(nama);
-                    $('.modal-form .lokasi').val(lokasi);
-                    $('.modal-form .status').val(status).prop('checked', true);
+                    $('.modal-form .email').val(email);
+                    $('.modal-form .telpon').val(telpon);
+                    $('.modal-form .alamat').val(alamat);
                 })
                 .fail((errors) => {
                     Swal.fire('Oops...', 'Ada yang salah!', 'error')
@@ -220,6 +223,30 @@
             });
 
         });
+
+        // menampilkan modal show
+        function showData(url) {
+            event.preventDefault();
+            $('.modal-show').modal('show');
+            $.get(url)
+                .done((response) => {
+                    var nama = response.data.nama,
+                        email = response.data.email,
+                        telpon = response.data.telpon,
+                        alamat = response.data.alamat;
+
+                    $('.modal-show .modal-title').text('Detail ' + nama);
+
+                    $('.modal-show .nama').text(nama);
+                    $('.modal-show .email').text(email);
+                    $('.modal-show .telpon').text(telpon);
+                    $('.modal-show .alamat').text(alamat);
+                })
+                .fail((errors) => {
+                    Swal.fire('Oops...', 'Data tidak ditemukan!', 'error')
+                    return;
+                })
+        }
     </script>
 
 @endpush

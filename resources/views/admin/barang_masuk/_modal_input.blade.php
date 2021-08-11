@@ -1,4 +1,5 @@
-<div class="modal fade modal-form animate__animated animate__fadeInUp" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade modal-form animate__animated animate__pulse" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <form>
             @csrf
@@ -17,7 +18,9 @@
                                 <label>Nama Barang</label>
                             </div>
                             <div class="col-md-9 form-group">
-                                <select onchange="changeData('{{ route('barang-masuk.change-data') }}')" title="Pilih barang" name="produk_id" data-live-search="true" class="selectpicker form-control produk_id">
+                                <select onchange="changeData('{{ route('barang-masuk.change-data') }}')"
+                                    title="Pilih barang" name="produk_id" data-live-search="true"
+                                    class="selectpicker form-control produk_id">
                                     @foreach ($products as $produk)
                                         <option value="{{ $produk->id }}">{{ $produk->nama_produk }}
                                         </option>
@@ -31,8 +34,7 @@
                                 <label>Stok Saat Ini</label>
                             </div>
                             <div class="col-md-9 form-group">
-                                <input type="text" name="stok" autocomplete="off"
-                                    class="stok form-control" readonly>
+                                <input type="text" name="stok" autocomplete="off" class="stok form-control" readonly>
                                 <span class="help-block with-errors"></span>
                             </div>
                         </div>
@@ -51,7 +53,8 @@
                                 <label>Tanggal</label>
                             </div>
                             <div class="col-md-9 form-group">
-                                <input type="text" autocomplete="off" name="tanggal" value="{{ date('Y-m-d') }}" class="form-control tanggal max-date">
+                                <input type="text" autocomplete="off" name="tanggal"
+                                    class="form-control tanggal max-date">
                                 <span class="help-block with-errors"></span>
                             </div>
                         </div>
@@ -60,28 +63,29 @@
                                 <label>Pemberi Barang</label>
                             </div>
                             <div class="col-md-9 form-group">
-                                <input type="text" name="pemberi" autocomplete="off"
-                                    class="pemberi form-control">
+                                <input type="text" name="pemberi" autocomplete="off" class="pemberi form-control">
                                 <span class="help-block with-errors"></span>
                             </div>
                         </div>
                         <div class="row">
-                          <div class="col-md-3 pt-2">
-                              <label>Keterangan</label>
-                          </div>
-                          <div class="col-md-9 form-group">
-                              <textarea name="keterangan" class="form-control keterangan" cols="15" rows="7"></textarea>
-                              <span class="help-block with-errors"></span>
-                          </div>
-                      </div>
+                            <div class="col-md-3 pt-2">
+                                <label>Keterangan</label>
+                            </div>
+                            <div class="col-md-9 form-group">
+                                <textarea name="keterangan" class="form-control keterangan" cols="15"
+                                    rows="7"></textarea>
+                                <span class="help-block with-errors"></span>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="modal-footer">
+                <div class="modal-footer d-flex justify-content-center">
                     <button type="button" class="text-uppercase btn btn-sm btn-danger"
                         data-dismiss="modal">Batal</button>
-                    <button type="submit"
-                        class="none btn-save text-uppercase btn d-flex btn-sm btn-primary">Simpan</button>
-                    <img class="loader d-none" src="{{ asset('/images/loader.gif') }}" alt="">
+                    <button class="btn btn-primary btn-save btn-sm" type="submit">
+                        <span class="btn-text text-uppercase">Simpan</span>
+                        <i class="fas fa-spinner fa-spin" style="display:none;"></i>
+                    </button>
                 </div>
             </div>
         </form>

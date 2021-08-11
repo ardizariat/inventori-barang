@@ -54,8 +54,8 @@
 
 @push('js')
     <script src="{{ asset('admin/js/plugin/datatables/datatables.min.js') }}"></script>
-    <script src="{{ asset('admin/js/plugin/date-time-pickers/js/flatpickr.js') }}"></script>
-    <script src="{{ asset('admin/js/plugin/date-time-pickers/js/date-time-picker-script.js') }}"></script>
+    {{-- <script src="{{ asset('admin/js/plugin/date-time-pickers/js/flatpickr.js') }}"></script>
+    <script src="{{ asset('admin/js/plugin/date-time-pickers/js/date-time-picker-script.js') }}"></script> --}}
     <script>
         // Datatables load data
         load_data();

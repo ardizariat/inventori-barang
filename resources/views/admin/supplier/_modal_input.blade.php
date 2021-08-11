@@ -14,37 +14,38 @@
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-md-2 pt-2">
-                                <label>Nama Gudang</label>
+                                <label>Nama Supplier</label>
                             </div>
                             <div class="col-md-10 form-group">
                                 <input type="text" name="nama" autocomplete="off" autofocus class="nama form-control"
-                                    placeholder="Masukkan nama gudang">
-                                <span class="help-block with-errors"></span>
-                            </div>
-                        </div>
-                        <div class="row mt-3">
-                            <div class="col-md-2 pt-2">
-                                <label>Status</label>
-                            </div>
-                            <div class="col-md-10 form-group">
-                                <div class="form-check form-check-inline">
-                                    <input class="status form-check-input" type="radio" name="status" value="aktif">
-                                    <label class="form-check-label" for="inlineRadio1">Aktif</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="status form-check-input" type="radio" name="status"
-                                        value="tidak aktif">
-                                    <label class="form-check-label">Tidak Aktif</label>
-                                </div>
+                                    placeholder="Masukkan nama supplier">
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-2 pt-2">
-                                <label>Lokasi</label>
+                                <label>Nomor Telpon</label>
                             </div>
                             <div class="col-md-10 form-group">
-                                <textarea name="lokasi" class="form-control lokasi" cols="30" rows="10"></textarea>
-                                <span class="help-block with-errors"></span>
+                                <input type="text" name="telpon" autocomplete="off" class="telpon form-control"
+                                    placeholder="Masukkan nomor telpon supplier">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2 pt-2">
+                                <label>Email</label>
+                            </div>
+                            <div class="col-md-10 form-group">
+                                <input type="text" name="email" autocomplete="off" class="email form-control"
+                                    placeholder="Masukkan email supplier">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2 pt-2">
+                                <label>Alamat</label>
+                            </div>
+                            <div class="col-md-10 form-group">
+                                <textarea name="alamat" autocomplete="off" class="email form-control"
+                                    placeholder="Masukkan alamat supplier" cols="30" rows="10"></textarea>
                             </div>
                         </div>
                     </div>

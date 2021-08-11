@@ -18,28 +18,30 @@ class ProdukSeeder extends Seeder
     public function run()
     {
         $faker = Faker::create('id_ID');
-        for ($i = 1; $i <= 500; $i++) {
+        for ($i = 1; $i <= 4000; $i++) {
             DB::table('produk')->insert([
                 'id' => Str::uuid(),
                 'nama_produk' => $faker->lastName(),
                 'kategori_id' => $faker->randomElement([
-                    '2edd124e-3320-4e5d-b90f-e4cda865a8e9',
-                    '302d3348-a4f9-4b9f-8fc8-0795bbf77729',
-                    '4b812bc1-5b7d-48fc-a6c9-9944c5d254f1',
-                    '6db245e5-1600-444b-9d2a-51b249f04443',
-                    '7bf06de6-0ddc-4eb6-8bf6-874bf7f0fdbb',
-                    '7e15fd75-08c2-4dd9-ac78-5789bbb1719c',
-                    '95438769-2cc9-45a2-9344-77f6097aadd7',
-                    'a2fc6c6b-329f-4a36-a933-bf669e3cfe04',
-                    'bb8367a4-73a5-4909-899a-be7d321394aa',
-                    'c51183ad-62da-4476-8636-83a7e93c55dc'
+                    '01f77fcb-f95b-4204-a484-490c34adb9e1',
+                    '1cf37eaf-8537-40d1-9d73-5e9f8fdc4975',
+                    '48aa3caa-7816-4a04-bc50-9f2789d4083b',
+                    '4b67ca24-de1c-494d-afb6-a1d6951153e9',
+                    '8a933bdd-9e4e-43a5-8e06-e88257b68d96',
+                ]),
+                'supplier_id' => $faker->randomElement([
+                    '0d2308de-d160-42b4-9e16-c65146806683',
+                    '17ab03b4-3f96-4fff-8f2d-6d54c7c6f583',
+                    '39e78740-d6f8-49b4-90b2-d753c0e019fe',
+                    '49a4df2a-7eab-4bd2-bdc1-7b805936b25c',
+                    '54f422e1-afc3-47c3-9992-1721e832162d',
                 ]),
                 'gudang_id' => $faker->randomElement([
-                    '593acd4b-97e4-4ccd-92c8-8f20f3774b49',
-                    '9d6ef65d-a831-448f-87ce-4178c93929de',
-                    '9e356847-eda7-4b2a-914b-23e0a6d62854',
-                    'aa45ca3c-2d4b-46c1-9f04-e125a7887647',
-                    'd33bcce0-2f62-4e36-9b76-4a317fc87771'
+                    '0c1e8e4e-ba3b-4264-8a2f-f77747eab92a',
+                    '1a03be93-18f7-4ad2-a853-43d472949b04',
+                    '3757377c-028d-4569-a411-9082b3a19b24',
+                    '88d0aecd-92c2-4bf1-94c0-f2dafd5cd4fc',
+                    'a6b239cc-6f22-43f1-9b4f-e799c78f9dcc'
                 ]),
                 'kode' => $faker->ean13,
                 'merek' => $faker->company,

@@ -1,43 +1,77 @@
-@extends('admin.laporan.pdf.layouts')
+<!DOCTYPE html>
+<html lang="en">
 
-@section('content-pdf')
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="{{ asset('admin/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('admin/css/atlantis.min.css') }}">
+    <script>
+        function subst() {
+            var vars = {};
+            var query_strings_from_url = document.location.search.substring(1).split('&');
+            for (var query_string in query_strings_from_url) {
+                if (query_strings_from_url.hasOwnProperty(query_string)) {
+                    var temp_var = query_strings_from_url[query_string].split('=', 2);
+                    vars[temp_var[0]] = decodeURI(temp_var[1]);
+                }
+            }
+            var css_selector_classes = ['page', 'frompage', 'topage', 'webpage', 'section', 'subsection', 'date', 'isodate',
+                'time', 'title', 'doctitle', 'sitepage', 'sitepages'
+            ];
+            for (var css_class in css_selector_classes) {
+                if (css_selector_classes.hasOwnProperty(css_class)) {
+                    var element = document.getElementsByClassName(css_selector_classes[css_class]);
+                    for (var j = 0; j < element.length; ++j) {
+                        element[j].textContent = vars[css_selector_classes[css_class]];
+                    }
+                }
+            }
+        }
+    </script>
+    <title>Laporan</title>
+</head>
 
-    <header>
-        <h1 class="text-bold text-center">Laporan Barang Masuk</h1>
-    </header>
-    <div class="card">
-        <div class="card-header">
-            Invoice
-            <strong>01/01/01/2018</strong>
-            <span class="float-right"> <strong>Status:</strong> Pending</span>
-
-        </div>
-        <div class="card-body">
-            <div class="row mb-4">
-                <div class="col-sm-6">
-                    <h6 class="mb-3">From:</h6>
-                    <div>
-                        <strong>Webz Poland</strong>
-                    </div>
-                    <div>Madalinskiego 8</div>
-                    <div>71-101 Szczecin, Poland</div>
-                    <div>Email: info@webz.com.pl</div>
-                    <div>Phone: +48 444 666 3333</div>
+<body class="bg-white">
+    <div class="content">
+        <div class="page-inner">
+            <div class="page-header">
+                <h1 class="text-center">
+                    <strong>Laporan Barang Masuk</strong>
+                </h1>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <table>
+                        <tr>
+                            <th>Tanggal Ekspor Data</th>
+                            <th>:</th>
+                            <td>{{ $now }}</td>
+                        </tr>
+                        <tr>
+                            <th>Periode</th>
+                            <th>:</th>
+                            <td>{{ tanggal($awal) . ' - ' . tanggal($akhir) }}</td>
+                        </tr>
+                    </table>
                 </div>
-
-                <div class="col-sm-6">
-                    <h6 class="mb-3">To:</h6>
-                    <div>
-                        <strong>Bob Mart</strong>
-                    </div>
-                    <div>Attn: Daniel Marek</div>
-                    <div>43-190 Mikolow, Poland</div>
-                    <div>Email: marek@daniel.com</div>
-                    <div>Phone: +48 123 456 789</div>
+                <div class="col-md-4 ml-auto">
+                    <table>
+                        <tr>
+                            <th>Total Item Produk</th>
+                            <th>:</th>
+                            <td> {{ $totalItemProduk }} Item</td>
+                        </tr>
+                        <tr>
+                            <th>Total Produk Masuk</th>
+                            <th>:</th>
+                            <td> {{ $totalProdukMasuk }} Item</td>
+                        </tr>
+                    </table>
                 </div>
             </div>
-            <hr class="bg-dark">
-            <div class="row">
+            <div class="row my-2">
                 <div class="col-md-12">
                     <table class="table">
                         <thead class="thead-light">
@@ -67,6 +101,12 @@
                     </table>
                 </div>
             </div>
+            <div class="row my-3 mx-3">
+                <p class="mb-5">Pembuat</p>
+                <ins class="mt-5">( {{ auth()->user()->name }} )</ins>
+            </div>
         </div>
     </div>
-@endsection
+</body>
+
+</html>

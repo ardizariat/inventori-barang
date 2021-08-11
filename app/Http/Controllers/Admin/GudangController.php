@@ -13,17 +13,10 @@ class GudangController extends Controller
     public function index(Request $request)
     {
         $title = 'Gudang';
-        $count = Gudang::count();
-        $count++;
-        $kode = 'GD' . kode($count, 4);
 
         if (request()->ajax()) {
             $data = Gudang::query()->orderBy('created_at', 'desc');
             return datatables()->of($data)
-                ->addColumn('dibuat', function ($data) {
-                    $data = Carbon::parse($data->created_at)->format('d F Y, H:i');
-                    return $data;
-                })
                 ->addColumn('status', function ($data) {
                     return view('admin.gudang._status', [
                         'data' => $data
@@ -36,14 +29,13 @@ class GudangController extends Controller
                         'data' => $data
                     ]);
                 })
-                ->rawColumns(['dibuat', 'status', 'aksi'])
+                ->rawColumns(['status', 'aksi'])
                 ->addIndexColumn()
                 ->make(true);
         }
 
         return view('admin.gudang.index', compact(
             'title',
-            'kode'
         ));
     }
 
@@ -55,8 +47,12 @@ class GudangController extends Controller
             'status' => 'required',
         ]);
 
+        $count = Gudang::count();
+        $count++;
+        $kode = 'GD' . kode($count, 4);
+
         $data = new Gudang();
-        $data->kode = $request->kode;
+        $data->kode = $kode;
         $data->nama = $request->nama;
         $data->lokasi = $request->lokasi;
         $data->status = $request->status;
@@ -77,7 +73,7 @@ class GudangController extends Controller
         $data = Gudang::findOrFail($id);
         return response()->json([
             'data' => $data
-        ], 201);
+        ], 200);
     }
 
     public function update(Request $request, $id)
@@ -88,7 +84,7 @@ class GudangController extends Controller
             'status' => 'required',
         ]);
         $data = Gudang::findOrFail($id);
-        $data->kode = $request->kode;
+
         $data->nama = $request->nama;
         $data->lokasi = $request->lokasi;
         $data->status = $request->status;

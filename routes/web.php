@@ -10,8 +10,7 @@ use App\Http\Controllers\Admin\BarangMasukController;
 use App\Http\Controllers\Admin\BarangKeluarController;
 
 Route::get('/', function () {
-
-  // return view('welcome');
+  return view('welcome');
 });
 
 

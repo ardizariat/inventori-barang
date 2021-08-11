@@ -14,7 +14,7 @@ class BarangKeluarController extends Controller
     public function index(Request $request)
     {
         $title = 'Barang Keluar';
-        $products = Produk::latest()->get();
+        $products = Produk::without(['supplier', 'category', 'warehouse'])->latest()->get();
         $from_date = $request->from_date;
         $to_date = $request->to_date;
         if (request()->ajax()) {

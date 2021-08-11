@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\ProdukController;
 use App\Http\Controllers\Admin\LaporanController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\KategoriController;
+use App\Http\Controllers\Admin\SupplierController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\BarangMasukController;
 use App\Http\Controllers\Admin\LogActivityController;
@@ -19,6 +20,10 @@ Route::group(['middleware' => ['auth', 'role:super-admin|admin']], function () {
   Route::get('/dashboard/date', [DashboardController::class, 'date'])->name('dashboard.date');
 
   Route::resource('/kategori', KategoriController::class)->except([
+    'edit', 'create'
+  ]);
+
+  Route::resource('/supplier', SupplierController::class)->except([
     'edit', 'create'
   ]);
 

@@ -7,26 +7,23 @@ use App\Models\Traits\HasUuid;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class BarangKeluar extends Model
+class Supplier extends Model
 {
     use HasFactory, HasUuid;
-
+    protected $table = 'suppliers';
     public $incrementing = false;
-    protected $with = ['product'];
-    protected $table = 'barang_keluar';
     protected $primaryKey = 'id';
     protected $keyType = 'string';
     protected $fillable = [
-        'produk_id',
-        'jumlah',
-        'tanggal',
-        'keterangan',
-        'penerima',
-        'pemberi',
+        'nama',
+        'email',
+        'telpon',
+        'alamat',
+        'status'
     ];
 
-    public function product()
+    public function products()
     {
-        return $this->belongsTo(Produk::class, 'produk_id', 'id');
+        return $this->hasMany(Produk::class, 'supplier_id', 'id');
     }
 }

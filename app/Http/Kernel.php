@@ -68,8 +68,8 @@ class Kernel extends HttpKernel
         'role_or_permission' => \Spatie\Permission\Middlewares\RoleOrPermissionMiddleware::class,
     ];
 
-    // protected function schedule(Schedule $schedule)
-    // {
-    //     $schedule->command('activitylog:clean')->daily();
-    // }
+    protected function schedule(Schedule $schedule)
+    {
+        $schedule->command('activitylog:clean')->daily();
+    }
 }

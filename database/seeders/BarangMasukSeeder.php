@@ -19,26 +19,25 @@ class BarangMasukSeeder extends Seeder
     public function run()
     {
         $faker = Faker::create('id_ID');
-        for ($i = 1; $i <= 500; $i++) {
+        for ($i = 1; $i <= 1000; $i++) {
             DB::table('barang_masuk')->insert([
                 'id' => Str::uuid(),
                 'produk_id' => $faker->randomElement([
-                    '007789fc-38fd-484e-b991-1f2803859972',
-                    '00818e1e-dc7c-414f-805a-47620922fa30',
-                    '00c33734-bc8a-487c-9235-39b41a70476a',
-                    '013a29b7-7ca8-4238-84eb-c9d775d71d67',
-                    '015a4b4f-4e8e-4c33-97fe-72caa56e25e5',
-                    '015d8bcf-2260-463f-9492-9f3bd10a3360',
-                    '01d914b5-5adb-41f2-88c1-33b1bb41ab06',
-                    '01f2006c-a7f2-4a96-93d0-fe47f9ae6c34',
-                    '022c4807-fa65-4225-827d-3059a15f3689'
+                    '0000653c-4494-4fdc-bef2-a55579605a5d',
+                    '001b3c0a-1f9d-4593-8d2b-a93984f535a5',
+                    '004417b4-7305-4356-90ba-79b62131e7f8',
+                    '0045acf7-66f5-49cc-a341-fcdcd062ed38',
+                    '006472c0-790d-4e7c-937b-c71becd9826a',
+                    '0067bbe4-3a36-4006-bb57-a1a3359dbcb7',
+                    '0068d776-f12a-4832-a243-bf4a5c3e82ca',
+                    '006e9167-a084-4ebc-ac46-08b10e623013',
+                    '00a23edb-748c-4448-a052-6a2df949300b'
                 ]),
                 'jumlah' => rand(5, 100),
                 'penerima' => $faker->randomElement(['Ardi', 'Zaid', 'Lia', 'Azmi', 'Hamzah']),
                 'pemberi' => $faker->randomElement(['Ardi', 'Zaid', 'Lia', 'Azmi', 'Hamzah']),
                 'keterangan' => $faker->sentence(),
                 'tanggal' => $faker->date($format = 'Y-m-d', $max = 'now'),
-                'status' => 'aktif',
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);

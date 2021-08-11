@@ -21,7 +21,6 @@ class CreateBarangMasukTable extends Migration
             $table->string('pemberi')->nullable();
             $table->date('tanggal');
             $table->text('keterangan')->nullable();
-            $table->enum('status', ['aktif', 'tidak aktif'])->default('aktif')->nullable();
             $table->timestamps();
 
             $table->foreign('produk_id')->references('id')->on('produk')->onDelete('cascade')->onUpdate('cascade');

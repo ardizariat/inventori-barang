@@ -166,6 +166,9 @@
                 if ($(`[name=${error}]`).hasClass('selectpicker')) {
                     $(`<span class="error invalid-feedback">${errors[error][0]}</span>`)
                         .insertAfter($(`[name=${error}]`).next());
+                } else if ($(`[name=${error}]`).attr('type') == 'radio') {
+                    $(`<span class="error invalid-feedback">${errors[error][0]}</span>`)
+                        .insertAfter($(`[name=${error}]`).next());
                 } else {
                     $(`<span class="error invalid-feedback">${errors[error][0]}</span>`)
                         .insertAfter($(`[name=${error}]`));
@@ -175,11 +178,13 @@
 
         function loading() {
             $(".btn .fa-spinner").show();
+            $(".btn").prop('disabled', true);
             $(".btn .btn-text").text("Sending..");
         }
 
         function hideLoader(text = "Simpan") {
             $(".btn .fa-spinner").fadeOut();
+            $(".btn").prop('disabled', false);
             $(".btn .btn-text").text(text);
         }
     </script>

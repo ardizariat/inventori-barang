@@ -1,4 +1,5 @@
-<div class="modal fade modal-form" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade modal-form animate__animated animate__pulse" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <form>
             @csrf
@@ -17,7 +18,9 @@
                                 <label>Nama Barang</label>
                             </div>
                             <div class="col-md-9 form-group">
-                                <select onchange="changeData('{{ route('barang-masuk.change-data') }}')" title="Pilih barang" name="produk_id" data-live-search="true" class="selectpicker form-control produk_id">
+                                <select onchange="changeData('{{ route('barang-masuk.change-data') }}')"
+                                    title="Pilih barang" name="produk_id" data-live-search="true"
+                                    class="selectpicker form-control produk_id">
                                     @foreach ($products as $produk)
                                         <option value="{{ $produk->id }}">{{ $produk->nama_produk }}
                                         </option>
@@ -31,8 +34,8 @@
                                 <label>Stok Saat Ini</label>
                             </div>
                             <div class="col-md-9 form-group">
-                                <input type="text" name="stok" autocomplete="off" autofocus
-                                    class="stok form-control" readonly>
+                                <input type="text" name="stok" autocomplete="off" autofocus class="stok form-control"
+                                    readonly>
                                 <span class="help-block with-errors"></span>
                             </div>
                         </div>
@@ -51,7 +54,8 @@
                                 <label>Tanggal</label>
                             </div>
                             <div class="col-md-9 form-group">
-                                <input type="text" autocomplete="off" name="tanggal" value="{{ date('Y-m-d') }}" class="form-control tanggal max-date">
+                                <input type="text" autocomplete="off" name="tanggal" value="{{ date('Y-m-d') }}"
+                                    class="form-control tanggal max-date">
                                 <span class="help-block with-errors"></span>
                             </div>
                         </div>
@@ -60,20 +64,20 @@
                                 <label>Penerima Barang</label>
                             </div>
                             <div class="col-md-9 form-group">
-                                <input type="text" name="penerima" autocomplete="off"
-                                    class="penerima form-control">
+                                <input type="text" name="penerima" autocomplete="off" class="penerima form-control">
                                 <span class="help-block with-errors"></span>
                             </div>
                         </div>
                         <div class="row">
-                          <div class="col-md-3 pt-2">
-                              <label>Keterangan</label>
-                          </div>
-                          <div class="col-md-9 form-group">
-                              <textarea name="keterangan" class="form-control keterangan" cols="15" rows="7"></textarea>
-                              <span class="help-block with-errors"></span>
-                          </div>
-                      </div>
+                            <div class="col-md-3 pt-2">
+                                <label>Keterangan</label>
+                            </div>
+                            <div class="col-md-9 form-group">
+                                <textarea name="keterangan" class="form-control keterangan" cols="15"
+                                    rows="7"></textarea>
+                                <span class="help-block with-errors"></span>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer d-flex justify-content-center">

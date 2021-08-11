@@ -36,7 +36,7 @@ class LaporanController extends Controller
         $totalProdukMasuk = number_format($totalProdukMasuk, 0, ',', '.');
         $totalItemProduk = $data->count();
         $totalItemProduk = number_format($totalItemProduk, 0, ',', '.');
-        $pdf = PDF::loadView('admin.laporan.pdf.barang_masuk', [
+        $pdf = \PDF::loadView('admin.laporan.pdf.barang_masuk', [
             'data' => $data,
             'awal' => $awal,
             'akhir' => $akhir,
@@ -45,14 +45,12 @@ class LaporanController extends Controller
             'now' => $now,
             'title' => 'Ardi'
         ]);
-
         $pdf->setOptions([
             'page-size' => 'a4',
             "footer-right" => "[page]",
-            'margin-top' => 8,
-            // 'header-line' => true,
-            'footer-line' => true,
         ]);
+        // ->setOrientation('landscape');
+
         return $pdf->stream('Laporan barang masuk.pdf');
     }
 

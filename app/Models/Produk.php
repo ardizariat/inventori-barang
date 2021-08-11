@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Gudang;
 use App\Models\Kategori;
+use App\Models\Supplier;
 use App\Models\BarangMasuk;
 use App\Models\BarangKeluar;
 use App\Models\Traits\HasUuid;
@@ -14,12 +15,13 @@ class Produk extends Model
 {
     use HasFactory, HasUuid;
     public $incrementing = false;
-    protected $with = ['category', 'warehouse'];
+    protected $with = ['category', 'warehouse', 'supplier'];
     protected $table = 'produk';
     protected $primaryKey = 'id';
     protected $keyType = 'string';
     protected $fillable = [
         'kategori_id',
+        'supplier_id',
         'gudang_id',
         'kode',
         'nama_produk',
@@ -39,6 +41,10 @@ class Produk extends Model
     public function warehouse()
     {
         return $this->belongsTo(Gudang::class, 'gudang_id', 'id');
+    }
+    public function supplier()
+    {
+        return $this->belongsTo(Supplier::class, 'supplier_id', 'id');
     }
 
     public function stockIns()

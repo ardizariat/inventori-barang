@@ -16,7 +16,8 @@ class CreateProdukTable extends Migration
         Schema::create('produk', function (Blueprint $table) {
             $table->uuid('id')->primary()->unique();
             $table->uuid('kategori_id');
-            $table->uuid('gudang_id');
+            $table->uuid('gudang_id')->nullable();
+            $table->uuid('supplier_id')->nullable();
             $table->string('kode');
             $table->string('nama_produk');
             $table->string('merek');
@@ -30,6 +31,7 @@ class CreateProdukTable extends Migration
 
             $table->foreign('kategori_id')->references('id')->on('kategori')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('gudang_id')->references('id')->on('gudang')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('supplier_id')->references('id')->on('suppliers')->onDelete('cascade')->onUpdate('cascade');
             $table->engine = 'InnoDB';
         });
     }

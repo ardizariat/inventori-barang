@@ -252,8 +252,11 @@
                     })
                     .done(response => {
                         $('.modal-form').modal('hide');
+                        form[0].reset();
+                        $('.selectpicker').val(null).trigger('change');
                         refresh_data();
                         alert_success('success', response.text);
+                        window.location.reload();
                     })
                     .fail(errors => {
                         if (errors.status == 422) {

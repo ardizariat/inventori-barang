@@ -6,16 +6,14 @@ use Carbon\Carbon;
 use App\Models\Gudang;
 use App\Models\Produk;
 use App\Models\Kategori;
+use App\Models\Supplier;
 use Milon\Barcode\DNS2D;
 use \Milon\Barcode\DNS1D;
-use Illuminate\Http\Request;
-use App\DataTables\ProdukDataTable;
-use App\Http\Controllers\Controller;
-use App\Models\BarangKeluar;
 use App\Models\BarangMasuk;
-use Illuminate\Contracts\Cache\Store;
+use App\Models\BarangKeluar;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Validator;
 
 class ProdukController extends Controller
 {
@@ -23,9 +21,8 @@ class ProdukController extends Controller
     {
         $title = 'Data Barang';
         $daftar_kategori = Kategori::latest()->get();
-        $daftar_gudang = Gudang::latest()->get();
-        $kategori = $request->kategori;
         if (request()->ajax()) {
+            $kategori = $request->kategori;
             if (!empty($kategori)) {
                 $data = Produk::where('kategori_id', '=', $kategori)
                     ->get();
@@ -58,31 +55,23 @@ class ProdukController extends Controller
         return view('admin.produk.index', compact(
             'title',
             'daftar_kategori',
-            'daftar_gudang',
         ));
     }
 
     public function create()
     {
         $title = 'Tambah Produk';
-
-        $gudang = Gudang::all();
-        $daftar_gudang = collect($gudang)->pluck('nama', 'id');
-
-        $kategori = Kategori::all();
-        $daftar_kategori = collect($kategori)->pluck('kategori', 'id');
-
         $url = route('produk.index');
 
-        $count = Produk::count();
-        $count++;
-        $kode = kode($count, 9);
+        $daftar_gudang = Gudang::latest()->get();
+        $daftar_kategori = Kategori::latest()->get();
+        $daftar_suppliers = Supplier::latest()->get();
 
         return view('admin.produk.create', compact(
             'title',
             'daftar_gudang',
             'daftar_kategori',
-            'kode',
+            'daftar_suppliers',
             'url'
         ));
     }
@@ -90,6 +79,7 @@ class ProdukController extends Controller
     public function store(Request $request)
     {
         $request->validate([
+            'supplier_id' => 'required',
             'kategori_id' => 'required',
             'nama_produk' => 'required|unique:produk,nama_produk',
             'merek' => 'required',
@@ -104,6 +94,7 @@ class ProdukController extends Controller
         // Input produk
         $data = new Produk();
         $data->kategori_id = $request->kategori_id;
+        $data->supplier_id = $request->supplier_id;
         $data->gudang_id = $request->gudang_id;
         $data->kode = $kode;
         $data->nama_produk = $request->nama_produk;
@@ -135,12 +126,10 @@ class ProdukController extends Controller
 
         activity()->log('menambahkan produk ' . $data->nama_produk);
 
-        if ($save) {
-            return response()->json([
-                'data' => $data,
-                'text' => 'Produk berhasil ditambahkan!'
-            ], 201);
-        }
+        return response()->json([
+            'data' => $data,
+            'text' => 'Produk berhasil ditambahkan!'
+        ], 201);
     }
 
     public function edit($id)
@@ -149,17 +138,16 @@ class ProdukController extends Controller
         $url = route('produk.index');
         $data = Produk::findOrFail($id);
 
-        $gudang = Gudang::all();
-        $daftar_gudang = collect($gudang)->pluck('nama', 'id');
-
-        $kategori = Kategori::all();
-        $daftar_kategori = collect($kategori)->pluck('kategori', 'id');
+        $daftar_gudang = Gudang::latest()->get();
+        $daftar_kategori = Kategori::latest()->get();
+        $daftar_suppliers = Supplier::latest()->get();
 
         return view('admin.produk.edit', compact(
             'url',
             'title',
             'daftar_gudang',
             'daftar_kategori',
+            'daftar_suppliers',
             'data'
         ));
     }
@@ -169,8 +157,9 @@ class ProdukController extends Controller
         // Cari id
         $data = Produk::findOrFail($id);
         $request->validate([
+            'supplier_id' => 'required',
             'kategori_id' => 'required',
-            'nama_produk' => 'required',
+            'nama_produk' => 'required|unique:produk,nama_produk,' . $id,
             'merek' => 'required',
             'satuan' => 'required',
             'minimal_stok' => 'required|numeric',
@@ -196,6 +185,7 @@ class ProdukController extends Controller
 
         $update = $data->update([
             'kategori_id' => $request->kategori_id,
+            'supplier_id' => $request->supplier_id,
             'gudang_id' => $request->gudang_id,
             'nama_produk' => $request->nama_produk,
             'merek' => $request->merek,
