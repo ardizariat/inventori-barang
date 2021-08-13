@@ -13,6 +13,8 @@ use App\Http\Controllers\Admin\BarangMasukController;
 use App\Http\Controllers\Admin\LogActivityController;
 use App\Http\Controllers\Admin\ProfileUserController;
 use App\Http\Controllers\Admin\BarangKeluarController;
+use App\Http\Controllers\Admin\PurchaseOrderController;
+use App\Http\Controllers\Admin\PurchaseOrderDetailController;
 
 Route::group(['middleware' => ['auth', 'role:super-admin|admin']], function () {
 
@@ -32,6 +34,17 @@ Route::group(['middleware' => ['auth', 'role:super-admin|admin']], function () {
   ]);
 
   Route::resource('/produk', ProdukController::class);
+
+  Route::get('/purchase-order/{id}/create', [PurchaseOrderController::class, 'create'])->name('purchase-order.create');
+  Route::resource('/purchase-order', PurchaseOrderController::class)->except([
+    'create', 'show'
+  ]);
+
+  Route::resource('/purchase-order-detail', PurchaseOrderDetailController::class)->except([
+    'create', 'show'
+  ]);
+  Route::get('/purchase-order-detail/{id}/data', [PurchaseOrderDetailController::class, 'data'])->name('purchase-order-detail.data');
+
 
   Route::resource('/barang-masuk', BarangMasukController::class)->except([
     'edit', 'create', 'update'

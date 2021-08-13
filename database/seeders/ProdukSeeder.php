@@ -18,36 +18,42 @@ class ProdukSeeder extends Seeder
     public function run()
     {
         $faker = Faker::create('id_ID');
-        for ($i = 1; $i <= 4000; $i++) {
+        for ($i = 1; $i <= 100; $i++) {
             DB::table('produk')->insert([
                 'id' => Str::uuid(),
                 'nama_produk' => $faker->lastName(),
                 'kategori_id' => $faker->randomElement([
-                    '01f77fcb-f95b-4204-a484-490c34adb9e1',
-                    '1cf37eaf-8537-40d1-9d73-5e9f8fdc4975',
-                    '48aa3caa-7816-4a04-bc50-9f2789d4083b',
-                    '4b67ca24-de1c-494d-afb6-a1d6951153e9',
-                    '8a933bdd-9e4e-43a5-8e06-e88257b68d96',
+                    '099f2feb-f7dc-4ba4-9072-fcebb91425d9',
+                    '119e28f0-c9b1-43f6-aebd-a01ab5fa5df4',
+                    '1c0019fd-6993-4b68-81b9-40926490b732',
+                    '343e965a-6f2d-43e0-8916-f53ac086fc2c',
+                    '705def74-144c-4356-9f3b-b8d311be80c8',
+                    '894ffaea-afd2-4aac-9001-db283ecd3a25'
                 ]),
                 'supplier_id' => $faker->randomElement([
-                    '0d2308de-d160-42b4-9e16-c65146806683',
-                    '17ab03b4-3f96-4fff-8f2d-6d54c7c6f583',
-                    '39e78740-d6f8-49b4-90b2-d753c0e019fe',
-                    '49a4df2a-7eab-4bd2-bdc1-7b805936b25c',
-                    '54f422e1-afc3-47c3-9992-1721e832162d',
+                    '1a4afbc3-d190-443e-a29c-70e2d866cd53',
+                    '1c6b4e8e-5555-481c-b3fe-6a3fca60cd76',
+                    '4d8540ff-9265-46e6-8735-c4ef48ab92b4',
+                    '53e38402-c351-4f3b-a15c-59dd2a1b2a84',
+                    '58079de4-c215-49d3-910b-9829c02280fc',
+                    '93ec0464-c5e4-4333-842a-e56b3735387c',
+                    'aa518552-9405-4fcb-8302-e34f823a3efd',
+                    'cff6e53e-8cfc-4df0-b89d-d815b94b951d',
+                    'ed4d8f09-19bc-4ede-96e5-3813e4fbeee1'
                 ]),
                 'gudang_id' => $faker->randomElement([
-                    '0c1e8e4e-ba3b-4264-8a2f-f77747eab92a',
-                    '1a03be93-18f7-4ad2-a853-43d472949b04',
-                    '3757377c-028d-4569-a411-9082b3a19b24',
-                    '88d0aecd-92c2-4bf1-94c0-f2dafd5cd4fc',
-                    'a6b239cc-6f22-43f1-9b4f-e799c78f9dcc'
+                    '2318bd29-6c0a-4a59-a78d-1368f44536ce',
+                    '878682cd-3d1b-4316-8c9b-72824098d4da',
+                    'ad229a87-9187-4c47-aeb0-fbebc4017cde',
+                    'dac0bab1-0ed1-4f82-81ef-98c995d4f8cf',
+                    'ff0df42a-5b87-42f6-8511-25d22c6d9b59'
                 ]),
                 'kode' => $faker->ean13,
                 'merek' => $faker->company,
                 'satuan' => $faker->randomElement(['Pcs', 'Box', 'Karton', 'Kg', 'Meter']),
                 'minimal_stok' => $faker->randomElement([5, 6, 7, 8, 9, 10]),
-                'stok' => $faker->randomElement([10, 20, 30, 40, 50]),
+                'harga' => $faker->randomElement([1500, 6000, 7000, 8000, 9000, 10000]),
+                'stok' => 0,
                 'gambar' => null,
                 'keterangan' => $faker->sentence(20),
                 'created_at' => now(),

@@ -21,25 +21,45 @@ class UserSeeder extends Seeder
     {
         $faker = Faker::create('id_ID');
         // for ($i = 1; $i <= 500; $i++) {
+        // $user = User::create([
+        //     'name' => $faker->name,
+        //     'username' => $faker->unique()->userName,
+        //     'password' => bcrypt('admin'),
+        //     'email' => $faker->unique()->safeEmail,
+        //     'email_verified_at' => null,
+        //     'foto' => null,
+        //     'remember_token' => Str::random(10),
+        //     'status' =>  $faker->randomElement(['aktif', 'ditangguhkan', 'tidak aktif']),
+        //     'created_at' => now(),
+        //     'updated_at' => now(),
+        // ]);
+
+        // $roles = $faker->randomElement(['admin', 'user']);
+        // $permissions = $faker->randomElement(['read', 'create', 'update', 'delete']);
+        // $user->assignRole([$roles]);
+        // $user->givePermissionTo([$permissions]);
+        // $role = Role::find(rand(2, 3));
+        // $role->givePermissionTo([$permissions]);
+        // }
+
         $user = User::create([
-            'name' => $faker->name,
-            'username' => $faker->unique()->userName,
+            'name' => 'ardi dzariat',
+            'username' => 'ardi',
             'password' => bcrypt('admin'),
-            'email' => $faker->unique()->safeEmail,
+            'email' => 'ardizariat@gmail.com',
             'email_verified_at' => null,
             'foto' => null,
-            'remember_token' => Str::random(10),
-            'status' =>  $faker->randomElement(['aktif', 'ditangguhkan', 'tidak aktif']),
+            'remember_token' => null,
+            'status' =>  'aktif',
             'created_at' => now(),
             'updated_at' => now(),
         ]);
 
-        $roles = $faker->randomElement(['admin', 'user']);
-        $permissions = $faker->randomElement(['read', 'create', 'update', 'delete']);
-        $user->assignRole([$roles]);
-        $user->givePermissionTo([$permissions]);
-        $role = Role::find(rand(2, 3));
-        $role->givePermissionTo([$permissions]);
-        // }
+        // $roles = $faker->randomElement(['admin', 'user']);
+        // $permissions = $faker->randomElement(['read', 'create', 'update', 'delete']);
+        $user->assignRole(['super-admin']);
+        $user->givePermissionTo(['full-permission']);
+        $role = Role::find(1);
+        $role->givePermissionTo(['full-permission']);
     }
 }

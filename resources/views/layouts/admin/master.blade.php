@@ -116,6 +116,7 @@
 
     <!--   Core JS Files   -->
     <script src="{{ asset('admin/js/core/jquery-3.6.0.min.js') }}"></script>
+    {{-- <script src="{{ asset('admin/js/core/jquery.3.2.1.min.js') }}"></script> --}}
 
     <script src="{{ asset('admin/js/core/popper.min.js') }}"></script>
     <script src="{{ asset('admin/js/core/bootstrap.min.js') }}"></script>

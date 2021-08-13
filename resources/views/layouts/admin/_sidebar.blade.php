@@ -57,13 +57,19 @@
                                     <span class="sub-item">Semua produk</span>
                                 </a>
                             </li>
-                            <li>
+                            <li class="{{ request()->routeIs('produk.create') ? 'active' : '' }}">
                                 <a href="{{ route('produk.create') }}">
                                     <span class="sub-item">Tambah produk</span>
                                 </a>
                             </li>
                         </ul>
                     </div>
+                </li>
+                <li class="nav-item {{ request()->routeIs('purchase-order.index') ? 'active' : '' }}">
+                    <a href="{{ route('purchase-order.index') }}">
+                        <i class="fas fa-shopping-cart"></i>
+                        <p>Purchase Order</p>
+                    </a>
                 </li>
                 <li class="nav-item {{ request()->routeIs('kategori.index') ? 'active' : '' }}">
                     <a href="{{ route('kategori.index') }}">

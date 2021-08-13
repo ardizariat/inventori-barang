@@ -24,14 +24,15 @@ class CreateProdukTable extends Migration
             $table->string('satuan');
             $table->integer('minimal_stok');
             $table->bigInteger('stok');
+            $table->bigInteger('harga');
             $table->string('gambar')->nullable();
             $table->text('keterangan')->nullable();
             $table->enum('status', ['aktif', 'tidak aktif'])->default('aktif');
             $table->timestamps();
 
-            $table->foreign('kategori_id')->references('id')->on('kategori')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('gudang_id')->references('id')->on('gudang')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('supplier_id')->references('id')->on('suppliers')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('kategori_id')->references('id')->on('kategori')->onDelete('restrict')->onUpdate('cascade');
+            $table->foreign('gudang_id')->references('id')->on('gudang')->onDelete('restrict')->onUpdate('cascade');
+            $table->foreign('supplier_id')->references('id')->on('suppliers')->onDelete('restrict')->onUpdate('cascade');
             $table->engine = 'InnoDB';
         });
     }

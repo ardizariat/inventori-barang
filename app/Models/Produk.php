@@ -8,6 +8,7 @@ use App\Models\Supplier;
 use App\Models\BarangMasuk;
 use App\Models\BarangKeluar;
 use App\Models\Traits\HasUuid;
+use App\Models\PurchaseOrderDetail;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -29,6 +30,7 @@ class Produk extends Model
         'satuan',
         'minimal_stok',
         'stok',
+        'harga',
         'gambar',
         'keterangan',
         'status'
