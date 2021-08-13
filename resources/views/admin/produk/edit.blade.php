@@ -47,21 +47,6 @@
                                     </div>
                                     <div class="row form-group">
                                         <div class="col-md-2 ">
-                                            <label>Supplier</label>
-                                        </div>
-                                        <div class="col-md-10">
-                                            <select title="Pilih supplier" data-live-search="true" name="supplier_id"
-                                                class="selectpicker form-control supplier">
-                                                @foreach ($daftar_suppliers as $supplier)
-                                                    <option @if ($data->supplier_id == $supplier->id) selected @endif
-                                                        value="{{ $supplier->id }}">{{ $supplier->nama }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="row form-group">
-                                        <div class="col-md-2 ">
                                             <label>Kategori</label>
                                         </div>
                                         <div class="col-md-10">
@@ -111,21 +96,21 @@
                                     </div>
                                     <div class="row form-group">
                                         <div class="col-md-2 ">
+                                            <label>Harga</label>
+                                        </div>
+                                        <div class="col-md-10">
+                                            <input type="text" name="harga" value="{{ $data->harga }}" autocomplete="off"
+                                                class="harga form-control" placeholder="Masukkan harga produk">
+                                        </div>
+                                    </div>
+                                    <div class="row form-group">
+                                        <div class="col-md-2 ">
                                             <label>Minimal Stok</label>
                                         </div>
                                         <div class="col-md-10">
                                             <input value="{{ $data->minimal_stok }}" type="number" name="minimal_stok"
                                                 autocomplete="off" class="minimal_stok form-control"
                                                 placeholder="Masukkan minimal stok digudang">
-                                        </div>
-                                    </div>
-                                    <div class="row form-group">
-                                        <div class="col-md-2 ">
-                                            <label>Stok</label>
-                                        </div>
-                                        <div class="col-md-10">
-                                            <input type="number" value="{{ $data->stok }}" name="stok" autocomplete="off"
-                                                class="stok form-control" placeholder="Masukkan stok yang masuk ke gudang">
                                         </div>
                                     </div>
                                     <div class="row form-group">

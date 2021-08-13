@@ -1,5 +1,3 @@
-{{-- <script src="{{ asset('admin/js/plugin/bootstrap-notify/bootstrap-notify.min.js') }}"></script>
-<script src="{{ asset('admin/js/plugin/notify/bootstrap-notify.js') }}"></script> --}}
 <script src="{{ asset('admin/js/plugin/sweetalert-2/sweetalert2.min.js') }}"></script>
 <script src="{{ asset('admin/js/plugin/izitoast/js/iziToast.min.js') }}"></script>
 <script>

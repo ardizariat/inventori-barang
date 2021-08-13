@@ -69,7 +69,7 @@
                                             <th>Total Item</th>
                                             <th>Total Nilai</th>
                                             <th>Status</th>
-                                            <th>Tanggal</th>
+                                            <th>Aksi</th>
                                         </tr>
                                     </thead>
                                 </table>
@@ -81,12 +81,12 @@
         </div>
     </div>
 
-    @includeIf('admin.purchase_order._modal_po')
-
+    @includeIf('admin.purchase_order._modal_supplier')
 @endsection
 
 @push('js')
     <script src="{{ asset('admin/js/plugin/datatables/datatables.min.js') }}"></script>
+    <script src="{{ asset('admin/js/plugin/selectpicker/js/bootstrap-select.min.js') }}"></script>
     <script>
         // Datatables load data
         load_data_purchase_order();
@@ -122,16 +122,16 @@
                         name: "total_item"
                     },
                     {
-                        data: "grand_total",
-                        name: "grand_total"
+                        data: "total_harga",
+                        name: "total_harga"
                     },
                     {
                         data: "status",
                         name: "status"
                     },
                     {
-                        data: "tanggal",
-                        name: "tanggal"
+                        data: "aksi",
+                        name: "aksi"
                     },
                 ],
                 pageLength: 15,
@@ -209,7 +209,7 @@
                             '_token': csrf_token
                         },
                         success: function(response) {
-                            alert_success('success', response.text)
+                            alert_success('success', 'Data berhasil dihapus')
                             refresh_data();
                         },
                         error: function(xhr) {

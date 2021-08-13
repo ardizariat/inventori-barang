@@ -36,18 +36,19 @@ Route::group(['middleware' => ['auth', 'role:super-admin|admin']], function () {
   Route::resource('/produk', ProdukController::class);
 
   Route::get('/purchase-order/{id}/create', [PurchaseOrderController::class, 'create'])->name('purchase-order.create');
+  Route::put('/purchase-order/{id}/approve', [PurchaseOrderController::class, 'approved'])->name('purchase-order.approved');
   Route::resource('/purchase-order', PurchaseOrderController::class)->except([
-    'create', 'show'
+    'create', 'edit', 'update'
   ]);
 
   Route::resource('/purchase-order-detail', PurchaseOrderDetailController::class)->except([
-    'create', 'show'
+    'create'
   ]);
   Route::get('/purchase-order-detail/{id}/data', [PurchaseOrderDetailController::class, 'data'])->name('purchase-order-detail.data');
 
 
   Route::resource('/barang-masuk', BarangMasukController::class)->except([
-    'edit', 'create', 'update'
+    'edit', 'create'
   ]);
   Route::post('/change-data', [BarangMasukController::class, 'changeData'])->name('barang-masuk.change-data');
 

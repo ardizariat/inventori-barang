@@ -44,6 +44,33 @@
                     </a>
                 </li>
                 <li
+                    class="nav-item {{ request()->routeIs('kategori.index') ? 'active' : '' }} {{ request()->routeIs('supplier.index') ? 'active' : '' }} {{ request()->routeIs('gudang.index') ? 'active' : '' }}">
+                    <a data-toggle="collapse" href="#tables">
+                        <i class="fas fa-table"></i>
+                        <p>Master Data</p>
+                        <span class="caret"></span>
+                    </a>
+                    <div class="collapse" id="tables">
+                        <ul class="nav nav-collapse">
+                            <li class="{{ request()->routeIs('kategori.index') ? 'active' : '' }}">
+                                <a href="{{ route('kategori.index') }}">
+                                    <span class="sub-item">Kategori</span>
+                                </a>
+                            </li>
+                            <li class="{{ request()->routeIs('supplier.index') ? 'active' : '' }}">
+                                <a href="{{ route('supplier.index') }}">
+                                    <span class="sub-item">Supplier</span>
+                                </a>
+                            </li>
+                            <li class="{{ request()->routeIs('gudang.index') ? 'active' : '' }}">
+                                <a href="{{ route('gudang.index') }}">
+                                    <span class="sub-item">Gudang</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li
                     class="nav-item {{ request()->routeIs('produk.index') ? 'active' : '' }} {{ request()->routeIs('produk.create') ? 'active' : '' }} {{ request()->routeIs('produk.show') ? 'active' : '' }}">
                     <a data-toggle="collapse" href="#base">
                         <i class="fas fa-tasks"></i>
@@ -69,24 +96,6 @@
                     <a href="{{ route('purchase-order.index') }}">
                         <i class="fas fa-shopping-cart"></i>
                         <p>Purchase Order</p>
-                    </a>
-                </li>
-                <li class="nav-item {{ request()->routeIs('kategori.index') ? 'active' : '' }}">
-                    <a href="{{ route('kategori.index') }}">
-                        <i class="fas fa-layer-group"></i>
-                        <p>Kategori</p>
-                    </a>
-                </li>
-                <li class="nav-item {{ request()->routeIs('supplier.index') ? 'active' : '' }}">
-                    <a href="{{ route('supplier.index') }}">
-                        <i class="fas fa-truck"></i>
-                        <p>Supplier</p>
-                    </a>
-                </li>
-                <li class="nav-item {{ request()->routeIs('gudang.index') ? 'active' : '' }}">
-                    <a href="{{ route('gudang.index') }}">
-                        <i class="fas fa-hotel"></i>
-                        <p>Gudang</p>
                     </a>
                 </li>
                 <li class="nav-item {{ request()->routeIs('barang-masuk.index') ? 'active' : '' }}">

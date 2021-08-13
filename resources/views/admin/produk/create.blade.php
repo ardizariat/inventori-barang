@@ -45,20 +45,6 @@
                                     </div>
                                     <div class="row form-group">
                                         <div class="col-md-2 ">
-                                            <label>Supplier</label>
-                                        </div>
-                                        <div class="col-md-10">
-                                            <select title="Pilih supplier" data-live-search="true" name="supplier_id"
-                                                class="selectpicker form-control supplier">
-                                                @foreach ($daftar_suppliers as $supplier)
-                                                    <option value="{{ $supplier->id }}">{{ $supplier->nama }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="row form-group">
-                                        <div class="col-md-2 ">
                                             <label>Kategori</label>
                                         </div>
                                         <div class="col-md-10">
@@ -87,11 +73,20 @@
                                     </div>
                                     <div class="row form-group">
                                         <div class="col-md-2 ">
+                                            <label>Harga</label>
+                                        </div>
+                                        <div class="col-md-10">
+                                            <input type="text" name="harga" autocomplete="off" class="harga form-control"
+                                                placeholder="Masukkan harga">
+                                        </div>
+                                    </div>
+                                    <div class="row form-group">
+                                        <div class="col-md-2 ">
                                             <label>Merek</label>
                                         </div>
                                         <div class="col-md-10">
-                                            <input type="text" name="merek" autocomplete="off" autofocus
-                                                class="merek form-control" placeholder="Masukkan nama merek">
+                                            <input type="text" name="merek" autocomplete="off" class="merek form-control"
+                                                autofocus placeholder="Masukkan nama merek">
                                         </div>
                                     </div>
                                     <div class="row form-group">
@@ -102,16 +97,6 @@
                                             <input type="number" name="minimal_stok" autocomplete="off" autofocus
                                                 class="minimal_stok form-control"
                                                 placeholder="Masukkan minimal stok digudang">
-                                        </div>
-                                    </div>
-                                    <div class="row form-group">
-                                        <div class="col-md-2 ">
-                                            <label>Stok</label>
-                                        </div>
-                                        <div class="col-md-10">
-                                            <input type="number" name="stok" autocomplete="off" autofocus
-                                                class="stok form-control" placeholder="Masukkan stok yang masuk ke gudang">
-                                            <span class="help-block with-errors"></span>
                                         </div>
                                     </div>
                                     <div class="row form-group">
@@ -166,8 +151,6 @@
 
 @push('js')
     <script src="{{ asset('admin/js/plugin/selectpicker/js/bootstrap-select.min.js') }}"></script>
-
-
     <script>
         $(function() {
             $('.card-body').on('submit', 'form', function(e) {

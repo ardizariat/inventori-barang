@@ -13,21 +13,18 @@ class BarangMasuk extends Model
     use HasFactory, HasUuid;
 
     public $incrementing = false;
-    protected $with = ['product'];
+    protected $with = ['purchaseOrder'];
     protected $table = 'barang_masuk';
     protected $primaryKey = 'id';
     protected $keyType = 'string';
     protected $fillable = [
-        'produk_id',
-        'jumlah',
-        'tanggal',
-        'keterangan',
-        'penerima',
-        'pemberi',
+        'purchase_order_id',
+        'no_dokumen',
+        'status',
     ];
 
-    public function product()
+    public function purchaseOrder()
     {
-        return $this->belongsTo(Produk::class, 'produk_id', 'id');
+        return $this->belongsTo(PurchaseOrder::class, 'purchase_order_id', 'id');
     }
 }

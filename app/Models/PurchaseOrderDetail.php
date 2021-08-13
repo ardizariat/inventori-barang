@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Produk;
+use App\Models\Supplier;
 use App\Models\PurchaseOrder;
 use App\Models\Traits\HasUuid;
 use Illuminate\Database\Eloquent\Model;
@@ -22,7 +23,7 @@ class PurchaseOrderDetail extends Model
         'produk_id',
         'qty',
         'harga',
-        'grand_total'
+        'subtotal'
     ];
 
     public function purchaseOrder()

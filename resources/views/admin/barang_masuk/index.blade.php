@@ -30,10 +30,10 @@
                     </li>
                 </ul>
             </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="card shadow animate__animated animate__jackInTheBox">
-                        <div class="card-header">
+            <div class="card shadow animate__animated animate__jackInTheBox">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-md-12">
                             <form action="">
                                 <h4><i class="fas fa-filter"></i> Filter</h4>
                                 <div class="row">
@@ -57,32 +57,26 @@
                                             </button>
                                         </div>
                                     </div>
-                                    <div class="col-md-3 my-2">
-                                        <a data-toggle="tooltip" data-placement="top" title="Tambah data"
-                                            class="btn btn-rounded btn-outline-primary"
-                                            onclick="addForm('{{ route('barang-masuk.store') }}')">
-                                            <i class="fa fa-plus" aria-hidden="true"></i> Tambah Barang Masuk
-                                        </a>
-                                    </div>
                                 </div>
                             </form>
                         </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <form action="" class="form-kategori">
-                                    <table id="barangmasuk-table" class="table table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th>No</th>
-                                                <th>Nama Barang</th>
-                                                <th>Kategori</th>
-                                                <th>Tanggal</th>
-                                                <th>Jumlah</th>
-                                                <th>Option</th>
-                                            </tr>
-                                        </thead>
-                                    </table>
-                                </form>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <table id="barangmasuk-table" class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>No</th>
+                                            <th>No Dokumen</th>
+                                            <th>Total Item</th>
+                                            <th>Total Harga</th>
+                                            <th>Tanggal</th>
+                                            <th>Status</th>
+                                            <th>Aksi</th>
+                                        </tr>
+                                    </thead>
+                                </table>
                             </div>
                         </div>
                     </div>
@@ -90,10 +84,6 @@
             </div>
         </div>
     </div>
-
-    @includeIf('admin.barang_masuk._modal_input')
-    @includeIf('admin.barang_masuk._modal_show')
-
 @endsection
 
 @push('js')
@@ -127,20 +117,24 @@
                         sortable: false
                     },
                     {
-                        data: 'produk',
-                        name: 'produk'
+                        data: 'no_dokumen',
+                        name: 'no_dokumen'
                     },
                     {
-                        data: 'kategori',
-                        name: 'kategori'
+                        data: 'total_item',
+                        name: 'total_item'
+                    },
+                    {
+                        data: 'total_harga',
+                        name: 'total_harga'
                     },
                     {
                         data: 'tanggal',
                         name: 'tanggal'
                     },
                     {
-                        data: 'jumlah',
-                        name: 'jumlah'
+                        data: 'status',
+                        name: 'status'
                     },
                     {
                         data: 'aksi',
@@ -185,143 +179,6 @@
         function refresh_data() {
             $('#barangmasuk-table').DataTable().destroy();
             load_data();
-        }
-
-        // Hapus Data
-        $('body').on('click', '.btn-delete', function(event) {
-            event.preventDefault();
-            var me = $(this),
-                url = me.attr('href'),
-                csrf_token = $('meta[name=csrf-token]').attr('content');
-
-            Swal.fire({
-                title: 'Apakah kamu yakin?',
-                text: "menghapus data ini",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Ya, Hapus!'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    $.ajax({
-                        url: url,
-                        type: "POST",
-                        data: {
-                            '_method': 'DELETE',
-                            '_token': csrf_token
-                        },
-                        success: function(response) {
-                            alert_success('success', response.text)
-                            $('#barangmasuk-table').DataTable().destroy();
-                            load_data();
-                        }
-                    });
-                }
-            });
-
-        });
-
-        // Insert dan Update data
-        $(function() {
-            $('.modal-form').on('click', '.btn-save', function(e) {
-                e.preventDefault();
-                var form = $('.modal-form form');
-                form.find('.invalid-feedback').remove();
-                form.find('.form-control').removeClass('is-invalid');
-
-                $.ajax({
-                        url: $('.modal-form form').attr('action'),
-                        type: $('.modal-form input[name=_method]').val(),
-                        beforeSend: function() {
-                            loading();
-                        },
-                        complete: function() {
-                            hideLoader("Simpan");
-                        },
-                        data: $('.modal-form form').serialize()
-                    })
-                    .done(response => {
-                        $('.modal-form').modal('hide');
-                        form[0].reset();
-                        $('.selectpicker').val(null).trigger('change');
-                        refresh_data();
-                        alert_success('success', response.text);
-                        window.location.reload();
-                    })
-                    .fail(errors => {
-                        if (errors.status == 422) {
-                            loopErrors(errors.responseJSON.errors);
-                        }
-                    });
-            });
-        });
-
-        // Show modal create
-        function addForm(url) {
-            event.preventDefault();
-            $('.modal-form').modal('show');
-            $('.modal-form .modal-title').text('Tambah Barang Masuk');
-            $('.modal-form form')[0].reset();
-            $('.modal-form form').attr('action', url);
-            $('.modal-form [name=_method]').val('post');
-        }
-        // Show data produk
-        function changeData(url) {
-            var id = $('.produk_id select[name=produk_id]').val();
-            $.ajax({
-                url: url,
-                type: 'post',
-                dataType: 'json',
-                data: {
-                    '_token': '{{ csrf_token() }}',
-                    'id': id
-                },
-                success: function(res) {
-                    var stok = parseInt(res.stok);
-                    $('.stok').val(stok);
-                    $('.modal-form').on('keyup', '.jumlah', function() {
-                        var me = $(this),
-                            jumlah = parseInt(me.val());
-                        total = stok + jumlah;
-                        $('.stok').val(total);
-                    });
-                },
-                error: function(message) {
-                    console.log('error');
-                }
-            })
-        }
-
-        // menampilkan modal show
-        function showData(url) {
-            event.preventDefault();
-            $('.modal-show').modal('show');
-            $.get(url)
-                .done((response) => {
-                    var nama_produk = response.data.product.nama_produk,
-                        jumlah = response.data.jumlah,
-                        penerima = response.data.penerima,
-                        pemberi = response.data.pemberi,
-                        keterangan = response.data.keterangan,
-                        tanggal = response.tanggal,
-                        foto = response.foto;
-                    console.log(foto);
-
-                    $('.modal-show .modal-title').text('Detail ' + nama_produk);
-
-                    $('.modal-show .foto').prop("src", foto).width(200).height(130);
-                    $('.modal-show .nama_produk').text(nama_produk);
-                    $('.modal-show .jumlah').text(jumlah);
-                    $('.modal-show .tanggal').text(tanggal);
-                    $('.modal-show .pemberi').text(pemberi);
-                    $('.modal-show .keterangan').text(keterangan);
-                    $('.modal-show .penerima').text(penerima);
-                })
-                .fail((errors) => {
-                    Swal.fire('Oops...', 'Data tidak ditemukan!', 'error')
-                    return;
-                })
         }
     </script>
 

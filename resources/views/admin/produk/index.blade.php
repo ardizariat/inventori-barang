@@ -85,17 +85,9 @@
 @endsection
 
 @push('js')
-    <script src="{{ asset('admin/js/plugin/datatables/datatables.min.js') }}"></script>
-    {{-- <script src="{{ asset('admin/js/plugin/select2/js/select2.min.js')}}"></script> --}}
     <script src="{{ asset('admin/js/plugin/selectpicker/js/bootstrap-select.min.js') }}"></script>
-    <script src="{{ asset('admin/js/plugin/file-input/js/fileinput.min.js') }}"></script>
-    <script src="{{ asset('admin/js/plugin/file-input/themes/fa/theme.js') }}"></script>
+    <script src="{{ asset('admin/js/plugin/datatables/datatables.min.js') }}"></script>
     <script>
-        $(".input-fa").fileinput({
-            theme: "fa",
-            uploadUrl: "/file-upload-batch/2"
-        });
-
         // Datatables load data
         load_data();
 

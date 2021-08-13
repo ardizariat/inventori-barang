@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePurchaseOrderTable extends Migration
+class CreateBarangMasukTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,14 @@ class CreatePurchaseOrderTable extends Migration
      */
     public function up()
     {
-        Schema::create('purchase_order', function (Blueprint $table) {
+        Schema::create('barang_masuk', function (Blueprint $table) {
             $table->uuid('id')->primary()->unique();
+            $table->uuid('purchase_order_id');
             $table->string('no_dokumen');
-            $table->uuid('supplier_id');
-            $table->bigInteger('total_harga');
-            $table->bigInteger('total_item');
-            $table->enum('status', ['pending', 'complete'])->default('pending');
+            $table->enum('status', ['diterima', 'belum diterima'])->default('belum diterima');
             $table->timestamps();
 
-            $table->foreign('supplier_id')->references('id')->on('suppliers')->onDelete('restrict')->onUpdate('cascade');
+            $table->foreign('purchase_order_id')->references('id')->on('purchase_order')->onDelete('restrict')->onUpdate('cascade');
             $table->engine = 'InnoDB';
         });
     }
@@ -34,6 +32,6 @@ class CreatePurchaseOrderTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('purchase_order');
+        Schema::dropIfExists('barang_masuk');
     }
 }

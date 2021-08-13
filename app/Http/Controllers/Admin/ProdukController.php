@@ -65,13 +65,11 @@ class ProdukController extends Controller
 
         $daftar_gudang = Gudang::latest()->get();
         $daftar_kategori = Kategori::latest()->get();
-        $daftar_suppliers = Supplier::latest()->get();
 
         return view('admin.produk.create', compact(
             'title',
             'daftar_gudang',
             'daftar_kategori',
-            'daftar_suppliers',
             'url'
         ));
     }
@@ -79,13 +77,12 @@ class ProdukController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'supplier_id' => 'required',
             'kategori_id' => 'required',
             'nama_produk' => 'required|unique:produk,nama_produk',
             'merek' => 'required',
             'satuan' => 'required',
             'minimal_stok' => 'required|numeric',
-            'stok' => 'required|numeric',
+            'harga' => 'required|numeric',
         ]);
         $count = Produk::count();
         $count++;
@@ -94,14 +91,14 @@ class ProdukController extends Controller
         // Input produk
         $data = new Produk();
         $data->kategori_id = $request->kategori_id;
-        $data->supplier_id = $request->supplier_id;
         $data->gudang_id = $request->gudang_id;
         $data->kode = $kode;
         $data->nama_produk = $request->nama_produk;
         $data->merek = $request->merek;
         $data->satuan = $request->satuan;
         $data->minimal_stok = $request->minimal_stok;
-        $data->stok = $request->stok;
+        $data->harga = $request->harga;
+        $data->stok = 0;
         $data->keterangan = $request->keterangan;
         if ($request->hasFile('gambar')) {
             $request->validate([
@@ -114,15 +111,6 @@ class ProdukController extends Controller
             $data->gambar = $filename;
         }
         $data->save();
-
-        // Input barang masuk
-        $barang_masuk = new BarangMasuk();
-        $barang_masuk->produk_id = $data->id;
-        $barang_masuk->jumlah = $data->stok;
-        $barang_masuk->tanggal = Carbon::parse($data->created_at)->format('Y-m-d');
-        $barang_masuk->keterangan = $data->keterangan;
-        $barang_masuk->penerima = auth()->user()->name;
-        $save = $barang_masuk->save();
 
         activity()->log('menambahkan produk ' . $data->nama_produk);
 
@@ -140,14 +128,12 @@ class ProdukController extends Controller
 
         $daftar_gudang = Gudang::latest()->get();
         $daftar_kategori = Kategori::latest()->get();
-        $daftar_suppliers = Supplier::latest()->get();
 
         return view('admin.produk.edit', compact(
             'url',
             'title',
             'daftar_gudang',
             'daftar_kategori',
-            'daftar_suppliers',
             'data'
         ));
     }
@@ -157,13 +143,12 @@ class ProdukController extends Controller
         // Cari id
         $data = Produk::findOrFail($id);
         $request->validate([
-            'supplier_id' => 'required',
             'kategori_id' => 'required',
             'nama_produk' => 'required|unique:produk,nama_produk,' . $id,
             'merek' => 'required',
             'satuan' => 'required',
             'minimal_stok' => 'required|numeric',
-            'stok' => 'required|numeric',
+            'harga' => 'required|numeric',
         ]);
 
         if ($request->hasFile('gambar')) {
@@ -185,13 +170,11 @@ class ProdukController extends Controller
 
         $update = $data->update([
             'kategori_id' => $request->kategori_id,
-            'supplier_id' => $request->supplier_id,
             'gudang_id' => $request->gudang_id,
             'nama_produk' => $request->nama_produk,
             'merek' => $request->merek,
             'satuan' => $request->satuan,
             'minimal_stok' => $request->minimal_stok,
-            'stok' => $request->stok,
             'keterangan' => $request->keterangan,
         ]);
 
