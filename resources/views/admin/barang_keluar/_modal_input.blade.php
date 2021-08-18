@@ -1,4 +1,4 @@
-<div class="modal fade modal-form animate__animated animate__pulse" tabindex="-1" role="dialog"
+<div class="modal fade bd-example-modal-lg modal-form animate__animated animate__pulse" tabindex="-1" role="dialog"
     aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <form>
@@ -12,81 +12,34 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-md-3 pt-3">
-                                <label>Nama Barang</label>
-                            </div>
-                            <div class="col-md-9 form-group">
-                                <select onchange="changeData('{{ route('barang-masuk.change-data') }}')"
-                                    title="Pilih barang" name="produk_id" data-live-search="true"
-                                    class="selectpicker form-control produk_id">
-                                    @foreach ($products as $produk)
-                                        <option value="{{ $produk->id }}">{{ $produk->nama_produk }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                                <span class="help-block with-errors"></span>
-                            </div>
-                        </div>
-                        <div class="row stok">
-                            <div class="col-md-3 pt-3">
-                                <label>Stok Saat Ini</label>
-                            </div>
-                            <div class="col-md-9 form-group">
-                                <input type="text" name="stok" autocomplete="off" autofocus class="stok form-control"
-                                    readonly>
-                                <span class="help-block with-errors"></span>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-3 pt-3">
-                                <label>Jumlah Barang Keluar</label>
-                            </div>
-                            <div class="col-md-9 form-group">
-                                <input type="text" name="jumlah" autocomplete="off" autofocus
-                                    class="jumlah form-control" placeholder="Masukkan jumlah barang keluar">
-                                <span class="help-block with-errors"></span>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-3 pt-3">
-                                <label>Tanggal</label>
-                            </div>
-                            <div class="col-md-9 form-group">
-                                <input type="text" autocomplete="off" name="tanggal" value="{{ date('Y-m-d') }}"
-                                    class="form-control tanggal max-date">
-                                <span class="help-block with-errors"></span>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-3 pt-3">
-                                <label>Penerima Barang</label>
-                            </div>
-                            <div class="col-md-9 form-group">
-                                <input type="text" name="penerima" autocomplete="off" class="penerima form-control">
-                                <span class="help-block with-errors"></span>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-3 pt-2">
-                                <label>Keterangan</label>
-                            </div>
-                            <div class="col-md-9 form-group">
-                                <textarea name="keterangan" class="form-control keterangan" cols="15"
-                                    rows="7"></textarea>
-                                <span class="help-block with-errors"></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer d-flex justify-content-center">
-                    <button type="button" class="text-uppercase btn btn-sm btn-danger"
-                        data-dismiss="modal">Batal</button>
-                    <button class="btn btn-primary btn-save btn-sm" type="submit">
-                        <span class="btn-text text-uppercase">Simpan</span>
-                        <i class="fas fa-spinner fa-spin" style="display:none;"></i>
-                    </button>
+                    <table class="table supplier-table table-striped">
+                        <thead>
+                            <tr>
+                                <th width="5%">No</th>
+                                <th>No PB</th>
+                                <th>Pemohon</th>
+                                <th>Tanggal</th>
+                                <th width="15%" align="center">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($pb as $item)
+                                <tr>
+                                    <td width="5%">{{ $loop->iteration }}</td>
+                                    <td>{{ $item->no_dokumen }}</td>
+                                    <td>{{ $item->user->name }}</td>
+                                    <td>{{ $item->created_at->format('d-m-Y') }}</td>
+                                    <td width="15%" align="center">
+                                        <button @if ($item->sect_head != 'approved' || $item->dept_head != 'approved') disabled @endif
+                                            onclick="pilihPB(`{{ route('barang-keluar.store', $item->id) }}`,`{{ $item->id }}`)"
+                                            class="btn btn-xs btn-primary">
+                                            <i class="fas fa-check-circle"></i> Pilih
+                                        </button>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </form>

@@ -60,6 +60,24 @@ class RolePermissionSeeder extends Seeder
             'updated_at' => Carbon::now(),
         ]);
         DB::table('roles')->insert([
+            'name' => 'direktur',
+            'guard_name' => 'web',
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+        DB::table('roles')->insert([
+            'name' => 'dept_head',
+            'guard_name' => 'web',
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+        DB::table('roles')->insert([
+            'name' => 'sect_head',
+            'guard_name' => 'web',
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+        DB::table('roles')->insert([
             'name' => 'user',
             'guard_name' => 'web',
             'created_at' => Carbon::now(),

@@ -1,41 +1,6 @@
 <div class="sidebar sidebar-style-2 animate__animated animate__bounceInLeft">
     <div class="sidebar-wrapper scrollbar scrollbar-inner">
         <div class="sidebar-content">
-            {{-- <div class="user">
-                <div class="avatar-sm float-left mr-2">
-                    <img src="{{ asset('admin/img/profile.jpg') }}" alt="..." class="avatar-img rounded-circle">
-        </div>
-        <div class="info">
-            <a data-toggle="collapse" href="#collapseExample" aria-expanded="true">
-                <span>
-                    Hizrian
-                    <span class="user-level">Administrator</span>
-                    <span class="caret"></span>
-                </span>
-            </a>
-            <div class="clearfix"></div>
-
-            <div class="collapse in" id="collapseExample">
-                <ul class="nav">
-                    <li>
-                        <a href="#profile">
-                            <span class="link-collapse">My Profile</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#edit">
-                            <span class="link-collapse">Edit Profile</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#settings">
-                            <span class="link-collapse">Settings</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div> --}}
             <ul class="nav nav-primary">
                 <li class="nav-item {{ request()->routeIs('dashboard.index') ? 'active' : '' }}">
                     <a href="{{ route('dashboard.index') }}">
@@ -92,6 +57,24 @@
                         </ul>
                     </div>
                 </li>
+                <li class="nav-item {{ request()->routeIs('pb.index') ? 'active' : '' }}">
+                    <a href="{{ route('pb.index') }}">
+                        <i class="fab fa-adn"></i>
+                        <p>Request PB</p>
+                    </a>
+                </li>
+                <li class="nav-item {{ request()->routeIs('barang-keluar.index') ? 'active' : '' }}">
+                    <a href="{{ route('barang-keluar.index') }}">
+                        <i class="fas fa-truck-loading"></i>
+                        <p>Barang Keluar</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="">
+                        <i class="fab fa-adn"></i>
+                        <p>Request PR</p>
+                    </a>
+                </li>
                 <li class="nav-item {{ request()->routeIs('purchase-order.index') ? 'active' : '' }}">
                     <a href="{{ route('purchase-order.index') }}">
                         <i class="fas fa-shopping-cart"></i>
@@ -104,12 +87,19 @@
                         <p>Barang Masuk</p>
                     </a>
                 </li>
-                <li class="nav-item {{ request()->routeIs('barang-keluar.index') ? 'active' : '' }}">
-                    <a href="{{ route('barang-keluar.index') }}">
-                        <i class="fas fa-truck-loading"></i>
-                        <p>Barang Keluar</p>
+                <li class="nav-item {{ request()->routeIs('user.index') ? 'active' : '' }}">
+                    <a href="{{ route('user.index') }}">
+                        <i class="fas fa-users"></i>
+                        <p>Pengguna</p>
                     </a>
                 </li>
+                <li class="nav-item {{ request()->routeIs('activity-log.index') ? 'active' : '' }}">
+                    <a href="{{ route('activity-log.index') }}">
+                        <i class="fas fa-history"></i>
+                        <p>Riwayat Pengguna</p>
+                    </a>
+                </li>
+
                 <li class="nav-item">
                     <a data-toggle="collapse" href="#forms">
                         <i class="far fa-clipboard"></i>
@@ -135,18 +125,6 @@
                             </li>
                         </ul>
                     </div>
-                </li>
-                <li class="nav-item {{ request()->routeIs('user.index') ? 'active' : '' }}">
-                    <a href="{{ route('user.index') }}">
-                        <i class="fas fa-users"></i>
-                        <p>Pengguna</p>
-                    </a>
-                </li>
-                <li class="nav-item {{ request()->routeIs('activity-log.index') ? 'active' : '' }}">
-                    <a href="{{ route('activity-log.index') }}">
-                        <i class="fas fa-history"></i>
-                        <p>Riwayat Pengguna</p>
-                    </a>
                 </li>
                 <li class="nav-item {{ request()->routeIs('setting.index') ? 'active' : '' }}">
                     <a href="{{ route('setting.index') }}">

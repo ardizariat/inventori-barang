@@ -3,7 +3,7 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title"></h5>
+                <h3 class="modal-title text-center">Pilih barang yang diajukan</h3>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -15,7 +15,7 @@
                             <th width="5%">No</th>
                             <th width="15%">Kode</th>
                             <th>Nama</th>
-                            <th>Harga</th>
+                            <th>Stok</th>
                             <th width="10%" align="center">Aksi</th>
                         </tr>
                     </thead>
@@ -27,12 +27,11 @@
                                     <span class="badge badge-success">{{ $item->kode }}</span>
                                 </td>
                                 <td>{{ $item->nama_produk }}</td>
-                                <td>{{ formatAngka($item->harga) }}</td>
+                                <td>{{ formatAngka($item->stok) }} {{ $item->satuan }}</td>
                                 <td width="10%" align="center">
-                                    <button @if ($item->id == $produk_id) disabled @endif
-                                        onclick="pilihProduk('{{ $item->id }}', '{{ $item->kode }}')"
+                                    <button @if ($item->stok == 0) disabled @endif onclick="pilihProduk('{{ $item->id }}')"
                                         class="btn btn-sm btn-primary">
-                                        <i class="fas fa-check-circle"></i> Pilih
+                                        <i class="fas fa-check-circle"></i> Tambah
                                     </button>
                                 </td>
                             </tr>

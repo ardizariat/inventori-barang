@@ -1,12 +1,14 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\PBController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\GudangController;
 use App\Http\Controllers\Admin\ProdukController;
 use App\Http\Controllers\Admin\LaporanController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\KategoriController;
+use App\Http\Controllers\Admin\PBDetailController;
 use App\Http\Controllers\Admin\SupplierController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\BarangMasukController;
@@ -16,7 +18,7 @@ use App\Http\Controllers\Admin\BarangKeluarController;
 use App\Http\Controllers\Admin\PurchaseOrderController;
 use App\Http\Controllers\Admin\PurchaseOrderDetailController;
 
-Route::group(['middleware' => ['auth', 'role:super-admin|admin']], function () {
+Route::group(['middleware' => ['auth', 'role:super-admin|admin|direktur|dept_head|sect_head|user']], function () {
 
   Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
   Route::get('/dashboard/date', [DashboardController::class, 'date'])->name('dashboard.date');
@@ -52,9 +54,15 @@ Route::group(['middleware' => ['auth', 'role:super-admin|admin']], function () {
   ]);
   Route::post('/change-data', [BarangMasukController::class, 'changeData'])->name('barang-masuk.change-data');
 
+  Route::put('/pb/{id}/update-status', [PBController::class, 'updateStatus'])->name('pb.update-status');
+  Route::post('/pb/{id}/download-pdf', [PBController::class, 'downloadPdf'])->name('pb.download-pdf');
+  Route::resource('/pb', PBController::class);
+  Route::resource('/pb-detail', PBDetailController::class);
+
   Route::resource('/barang-keluar', BarangKeluarController::class)->except([
-    'edit', 'update', 'create'
+    'edit', 'update', 'create', 'store'
   ]);
+  Route::post('/barang-keluar/{id}', [BarangKeluarController::class, 'store'])->name('barang-keluar.store');
 
   Route::get('/laporan/barang-masuk', [LaporanController::class, 'barangMasuk'])->name('laporan.barang-masuk');
   Route::post('/laporan/barang-masuk', [LaporanController::class, 'pdfBarangMasuk'])->name('laporan.barang-masuk.pdf');

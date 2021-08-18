@@ -32,24 +32,19 @@
                         <div class="col-md-6">
                             <table>
                                 <tr>
-                                    <th>Supplier</th>
+                                    <th>No. PB</th>
                                     <th class="pl-5 pr-2">:</th>
-                                    <td>{{ $supplier->nama }}</td>
+                                    <td>{{ $pb->no_dokumen }}</td>
                                 </tr>
                                 <tr>
-                                    <th>Email</th>
+                                    <th>Request By</th>
                                     <th class="pl-5 pr-2">:</th>
-                                    <td>{{ $supplier->email }}</td>
+                                    <td>{{ $pb->user->name }}</td>
                                 </tr>
                                 <tr>
-                                    <th>Telpon</th>
+                                    <th>Tanggal</th>
                                     <th class="pl-5 pr-2">:</th>
-                                    <td>{{ $supplier->telpon }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Alamat</th>
-                                    <th class="pl-5 pr-2">:</th>
-                                    <td>{{ $supplier->alamat }}</td>
+                                    <td>{{ $pb->created_at }}</td>
                                 </tr>
                             </table>
                         </div>
@@ -57,13 +52,13 @@
                             <form class="form-produk">
                                 @csrf
                                 <div class="form-group">
-                                    <input type="hidden" name="purchase_order_id" value="{{ $purchase_order_id }}" />
-                                    <input type="hidden" name="produk_id" class="form-control" id="produk_id" />
+                                    <input type="hidden" name="pb_id" value="{{ $pb->id }}" class="form-control" />
+                                    <input type="hidden" name="produk_id" id="produk_id" class="form-control" />
                                     <div class="input-group mb-3">
                                         <input type="text" class="form-control" placeholder="Cari produk"
                                             aria-describedby="basic-addon2" onclick="tampilModalProduk()">
                                         <div class="input-group-append">
-                                            <span class="input-group-text" id="basic-addon2">
+                                            <span class="input-group-text">
                                                 <button onclick="tampilModalProduk()" class="btn btn-flat btn-primary">
                                                     <i class="fas fa-search"></i>
                                                 </button>
@@ -78,15 +73,13 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-12">
-                            <table class="table" id="purchase-order-detail-table">
-                                <thead align="center">
+                            <table class="table pb-detail-table">
+                                <thead>
                                     <tr>
                                         <th width="5%">No</th>
-                                        <th>Nama</th>
-                                        <th>Harga</th>
-                                        <th width="22%">Qty</th>
+                                        <th width="35%">Nama</th>
+                                        <th width="30%">Qty</th>
                                         <th>Satuan</th>
-                                        <th width="23%">Subtotal</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
@@ -95,21 +88,18 @@
                                         <td colspan="2" class="text-bold">
                                             <h2 class="font-weight-bold text-uppercase">Total</h2>
                                         </td>
+                                        <td colspan="2" class="font-weight-bold total_item">
+                                        </td>
                                         <td></td>
-                                        <td class="font-weight-bold total_item">
-                                        </td>
-                                        <td colspan="3" width="50%" class="font-weight-bold total_harga">
-                                        </td>
                                     </tr>
                                 </tfoot>
                             </table>
                         </div>
                     </div>
-                    <div class="row justify-content-center d-flex">
-                        <div class="col-md-4">
-                            <button onclick="submitForm('{{ $url }}')"
-                                class="btn btn-outline-info btn-block btn-round btn-flat">
-                                <i class="fas fa-save"></i> Simpan
+                    <div class="row justify-content-end d-flex">
+                        <div class="col-md-2">
+                            <button onclick="submitForm('{{ $url }}')" class="btn btn-success btn-flat">
+                                Simpan <i class="fas fa-arrow-right"></i>
                             </button>
                         </div>
                     </div>
@@ -117,97 +107,87 @@
             </div>
         </div>
     </div>
-
-    @includeIf('admin.purchase_order.purchase_order_detail._modal_produk')
+    @includeIf('admin.pb.create.modal_produk')
 @endsection
 
 @push('js')
     <script src="{{ asset('admin/js/plugin/datatables/datatables.min.js') }}"></script>
 
     <script>
-        load_data_purchase_order_detail();
-        load_data_produk();
+        load_data_pb_detail();
 
-        function load_data_produk() {
-            $('.produk-table').DataTable().destroy();
-            $('.produk-table').DataTable();
-        }
+        function load_data_pb_detail() {
+            $('.pb-detail-table').DataTable({
+                    processing: true,
+                    serverSide: true,
+                    ajax: "{{ route('pb-detail.show', $pb->id) }}",
+                    columns: [{
+                            data: "DT_RowIndex",
+                            name: "DT_RowIndex",
+                            searchable: false,
+                            sortable: false
+                        },
+                        {
+                            data: "nama_produk",
+                            name: "nama_produk"
+                        },
+                        {
+                            data: "qty",
+                            name: "qty"
+                        },
+                        {
+                            data: "satuan",
+                            name: "satuan"
+                        },
+                        {
+                            data: "aksi",
+                            name: "aksi",
+                            searchable: false,
+                            sortable: false
+                        },
+                    ],
+                    dom: 'Brt',
+                    bShort: false,
+                    pageLength: 15,
+                    "lengthMenu": [15, 25, 50, 75, 100],
+                    "language": {
+                        "emptyTable": "Data tidak ada"
+                    },
 
-        function load_data_purchase_order_detail() {
-            $('#purchase-order-detail-table').DataTable({
-                processing: true,
-                serverSide: true,
-                ajax: "{{ route('purchase-order-detail.data', $purchase_order_id) }}",
-                columns: [{
-                        data: "DT_RowIndex",
-                        name: "DT_RowIndex",
-                        searchable: false,
-                        sortable: false
-                    },
-                    {
-                        data: "nama_produk",
-                        name: "nama_produk"
-                    },
-                    {
-                        data: "harga",
-                        name: "harga"
-                    },
-                    {
-                        data: "qty",
-                        name: "qty"
-                    },
-                    {
-                        data: "satuan",
-                        name: "satuan"
-                    },
-                    {
-                        data: "subtotal",
-                        name: "subtotal"
-                    },
-                    {
-                        data: "aksi",
-                        name: "aksi",
-                        searchable: false,
-                        sortable: false
-                    },
-                ],
-                dom: 'Brt',
-                bShort: false,
-                pageLength: 15,
-                "lengthMenu": [15, 25, 50, 75, 100],
-                "language": {
-                    "emptyTable": "Data tidak ada"
-                },
-
-            }).on('draw.dt', function() {
-                loadForm();
-            });
+                })
+                .on('draw.dt', function() {
+                    loadForm();
+                });
         }
 
         function refresh_data() {
-            $('#purchase-order-detail-table').DataTable().destroy();
-            load_data_purchase_order_detail();
+            $('.pb-detail-table').DataTable().destroy();
+            load_data_pb_detail();
         }
 
         // Ubah qty
-        $('table').on('mouseout', '.qty', function() {
+        $('table').on('change', '.qty', function() {
             var qty = parseInt($(this).val()),
+                stok = parseInt($(this).data('produk')),
                 id = $(this).data('id');
-
-            if (qty > 100000) {
-                alert_error('error', 'Jumlah quantity tidak boleh lebih besar dari 100000!');
-                $(this).val(100000);
+            if (qty > stok) {
+                alert_error('error', 'Jumlah quantity melebihi stok yang ada, stok yang tersedia adalah ' + stok);
+                $(this).val(1);
                 return;
             }
-            if (qty < 1) {
+            if (qty <= 0) {
                 alert_error('error', 'Jumlah quantity minimal 1!');
                 $(this).val(1);
                 return;
             }
-            $.post(`{{ url('/admin/purchase-order-detail') }}/${id}`, {
-                    '_token': $('[name=csrf-token]').attr('content'),
-                    '_method': 'put',
-                    'qty': qty
+            $.ajax({
+                    url: `{{ url('/admin/pb-detail') }}/${id}`,
+                    type: 'post',
+                    data: {
+                        '_token': $('[name=csrf-token]').attr('content'),
+                        '_method': 'put',
+                        'qty': qty,
+                    }
                 })
                 .done(response => {
                     refresh_data();
@@ -218,18 +198,37 @@
                 });
         });
 
-        function pilihProduk(id, kode) {
-            event.preventDefault();
-            var produk_id = document.getElementById("produk_id").value = id;
-            hideModalProduk();
-            tambahProduk();
-        }
-
         function tampilModalProduk() {
             event.preventDefault();
             $('.modal-produk').modal('show');
-            $('.produk-table').DataTable().destroy();
-            $('.produk-table').DataTable();
+        }
+
+        function pilihProduk(id) {
+            event.preventDefault();
+            var produk_id = document.getElementById("produk_id").value = id;
+            tambahProduk();
+            hideModalProduk();
+        }
+
+        function hideModalProduk() {
+            $('.modal-produk').modal('hide');
+        }
+
+        function tambahProduk() {
+            $.ajax({
+                    url: "{{ route('pb-detail.store') }}",
+                    type: "post",
+                    data: $(".form-produk").serialize(),
+                })
+                .done(response => {
+                    hideModalProduk();
+                    alert_success('success', response.text);
+                    refresh_data();
+                })
+                .fail(errors => {
+                    alert_error('error', errors);
+                    return;
+                });
         }
 
         function submitForm(url) {
@@ -237,7 +236,7 @@
             let timerInterval;
             Swal.fire({
                 html: 'Menyimpan dalam <b></b>.',
-                timer: 500,
+                timer: 1000,
                 timerProgressBar: true,
                 didOpen: () => {
                     Swal.showLoading()
@@ -249,8 +248,8 @@
                 willClose: () => {
                     Swal.fire({
                         title: 'Sukses',
-                        text: 'PO berhasil dibuat!',
-                        confirmButtonText: `Kembali ke daftar PO`,
+                        text: 'Permintaan barang berhasil diajukan!',
+                        confirmButtonText: `Lihat status PB`,
                         showCancelButton: true,
                         denyButtonText: `Tidak`,
                     }).then((result) => {
@@ -261,27 +260,6 @@
                     })
                 }
             })
-        }
-
-        function hideModalProduk() {
-            $('.modal-produk').modal('hide');
-        }
-
-        function tambahProduk() {
-            $.ajax({
-                    url: "{{ route('purchase-order-detail.store') }}",
-                    type: "post",
-                    data: $(".form-produk").serialize(),
-                })
-                .done(response => {
-                    hideModalProduk();
-                    alert_success('success', 'Data berhasil ditambahkan!');
-                    refresh_data();
-                })
-                .fail(errors => {
-                    alert_error('error', errors);
-                    return;
-                });
         }
 
         // Delete data
@@ -298,7 +276,6 @@
                     '_token': csrf_token
                 },
                 success: function(response) {
-                    alert_success('success', response.text)
                     refresh_data();
                 }
             });
@@ -306,14 +283,11 @@
 
         function loadForm() {
             var total_item = $(".qty").data('total_item');
-            var total_harga = $(".qty").data('total_harga');
-            if (total_harga == undefined && total_item == undefined) {
-                $(".total_harga").html(`<h1 class="font-weight-bold">Rp. 0</h1>`);
+            if (total_item == undefined) {
                 $(".total_item").html(`<h1 class="font-weight-bold">0</h1>`);
                 return;
             }
             $(".total_item").html(`<h1 class="text-center font-weight-bold">` + total_item + `</h1>`);
-            $(".total_harga").html(`<h1 class="text-center font-weight-bold">Rp. ` + total_harga + `</h1>`);
         }
     </script>
 @endpush

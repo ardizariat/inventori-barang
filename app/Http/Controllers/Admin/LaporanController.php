@@ -28,30 +28,29 @@ class LaporanController extends Controller
             'awal' => 'required',
             'akhir' => 'required',
         ]);
-        $now = Carbon::now()->format('d F Y, H:i:s');
-        $awal = $request->awal;
-        $akhir = $request->akhir;
-        $data = BarangMasuk::whereBetween('tanggal', [$awal, $akhir])->get();
-        $totalProdukMasuk = $data->sum('jumlah');
-        $totalProdukMasuk = number_format($totalProdukMasuk, 0, ',', '.');
-        $totalItemProduk = $data->count();
-        $totalItemProduk = number_format($totalItemProduk, 0, ',', '.');
-        $pdf = \PDF::loadView('admin.laporan.pdf.barang_masuk', [
-            'data' => $data,
-            'awal' => $awal,
-            'akhir' => $akhir,
-            'totalItemProduk' => $totalItemProduk,
-            'totalProdukMasuk' => $totalProdukMasuk,
-            'now' => $now,
-            'title' => 'Ardi'
-        ]);
+        $tgl_awal = tanggal($request->awal);
+        $tgl_akhir = tanggal($request->akhir);
+        $title = 'Laporan barang masuk';
+        $awal = Carbon::parse($request->awal)->format('Y-m-d H:i:s');
+        $akhir = Carbon::parse($request->akhir)->format('Y-m-d H:i:s');
+
+        $data = BarangMasuk::whereBetween('created_at', [$awal, $akhir])
+            ->get();
+
+        $pdf = PDF::loadView('admin.laporan.pdf.barang_masuk', compact(
+            'tgl_awal',
+            'tgl_akhir',
+            'data',
+            'title'
+        ));
+        activity()->log('Download file pdf data barang masuk');
+
         $pdf->setOptions([
             'page-size' => 'a4',
             "footer-right" => "[page]",
+            'margin-top' => 8,
         ]);
-        // ->setOrientation('landscape');
-
-        return $pdf->stream('Laporan barang masuk.pdf');
+        return $pdf->stream('barang-keluar.pdf');
     }
 
     public function barangKeluar()
@@ -68,30 +67,26 @@ class LaporanController extends Controller
             'awal' => 'required',
             'akhir' => 'required',
         ]);
-        $now = Carbon::now()->format('d F Y, H:i A');
-        $awal = $request->awal;
-        $akhir = $request->akhir;
-        $data = BarangKeluar::whereBetween('tanggal', [$awal, $akhir])->get();
-        $totalProdukKeluar = $data->sum('jumlah');
-        $totalProdukKeluar = number_format($totalProdukKeluar, 0, ',', '.');
-        $totalItemProduk = $data->count();
-        $totalItemProduk = number_format($totalItemProduk, 0, ',', '.');
-        $pdf = PDF::loadView('admin.laporan.pdf.barang_keluar', [
-            'data' => $data,
-            'awal' => $awal,
-            'akhir' => $akhir,
-            'totalItemProduk' => $totalItemProduk,
-            'totalProdukKeluar' => $totalProdukKeluar,
-            'now' => $now,
-            'title' => 'Ardi'
-        ]);
+        $tgl_awal = tanggal($request->awal);
+        $tgl_akhir = tanggal($request->akhir);
+        $title = 'Laporan barang keluar';
+        $awal = Carbon::parse($request->awal)->format('Y-m-d H:i:s');
+        $akhir = Carbon::parse($request->akhir)->format('Y-m-d H:i:s');
 
+        $data = BarangKeluar::whereBetween('created_at', [$awal, $akhir])
+            ->get();
+
+        $pdf = PDF::loadView('admin.laporan.pdf.barang_keluar', compact(
+            'tgl_awal',
+            'tgl_akhir',
+            'data',
+            'title'
+        ));
+        activity()->log('Download file pdf data barang keluar');
         $pdf->setOptions([
             'page-size' => 'a4',
-            "footer-center" => "[page]",
+            "footer-right" => "[page]",
             'margin-top' => 8,
-            // 'header-line' => true,
-            'footer-line' => true,
         ]);
         return $pdf->stream('barang-keluar.pdf');
     }
@@ -108,22 +103,21 @@ class LaporanController extends Controller
 
     public function pdfProduk(Request $request)
     {
-        $now = Carbon::now()->format('d F Y, H:i A');
+        $title = "Produk";
         $type = $request->type;
         $awal = $request->awal;
         $akhir = $request->akhir;
         $kategori = $request->kategori;
+
         if ($type == 'all') {
             $typeExport = "Semua Produk";
             $data = Produk::latest()->get();
-            $totalProdukMasuk = $data->sum('jumlah');
             $totalItemProduk = $data->count();
         } elseif ($type == 'tanggal') {
-            $typeExport = "Berdasarkan Tanggal Pembelian " . tanggal($awal) . " sampai " . tanggal($akhir);
+            $typeExport = "Berdasarkan Tanggal Pembelian";
             $awal = Carbon::parse($awal)->format('Y-m-d H:i:s');
             $akhir = Carbon::parse($akhir)->format('Y-m-d H:i:s');
             $data = Produk::whereBetween('created_at', [$awal, $akhir])->get();
-            $totalProdukMasuk = $data->sum('jumlah');
             $totalItemProduk = $data->count();
         } elseif ($type == 'category') {
             $request->validate([
@@ -132,19 +126,16 @@ class LaporanController extends Controller
             $data = Produk::where('kategori_id', '=', $kategori)->get();
             $category = Kategori::where('id', '=', $kategori)->pluck('kategori')->first();
             $typeExport = "Berdasarkan Kategori " . $category;
-            $totalProdukMasuk = $data->sum('jumlah');
             $totalItemProduk = $data->count();
         }
-        $pdf = PDF::loadView('admin.laporan.pdf.produk', [
-            'data' => $data,
-            'awal' => $awal,
-            'akhir' => $akhir,
-            'typeExport' => $typeExport,
-            'totalItemProduk' => $totalItemProduk,
-            'totalProdukMasuk' => $totalProdukMasuk,
-            'now' => $now,
-            'title' => 'Ardi'
-        ]);
+        $pdf = PDF::loadView('admin.laporan.pdf.produk', compact(
+            'data',
+            'awal',
+            'akhir',
+            'typeExport',
+            'totalItemProduk',
+            'title'
+        ));
         $pdf->setOptions([
             'page-size' => 'a4',
             "footer-right" => "[page]",
@@ -152,6 +143,7 @@ class LaporanController extends Controller
             'margin-bottom' => 16,
             'footer-line' => true,
         ]);
+        activity()->log('Download file pdf data barang produk');
         return $pdf->stream('produk.pdf');
     }
 }

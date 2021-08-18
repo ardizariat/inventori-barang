@@ -49,9 +49,9 @@ class RegisteredUserController extends Controller
         ]);
 
         $user->assignRole(['super-admin']);
-        $user->givePermissionTo(['create', 'read', 'update', 'delete']);
+        $user->givePermissionTo(['full-permission']);
         $role = Role::find(1);
-        $role->givePermissionTo(['create', 'read', 'update', 'delete']);
+        $role->givePermissionTo(['full-permission']);
 
         // $user->assignRole(['admin']);
         // $user->givePermissionTo(['create', 'read', 'update']);

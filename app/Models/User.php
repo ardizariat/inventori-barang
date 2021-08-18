@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\PB;
+use App\Models\BarangKeluar;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Activitylog\Traits\LogsActivity;
@@ -54,5 +56,19 @@ class User extends Authenticatable
     public function getFoto()
     {
         return $this->foto ? asset('/storage/user/' . $this->foto) : asset('/images/default/default.png');
+    }
+
+    public function pbs()
+    {
+        return $this->hasMany(PB::class, 'user_id', 'id');
+    }
+
+    public function usersPemberi()
+    {
+        return $this->hasMany(BarangKeluar::class, 'pemberi', 'id');
+    }
+    public function usersPenerima()
+    {
+        return $this->hasMany(BarangKeluar::class, 'penerima', 'id');
     }
 }

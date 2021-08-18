@@ -105,6 +105,9 @@ class BarangMasukController extends Controller
             $produk->supplier_id = $item->supplier_id;
             $produk->update();
         }
+
+        activity()->log('menambahkan barang keluar');
+
         return response()->json([
             'text' => 'Barang berhasil masuk ke dalam stok!'
         ], 200);

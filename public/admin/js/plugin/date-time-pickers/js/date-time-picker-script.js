@@ -2,7 +2,7 @@ $(document).ready(function () {
 
 
     //Date Picker
-    $("#mydate").flatpickr();
+    $(".mydate").flatpickr();
 
     $(".date-time").flatpickr({
         enableTime: true

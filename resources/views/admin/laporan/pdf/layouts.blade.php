@@ -11,7 +11,9 @@
 </head>
 
 <body class="bg-white">
-    @yield('content-pdf')
+    <div class="container-fluid">
+        @yield('content-pdf')
+    </div>
 </body>
 
 </html>

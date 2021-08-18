@@ -1,43 +1,88 @@
- function showDetail(url) {
-            event.preventDefault();
-            $('.purchase-order-detail-table').DataTable().destroy();
-            $(".modal-show").modal('show');
-            $('.purchase-order-detail-table').DataTable({
-                serverSide: true,
-                processing: true,
-                ajax: url,
-                columns: [{
-                        data: "DT_RowIndex",
-                        name: "DT_RowIndex",
-                        searchable: false,
-                        sortable: false
-                    },
-                    {
-                        data: "nama_produk",
-                        name: "nama_produk"
-                    },
-                    {
-                        data: "qty",
-                        name: "qty"
-                    },
-                    {
-                        data: "harga",
-                        name: "harga"
-                    },
-                    {
-                        data: "subtotal",
-                        name: "subtotal"
-                    },
-                    {
-                        data: "tanggal",
-                        name: "tanggal"
-                    },
-                ],
-                pageLength: 15,
-                "lengthMenu": [15, 25, 50, 75, 100],
-                "language": {
-                    "emptyTable": "Data tidak ada"
-                },
-                bSort: false,
-            });
+$request->validate([
+            'produk_id' => 'required',
+            'tanggal' => 'required',
+            'jumlah' => 'required|numeric',
+            'penerima' => 'required',
+        ]);
+
+        $produk = Produk::findOrFail($request->produk_id);
+        $stok = $produk->stok;
+        $nama_barang = $produk->nama_barang;
+
+        if ($stok == 0) {
+            $text = 'Stok barang ' . $nama_barang . ' kosong!';
+            return response()->json([
+                'text' => $text,
+                'status' => 500
+            ], 500);
         }
+
+        if ($stok - $request->jumlah < 0) {
+            $text = 'Barang yang dikeluarkan lebih besar dari stok yang tersedia !';
+            return response()->json([
+                'text' => $text,
+                'status' => 500
+            ], 500);
+        }
+
+        $data = new BarangKeluar();
+        $data->produk_id = $request->produk_id;
+        $data->jumlah = $request->jumlah;
+        $data->tanggal = $request->tanggal;
+        $data->keterangan = $request->keterangan;
+        $data->penerima = $request->penerima;
+        $data->pemberi = auth()->user()->name;
+        $data->save();
+
+        $save = $produk->update([
+            'stok' => $stok - $request->jumlah
+        ]);
+
+        activity()->log('menambahkan barang keluar ' . $data->product->nama_produk);
+
+        if ($save) {
+            return response()->json([
+                'data' => $data,
+                'text' => 'Barang keluar berhasil ditambahkan!'
+            ], 201);
+        }
+
+
+
+
+         $(function() {
+            $('.modal-form').on('click', '.btn-save', function(e) {
+                e.preventDefault();
+                var form = $('.modal-form form');
+                form.find('.invalid-feedback').remove();
+                form.find('.form-control').removeClass('is-invalid');
+
+                $.ajax({
+                        url: $('.modal-form form').attr('action'),
+                        type: $('.modal-form input[name=_method]').val(),
+                        beforeSend: function() {
+                            loading();
+                        },
+                        complete: function() {
+                            hideLoader("Simpan");
+                        },
+                        data: $('.modal-form form').serialize()
+                    })
+                    .done(response => {
+                        $('.modal-form').modal('hide');
+                        form[0].reset();
+                        $('.selectpicker').val(null).trigger('change');
+                        refresh_data();
+                        alert_success('success', response.text);
+                        window.location.reload();
+                    })
+                    .fail(errors => {
+                        if (errors.status == 422) {
+                            loopErrors(errors.responseJSON.errors);
+                        } else {
+                            alert_error('error', 'Jumlah barang keluar melebihi stok yang tersedia');
+                            return;
+                        }
+                    });
+            });
+        });

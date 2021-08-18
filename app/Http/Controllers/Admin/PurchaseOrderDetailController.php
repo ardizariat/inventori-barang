@@ -18,8 +18,12 @@ class PurchaseOrderDetailController extends Controller
         $purchase_order_id = session('purchase_order_id');
         $supplier_id = session('supplier_id');
         $produk = Produk::latest()->get();
-        $supplier = Supplier::find($supplier_id);
-
+        $supplier = Supplier::findOrFail($supplier_id);
+        $po = PurchaseOrderDetail::where('purchase_order_id', $purchase_order_id)->get();
+        $produk_id = [];
+        foreach ($po as $item) {
+            $produk_id = $item->produk_id;
+        }
         if (!$supplier) {
             abort(404);
         }
@@ -30,6 +34,7 @@ class PurchaseOrderDetailController extends Controller
             'supplier',
             'title',
             'url',
+            'produk_id',
         ));
     }
 
