@@ -137,6 +137,7 @@
     @stack('js')
 
     <script>
+        $(".date").flatpickr();
         $(document).ready(function() {
             $('.dropdown-user').on('click', '.btn-logout', function(e) {
                 e.preventDefault();

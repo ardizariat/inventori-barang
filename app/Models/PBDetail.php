@@ -19,6 +19,8 @@ class PBDetail extends Model
         'pb_id',
         'produk_id',
         'qty',
+        'harga',
+        'subtotal',
     ];
 
     public function pb()

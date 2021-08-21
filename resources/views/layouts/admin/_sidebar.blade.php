@@ -63,22 +63,22 @@
                         <p>Request PB</p>
                     </a>
                 </li>
+                <li class="nav-item {{ request()->routeIs('pr.index') ? 'active' : '' }}">
+                    <a href="{{ route('pr.index') }}">
+                        <i class="fab fa-r-project"></i>
+                        <p>Request PR</p>
+                    </a>
+                </li>
+                <li class="nav-item {{ request()->routeIs('po.index') ? 'active' : '' }}">
+                    <a href="{{ route('po.index') }}">
+                        <i class="fas fa-shopping-cart"></i>
+                        <p>Purchase Order</p>
+                    </a>
+                </li>
                 <li class="nav-item {{ request()->routeIs('barang-keluar.index') ? 'active' : '' }}">
                     <a href="{{ route('barang-keluar.index') }}">
                         <i class="fas fa-truck-loading"></i>
                         <p>Barang Keluar</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="">
-                        <i class="fab fa-adn"></i>
-                        <p>Request PR</p>
-                    </a>
-                </li>
-                <li class="nav-item {{ request()->routeIs('purchase-order.index') ? 'active' : '' }}">
-                    <a href="{{ route('purchase-order.index') }}">
-                        <i class="fas fa-shopping-cart"></i>
-                        <p>Purchase Order</p>
                     </a>
                 </li>
                 <li class="nav-item {{ request()->routeIs('barang-masuk.index') ? 'active' : '' }}">

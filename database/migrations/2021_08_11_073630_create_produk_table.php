@@ -27,7 +27,7 @@ class CreateProdukTable extends Migration
             $table->bigInteger('harga');
             $table->string('gambar')->nullable();
             $table->text('keterangan')->nullable();
-            $table->enum('status', ['aktif', 'tidak aktif'])->default('aktif');
+            $table->enum('status', ['aktif', 'tidak aktif'])->default('tidak aktif');
             $table->timestamps();
 
             $table->foreign('kategori_id')->references('id')->on('kategori')->onDelete('restrict')->onUpdate('cascade');

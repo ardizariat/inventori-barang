@@ -17,5 +17,4 @@
     function alert_error(type, message) {
         Swal.fire('Oops...', message, type);
     }
-    $(".date").flatpickr();
 </script>

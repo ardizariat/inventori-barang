@@ -116,8 +116,6 @@
     <script>
         $(document).ready(function() {
 
-            $(".date").flatpickr({});
-
             $('form').on('change', '.type', function(e) {
                 e.preventDefault();
 

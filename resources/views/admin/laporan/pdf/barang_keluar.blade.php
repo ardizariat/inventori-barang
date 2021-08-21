@@ -1,43 +1,41 @@
 @extends('admin.laporan.pdf.layouts')
 
 @section('content-pdf')
+    <div class="row">
+        <img width=" auto" height="40" src="{{ asset('images/logo.png') }}" class="rounded float-left">
+    </div>
     <header class="mb-3">
-        <h1 class="text-bold text-center">{{ $title }}</h1>
-        <div class="row mt-2 d-flex justify-content-center">
+        <h1 class="text-bold text-center text-capitalize">{{ $title }}</h1>
+        <div class="row mt-3 d-flex justify-content-center">
             <table class="float-left mx-2">
                 <tr>
                     <th>Periode</th>
                     <th>:</th>
-                    <td> {{ $tgl_awal }} - {{ $tgl_akhir }}</td>
-                </tr>
-                <tr>
-                    <th>Dibuat Oleh</th>
-                    <th>:</th>
-                    <td> {{ auth()->user()->name }}</td>
-                </tr>
-                <tr>
-                    <th>Email</th>
-                    <th>:</th>
-                    <td> {{ auth()->user()->email }}</td>
-                </tr>
-            </table>
-            {{-- <table class="float-right mx-2">
-                <tr>
-                    <th>Tanggal</th>
-                    <th>:</th>
-                    <td> {{ $pb->created_at->format('d-m-Y') }}</td>
-                </tr>
-                <tr>
-                    <th>Status</th>
-                    <th>:</th>
-                    <td class="text-capitalize"> {{ $pb->status_confirm_barang_keluar }} diterima</td>
+                    <td> {{ $periode }}</td>
                 </tr>
                 <tr>
                     <th>Total Item</th>
                     <th>:</th>
-                    <td> {{ formatAngka($pb->total_item) }}</td>
+                    <td> {{ formatAngka($total_item) }} Item</td>
                 </tr>
-            </table> --}}
+                <tr>
+                    <th>Total Harga</th>
+                    <th>:</th>
+                    <td>Rp. {{ formatAngka($total_harga) }}</td>
+                </tr>
+            </table>
+            {{-- <table class="float-right mx-2">
+            <tr>
+                <th>Tanggal</th>
+                <th>:</th>
+                <td> {{ $pr->created_at->format('d-m-Y') }}</td>
+            </tr>
+            <tr>
+                <th>Status</th>
+                <th>:</th>
+                <td class="text-capitalize"> {{ $pr->status }} Diterima</td>
+            </tr>
+        </table> --}}
         </div>
     </header>
 
@@ -48,10 +46,10 @@
                     <tr>
                         <th>No</th>
                         <th>Nama Produk</th>
-                        <th>Pemberi</th>
-                        <th>Penerima</th>
+                        <th>Kategori</th>
+                        <th>Harga</th>
                         <th>Qty</th>
-                        <th>Tanggal</th>
+                        <th>Subtotal</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -59,14 +57,25 @@
                         <tr>
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $item->product->nama_produk }}</td>
-                            <td>{{ $item->pemberiBarang->name }}</td>
-                            <td>{{ $item->penerimaBarang->name }}</td>
+                            <td>{{ $item->product->category->kategori }}</td>
+                            <td>{{ formatAngka($item->product->harga) }}</td>
                             <td>{{ formatAngka($item->qty) }} {{ $item->product->satuan }}</td>
-                            <td>{{ $item->created_at->format('d-m-Y') }}</td>
+                            <td>{{ formatAngka($item->subtotal) }}</td>
                         </tr>
                     @endforeach
                 </tbody>
+                <tfoot>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th>TOTAL</th>
+                        <th>{{ formatAngka($total_item) }} Item</th>
+                        <th>Rp {{ formatAngka($total_harga) }}</th>
+                    </tr>
+                </tfoot>
             </table>
         </div>
     </div>
+
 @stop

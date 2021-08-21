@@ -42,6 +42,88 @@ class UserSeeder extends Seeder
         //     // $role->givePermissionTo([$permissions]);
         //     // }
         // }
+
+        // admin
+        $user = User::create([
+            'name' => 'Admin',
+            'username' => 'admin',
+            'password' => bcrypt('admin'),
+            'email' => 'admin@gmail.com',
+            'email_verified_at' => null,
+            'foto' => null,
+            'remember_token' => null,
+            'status' =>  'aktif',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+        $roles = 'admin';
+        $permissions = ['create', 'read', 'update', 'delete'];
+        $user->assignRole([$roles]);
+        $user->givePermissionTo([$permissions]);
+        $role = Role::find(2);
+        $role->givePermissionTo([$permissions]);
+
+        // direktur
+        $user = User::create([
+            'name' => 'Direktur',
+            'username' => 'direktur',
+            'password' => bcrypt('admin'),
+            'email' => 'direktur@gmail.com',
+            'email_verified_at' => null,
+            'foto' => null,
+            'remember_token' => null,
+            'status' =>  'aktif',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+        $roles = 'direktur';
+        $permissions = ['read', 'update'];
+        $user->assignRole([$roles]);
+        $user->givePermissionTo([$permissions]);
+        $role = Role::find(3);
+        $role->givePermissionTo([$permissions]);
+
+        // Dept head
+        $user = User::create([
+            'name' => 'Departemen Head',
+            'username' => 'dept_head',
+            'password' => bcrypt('admin'),
+            'email' => 'dept_head@gmail.com',
+            'email_verified_at' => null,
+            'foto' => null,
+            'remember_token' => null,
+            'status' =>  'aktif',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+        $roles = 'dept_head';
+        $permissions = ['read', 'update'];
+        $user->assignRole([$roles]);
+        $user->givePermissionTo([$permissions]);
+        $role = Role::find(4);
+        $role->givePermissionTo([$permissions]);
+
+        // Sect head
+        $user = User::create([
+            'name' => 'Section Head',
+            'username' => 'sect_head',
+            'password' => bcrypt('admin'),
+            'email' => 'sect_head@gmail.com',
+            'email_verified_at' => null,
+            'foto' => null,
+            'remember_token' => null,
+            'status' =>  'aktif',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+        $roles = 'sect_head';
+        $permissions = ['read', 'update'];
+        $user->assignRole([$roles]);
+        $user->givePermissionTo([$permissions]);
+        $role = Role::find(5);
+        $role->givePermissionTo([$permissions]);
+
+        // User
         $user = User::create([
             'name' => 'User',
             'username' => 'user',
@@ -54,7 +136,6 @@ class UserSeeder extends Seeder
             'created_at' => now(),
             'updated_at' => now(),
         ]);
-
         $roles = 'user';
         $permissions = ['create', 'read'];
         $user->assignRole([$roles]);

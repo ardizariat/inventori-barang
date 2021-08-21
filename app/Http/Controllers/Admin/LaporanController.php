@@ -67,20 +67,25 @@ class LaporanController extends Controller
             'awal' => 'required',
             'akhir' => 'required',
         ]);
-        $tgl_awal = tanggal($request->awal);
-        $tgl_akhir = tanggal($request->akhir);
-        $title = 'Laporan barang keluar';
+        $tanggal_awal = Carbon::parse($request->awal)->format('Y-m-d');
+        $tanggal_akhir = Carbon::parse($request->akhir)->format('Y-m-d');
+
         $awal = Carbon::parse($request->awal)->format('Y-m-d H:i:s');
         $akhir = Carbon::parse($request->akhir)->format('Y-m-d H:i:s');
-
         $data = BarangKeluar::whereBetween('created_at', [$awal, $akhir])
             ->get();
 
+        $title = 'Laporan barang keluar';
+        $periode = tanggal($tanggal_awal) . ' ' . tanggal($tanggal_akhir);
+        $total_item = $data->sum('qty');
+        $total_harga = $data->sum('subtotal');
+
         $pdf = PDF::loadView('admin.laporan.pdf.barang_keluar', compact(
-            'tgl_awal',
-            'tgl_akhir',
             'data',
-            'title'
+            'title',
+            'periode',
+            'total_item',
+            'total_harga',
         ));
         activity()->log('Download file pdf data barang keluar');
         $pdf->setOptions([
@@ -88,7 +93,7 @@ class LaporanController extends Controller
             "footer-right" => "[page]",
             'margin-top' => 8,
         ]);
-        return $pdf->stream('barang-keluar.pdf');
+        return $pdf->stream('barang keluar.pdf');
     }
 
     public function produk()

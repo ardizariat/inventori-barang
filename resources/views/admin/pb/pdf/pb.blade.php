@@ -11,9 +11,12 @@
 
 <body class="bg-white">
     <div class="container-fluid">
+        <div class="row">
+            <img width=" auto" height="40" src="{{ asset('images/logo.png') }}" class="rounded float-left">
+        </div>
         <header class="mb-3">
             <h1 class="text-bold text-center">{{ $title }}</h1>
-            <div class="row mt-2 d-flex justify-content-center">
+            <div class="row mt-3 d-flex justify-content-center">
                 <table class="float-left mx-2">
                     <tr>
                         <th>No Dokumen</th>
@@ -40,7 +43,7 @@
                     <tr>
                         <th>Status</th>
                         <th>:</th>
-                        <td class="text-capitalize"> {{ $pb->status_confirm_barang_keluar }} diterima</td>
+                        <td class="text-capitalize"> {{ $pb->status }}</td>
                     </tr>
                     <tr>
                         <th>Total Item</th>

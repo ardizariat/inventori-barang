@@ -20,12 +20,13 @@ class PB extends Model
         'no_dokumen',
         'pemohon',
         'total_item',
+        'total_harga',
         'keterangan',
         'sect_head',
         'tgl_approve_sect',
         'dept_head',
         'tgl_approve_dept',
-        'status_confirm_barang_keluar',
+        'status',
     ];
 
     public function user()

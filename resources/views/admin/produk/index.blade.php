@@ -243,8 +243,6 @@
             });
         });
 
-
-
         // Hapus Data
         $('body').on('click', '.btn-delete', function(event) {
             event.preventDefault();

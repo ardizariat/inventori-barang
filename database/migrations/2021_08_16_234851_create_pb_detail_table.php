@@ -18,6 +18,8 @@ class CreatePbDetailTable extends Migration
             $table->uuid('pb_id');
             $table->uuid('produk_id');
             $table->bigInteger('qty');
+            $table->bigInteger('harga');
+            $table->bigInteger('subtotal');
 
             $table->foreign('pb_id')->references('id')->on('pb')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('produk_id')->references('id')->on('produk')->onDelete('restrict')->onUpdate('cascade');

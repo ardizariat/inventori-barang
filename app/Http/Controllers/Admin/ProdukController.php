@@ -27,7 +27,9 @@ class ProdukController extends Controller
                 $data = Produk::where('kategori_id', '=', $kategori)
                     ->get();
             } else {
-                $data = Produk::query()->orderBy('created_at', 'desc');
+                $data = Produk::where('status', 'aktif')
+                    ->latest()
+                    ->get();
             }
             return datatables()->of($data)
                 ->addColumn('kategori', function ($data) {

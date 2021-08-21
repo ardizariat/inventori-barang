@@ -2,6 +2,9 @@
 
 namespace App\Models;
 
+use App\Models\PB;
+use App\Models\PR;
+use App\Models\User;
 use App\Models\Produk;
 use App\Models\Traits\HasUuid;
 use Illuminate\Database\Eloquent\Model;
@@ -12,17 +15,19 @@ class BarangKeluar extends Model
     use HasFactory, HasUuid;
 
     public $incrementing = false;
-    protected $with = ['product', 'pb'];
+    protected $with = ['product'];
     protected $table = 'barang_keluar';
     protected $primaryKey = 'id';
     protected $keyType = 'string';
     protected $fillable = [
         'produk_id',
         'pb_id',
+        'pr_id',
         'penerima',
-        'pemberi',
         'qty',
-        'status_barang',
+        'subtotal',
+        'jenis_permintaan',
+        'status',
     ];
 
     public function product()
@@ -33,9 +38,9 @@ class BarangKeluar extends Model
     {
         return $this->belongsTo(PB::class, 'pb_id', 'id');
     }
-    public function pemberiBarang()
+    public function pr()
     {
-        return $this->belongsTo(User::class, 'pemberi', 'id');
+        return $this->belongsTo(PR::class, 'pr_id', 'id');
     }
     public function penerimaBarang()
     {

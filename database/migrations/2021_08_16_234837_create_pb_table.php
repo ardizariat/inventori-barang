@@ -18,12 +18,13 @@ class CreatePbTable extends Migration
             $table->string('no_dokumen');
             $table->unsignedBigInteger('pemohon');
             $table->bigInteger('total_item');
+            $table->bigInteger('total_harga');
             $table->text('keterangan')->nullable();
             $table->enum('sect_head', ['rejected', 'approved', 'on process'])->default('on process');
             $table->date('tgl_approve_sect')->nullable();
             $table->enum('dept_head', ['rejected', 'approved', 'on process'])->default('on process');
             $table->date('tgl_approve_dept')->nullable();
-            $table->enum('status_confirm_barang_keluar', ['sudah', 'belum'])->default('belum');
+            $table->enum('status', ['sudah diterima', 'belum diterima'])->default('belum diterima');
             $table->timestamps();
 
             $table->foreign('pemohon')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');

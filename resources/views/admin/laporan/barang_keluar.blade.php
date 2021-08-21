@@ -72,7 +72,4 @@
 @push('js')
     <script src="{{ asset('admin/js/plugin/date-time-pickers/js/flatpickr.js') }}"></script>
     <script src="{{ asset('admin/js/plugin/date-time-pickers/js/date-time-picker-script.js') }}"></script>
-    <script>
-        $(".date").flatpickr();
-    </script>
 @endpush

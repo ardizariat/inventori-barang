@@ -6,8 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="{{ asset('admin/css/bootstrap.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('admin/css/atlantis.min.css') }}">
-    <title>Laporan</title>
+    <title>{{ $title }}</title>
 </head>
 
 <body class="bg-white">

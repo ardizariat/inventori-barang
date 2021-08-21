@@ -1,88 +1,70 @@
-$request->validate([
-            'produk_id' => 'required',
-            'tanggal' => 'required',
-            'jumlah' => 'required|numeric',
-            'penerima' => 'required',
-        ]);
-
-        $produk = Produk::findOrFail($request->produk_id);
-        $stok = $produk->stok;
-        $nama_barang = $produk->nama_barang;
-
-        if ($stok == 0) {
-            $text = 'Stok barang ' . $nama_barang . ' kosong!';
-            return response()->json([
-                'text' => $text,
-                'status' => 500
-            ], 500);
-        }
-
-        if ($stok - $request->jumlah < 0) {
-            $text = 'Barang yang dikeluarkan lebih besar dari stok yang tersedia !';
-            return response()->json([
-                'text' => $text,
-                'status' => 500
-            ], 500);
-        }
-
-        $data = new BarangKeluar();
-        $data->produk_id = $request->produk_id;
-        $data->jumlah = $request->jumlah;
-        $data->tanggal = $request->tanggal;
-        $data->keterangan = $request->keterangan;
-        $data->penerima = $request->penerima;
-        $data->pemberi = auth()->user()->name;
-        $data->save();
-
-        $save = $produk->update([
-            'stok' => $stok - $request->jumlah
-        ]);
-
-        activity()->log('menambahkan barang keluar ' . $data->product->nama_produk);
-
-        if ($save) {
-            return response()->json([
-                'data' => $data,
-                'text' => 'Barang keluar berhasil ditambahkan!'
-            ], 201);
-        }
+ <form>
+            @csrf
+            @method('post')
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <table class="table permintaan-table table-striped">
+                        <thead>
+                            <tr>
+                                <th width="5%">No</th>
+                                <th>No PB</th>
+                                <th>Pemohon</th>
+                                <th>Tanggal</th>
+                                <th width="15%" align="center">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($pb as $item)
+                                <tr>
+                                    <td width="5%">{{ $loop->iteration }}</td>
+                                    <td>{{ $item->no_dokumen }}</td>
+                                    <td>{{ $item->user->name }}</td>
+                                    <td>{{ $item->created_at->format('d-m-Y') }}</td>
+                                    <td width="15%" align="center">
+                                        <button
+                                            onclick="pilihPB(`{{ route('barang-keluar.store', $item->id) }}`,`{{ $item->id }}`)"
+                                            class="btn btn-xs btn-primary">
+                                            <i class="fas fa-check-circle"></i> Pilih
+                                        </button>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </form>
 
 
 
 
-         $(function() {
-            $('.modal-form').on('click', '.btn-save', function(e) {
-                e.preventDefault();
-                var form = $('.modal-form form');
-                form.find('.invalid-feedback').remove();
-                form.find('.form-control').removeClass('is-invalid');
 
-                $.ajax({
-                        url: $('.modal-form form').attr('action'),
-                        type: $('.modal-form input[name=_method]').val(),
-                        beforeSend: function() {
-                            loading();
-                        },
-                        complete: function() {
-                            hideLoader("Simpan");
-                        },
-                        data: $('.modal-form form').serialize()
-                    })
-                    .done(response => {
-                        $('.modal-form').modal('hide');
-                        form[0].reset();
-                        $('.selectpicker').val(null).trigger('change');
-                        refresh_data();
-                        alert_success('success', response.text);
-                        window.location.reload();
-                    })
-                    .fail(errors => {
-                        if (errors.status == 422) {
-                            loopErrors(errors.responseJSON.errors);
-                        } else {
-                            alert_error('error', 'Jumlah barang keluar melebihi stok yang tersedia');
-                            return;
-                        }
-                    });
-            });
-        });
+
+
+
+
+
+
+         $table->uuid('id')->primary()->unique();
+            $table->uuid('produk_id');
+            $table->uuid('pb_id')->nullable();
+            $table->uuid('pr_id')->nullable();
+            $table->unsignedBigInteger('pemberi');
+            $table->unsignedBigInteger('penerima');
+            $table->bigInteger('qty');
+            $table->enum('status_barang', ['dikeluarkan', 'belum dikeluarkan'])->default('belum dikeluarkan');
+            $table->timestamps();
+
+            $table->foreign('produk_id')->references('id')->on('produk')->onDelete('restrict')->onUpdate('cascade');
+            $table->foreign('pb_id')->references('id')->on('pb')->onDelete('restrict')->onUpdate('cascade');
+            $table->foreign('pr_id')->references('id')->on('pr')->onDelete('restrict')->onUpdate('cascade');
+            $table->foreign('pemberi')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');
+            $table->foreign('penerima')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');
+
+            $table->engine = 'InnoDB';

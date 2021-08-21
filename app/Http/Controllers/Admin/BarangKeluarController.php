@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\PB;
+use App\Models\PR;
 use Carbon\Carbon;
 use App\Models\Produk;
 use App\Models\PBDetail;
+use App\Models\PRDetail;
 use App\Models\BarangKeluar;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -18,85 +20,191 @@ class BarangKeluarController extends Controller
         $title = 'Barang Keluar';
         $from_date = Carbon::parse($request->from_date)->format('Y-m-d H:i:s');
         $to_date = Carbon::parse($request->to_date)->format('Y-m-d H:i:s');
-        $pb = PB::with('user')
-            ->where('status_confirm_barang_keluar', '=', 'belum')
-            ->get();
+        $pb = PB::pluck('no_dokumen', 'id');
+        $pr = PR::pluck('no_dokumen', 'id');
         if (request()->ajax()) {
             if (!empty($request->from_date)) {
-                $data = BarangKeluar::whereBetween('created_at', [$from_date, $to_date])->get();
+                $data = BarangKeluar::with(['pb', 'pr'])
+                    ->whereBetween('created_at', [$from_date, $to_date])
+                    ->get();
             } else {
-                $data = BarangKeluar::where('status_barang', '=', 'dikeluarkan')
+                $data = BarangKeluar::with(['pb', 'pr'])
+                    ->where('status', '=', 'sudah dikeluarkan')
                     ->orderBy('created_at', 'desc')
                     ->get();
             }
             return datatables()->of($data)
-                ->addColumn('produk', function ($data) {
+                ->addColumn('nama_produk', function ($data) {
                     return $data->product->nama_produk;
                 })
                 ->addColumn('kategori', function ($data) {
                     return $data->product->category->kategori;
                 })
+                ->addColumn('pemohon', function ($data) {
+                    if ($data->jenis_permintaan == 'pb') {
+                        return $data->pb->user->name;
+                    }
+                    if ($data->jenis_permintaan == 'pr') {
+                        return $data->pr->user->name;
+                    }
+                })
                 ->addColumn('tanggal', function ($data) {
-                    $tanggal = Carbon::parse($data->tanggal)->format('d F Y');
+                    $tanggal = Carbon::parse($data->created_at)->format('d-m-Y');
                     return $tanggal;
                 })
                 ->addColumn('qty', function ($data) {
                     $qty = formatAngka($data->qty) . ' ' . $data->product->satuan;
                     return $qty;
                 })
-                ->rawColumns(['produk', 'kategori', 'qty', 'tanggal'])
+                ->rawColumns(['nama_produk', 'pemohon', 'kategori', 'qty', 'tanggal'])
                 ->addIndexColumn()
                 ->make(true);
         }
 
-        return view('admin.barang_keluar.index', compact(
+        return view('admin.barang_keluar.index.index', compact(
             'title',
             'pb',
+            'pr',
         ));
     }
 
-    public function store(Request $request, $id)
+    public function changeData(Request $request)
     {
-        $pb_id = PB::findOrFail($id);
-        $pb_id->status_confirm_barang_keluar = 'sudah';
-        $pb_id->update();
+        $id = $request->id;
 
-        $pb_detail = PBDetail::where('pb_id', '=', $id)->get();
-        $pemberi = auth()->user()->id;
-        $penerima = $pb_id->pemohon;
+        $pb = PB::find($id);
+        $pr = PR::find($id);
 
-        $data = $pb_detail;
-        foreach ($data as $row) {
+        if (isset($pb)) {
+            $pemohon = $pb->user->name;
+            $tanggal = Carbon::parse($pb->created_at)->format('d-m-Y');
+            $url = route('barang-keluar.pb', $pb->id);
+            return response()->json([
+                'data' => $pb,
+                'jenis_permintaan' => 'pb',
+                'pemohon' => $pemohon,
+                'tanggal' => $tanggal,
+                'url' => $url,
+            ], 200);
+        }
+        if (isset($pr)) {
+            $pemohon = $pr->user->name;
+            $tanggal = Carbon::parse($pr->created_at)->format('d-m-Y');
+            $url = route('barang-keluar.pr', $pr->id);
+            return response()->json([
+                'data' => $pr,
+                'jenis_permintaan' => 'pr',
+                'pemohon' => $pemohon,
+                'tanggal' => $tanggal,
+                'url' => $url,
+            ], 200);
+        }
+    }
+
+    public function pb($id)
+    {
+        $title = 'Barang Keluar PB';
+        $pb = PB::findOrFail($id);
+        $data = PBDetail::with('product')->where('pb_id', '=', $id)->get();
+        if (request()->ajax()) {
+            return datatables()->of($data)
+                ->addColumn('nama_produk', function ($data) {
+                    return $data->product->nama_produk;
+                })
+                ->addColumn('kategori', function ($data) {
+                    return $data->product->category->kategori;
+                })->addColumn('qty', function ($data) {
+                    $qty = formatAngka($data->qty) . ' ' . $data->product->satuan;
+                    return $qty;
+                })
+                ->rawColumns(['nama_produk', 'kategori', 'qty'])
+                ->addIndexColumn()
+                ->make(true);
+        }
+        return view('admin.barang_keluar.show.pb', compact(
+            'title',
+            'pb',
+            'id',
+        ));
+    }
+
+    public function serahTerimaPB($id)
+    {
+        $pb_id = PB::find($id);
+
+        $pb_details = PBDetail::where('pb_id', '=', $id)->get();
+        foreach ($pb_details as $pb) {
             $barang_keluar = new BarangKeluar();
-            $barang_keluar->produk_id = $row->produk_id;
-            $barang_keluar->qty = $row->qty;
+            $barang_keluar->produk_id = $pb->produk_id;
             $barang_keluar->pb_id = $id;
-            $barang_keluar->pemberi = $pemberi;
-            $barang_keluar->penerima = $penerima;
-            $barang_keluar->status_barang = 'dikeluarkan';
+            $barang_keluar->penerima = $pb_id->pemohon;
+            $barang_keluar->qty = $pb->qty;
+            $barang_keluar->subtotal = $pb->qty * $pb->harga;
+            $barang_keluar->jenis_permintaan = 'pb';
+            $barang_keluar->status = 'sudah dikeluarkan';
             $barang_keluar->save();
-
-            $produk = Produk::findOrFail($row->produk_id);
-            $produk->stok = $produk->stok - $row->qty;
-            $produk->update();
         }
 
+        $pb_id->status = 'sudah diterima';
+        $pb_id->update();
+
         return response()->json([
-            'text' => "Sukses!"
+            'text' => 'Serah terima berhasil dilakukan!',
+            'data' => $barang_keluar
         ], 201);
     }
 
-    public function show($id)
+    public function pr($id)
     {
+        $title = 'Barang Keluar PR';
+        $pr = PR::findOrFail($id);
+        $data = PRDetail::with('product')->where('pr_id', '=', $id)->get();
         if (request()->ajax()) {
-            $data = BarangKeluar::findOrFail($id);
-            $tanggal = tanggal($data->tanggal);
-            $foto = $data->product->getGambar();
-            return response()->json([
-                'data' => $data,
-                'tanggal' => $tanggal,
-                'foto' => $foto,
-            ], 200);
+            return datatables()->of($data)
+                ->addColumn('nama_produk', function ($data) {
+                    return $data->product->nama_produk;
+                })
+                ->addColumn('harga', function ($data) {
+                    return formatAngka($data->harga);
+                })
+                ->addColumn('qty', function ($data) {
+                    return formatAngka($data->qty) . ' ' . $data->product->satuan;
+                })
+                ->addColumn('subtotal', function ($data) {
+                    return formatAngka($data->subtotal);
+                })
+                ->rawColumns(['nama_produk', 'kategori', 'qty', 'harga', 'subtotal'])
+                ->addIndexColumn()
+                ->make(true);
         }
+        return view('admin.barang_keluar.show.pr', compact(
+            'title',
+            'pr',
+            'id',
+        ));
+    }
+
+    public function serahTerimaPR($id)
+    {
+        $pr_id = PR::find($id);
+        $pr_id->status = 'sudah diterima';
+        $pr_id->update();
+
+        $pr_details = PRDetail::where('pr_id', '=', $id)->get();
+        foreach ($pr_details as $pr) {
+            $barang_keluar = new BarangKeluar();
+            $barang_keluar->produk_id = $pr->produk_id;
+            $barang_keluar->pr_id = $id;
+            $barang_keluar->penerima = $pr_id->pemohon;
+            $barang_keluar->qty = $pr->qty;
+            $barang_keluar->jenis_permintaan = 'pr';
+            $barang_keluar->status = 'sudah dikeluarkan';
+            $barang_keluar->save();
+        }
+
+        return response()->json([
+            'text' => 'Serah terima berhasil dilakukan!',
+            'data' => $barang_keluar
+        ], 201);
     }
 }

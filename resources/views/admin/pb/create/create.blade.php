@@ -22,7 +22,7 @@
                         <i class="flaticon-right-arrow"></i>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ $url }}">Purchase Order</a>
+                        <a href="{{ $url }}">Permintaan barang PB</a>
                     </li>
                 </ul>
             </div>
@@ -77,29 +77,34 @@
                                 <thead>
                                     <tr>
                                         <th width="5%">No</th>
-                                        <th width="35%">Nama</th>
-                                        <th width="30%">Qty</th>
+                                        <th>Nama</th>
+                                        <th>Harga</th>
+                                        <th>Qty</th>
                                         <th>Satuan</th>
+                                        <th>Subtotal</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
-                                <tfoot align="center">
+                                <tfoot class="bg-light" align="center">
                                     <tr>
                                         <td colspan="2" class="text-bold">
                                             <h2 class="font-weight-bold text-uppercase">Total</h2>
                                         </td>
                                         <td colspan="2" class="font-weight-bold total_item">
                                         </td>
-                                        <td></td>
+                                        <td colspan="3" class="font-weight-bold total_harga">
+                                        </td>
                                     </tr>
                                 </tfoot>
                             </table>
                         </div>
                     </div>
-                    <div class="row justify-content-end d-flex">
-                        <div class="col-md-2">
-                            <button onclick="submitForm('{{ $url }}')" class="btn btn-success btn-flat">
-                                Simpan <i class="fas fa-arrow-right"></i>
+                    <div class="row justify-content-center d-flex">
+                        <div class="col-md-4">
+                            <button data-toggle="tooltip" data-placement="top" title="Ajukan permintaan barang"
+                                onclick="submitForm('{{ route('pb.index') }}')"
+                                class="btn btn-block btn-round btn-dark btn-flat">
+                                Ajukan PB <i class="fas fa-save"></i>
                             </button>
                         </div>
                     </div>
@@ -115,6 +120,11 @@
 
     <script>
         load_data_pb_detail();
+        load_data_produk();
+
+        function load_data_produk() {
+            $('.produk-table').DataTable();
+        }
 
         function load_data_pb_detail() {
             $('.pb-detail-table').DataTable({
@@ -132,12 +142,20 @@
                             name: "nama_produk"
                         },
                         {
+                            data: "harga",
+                            name: "harga"
+                        },
+                        {
                             data: "qty",
                             name: "qty"
                         },
                         {
                             data: "satuan",
                             name: "satuan"
+                        },
+                        {
+                            data: "subtotal",
+                            name: "subtotal"
                         },
                         {
                             data: "aksi",
@@ -255,7 +273,17 @@
                     }).then((result) => {
                         /* Read more about isConfirmed, isDenied below */
                         if (result.isConfirmed) {
-                            location.href = url
+                            $.ajax({
+                                    url: url,
+                                    type: 'get',
+                                })
+                                .done(response => {
+                                    location.href = url
+                                })
+                                .fail(errors => {
+                                    alert_error('error', errors);
+                                    return;
+                                });
                         }
                     })
                 }
@@ -281,13 +309,39 @@
             });
         });
 
+
+        function deleteItem(url) {
+            event.preventDefault();
+            $.ajax({
+                    url: url,
+                    type: `post`,
+                    data: {
+                        '_token': $(`meta[name=csrf-token]`).attr(`content`),
+                        '_method': `delete`,
+                    }
+                })
+                .done(response => {
+                    refresh_data();
+                })
+                .fail(errors => {
+                    alert_error('error', 'Gagal update data!');
+                    return;
+                })
+        }
+
         function loadForm() {
-            var total_item = $(".qty").data('total_item');
+            var total_item = $(".qty").data('total_item'),
+                total_harga = $(".qty").data('total_harga');
             if (total_item == undefined) {
                 $(".total_item").html(`<h1 class="font-weight-bold">0</h1>`);
                 return;
             }
-            $(".total_item").html(`<h1 class="text-center font-weight-bold">` + total_item + `</h1>`);
+            if (total_harga == undefined) {
+                $(".total_harga").html(`<h1 class="font-weight-bold">0</h1>`);
+                return;
+            }
+            $(".total_item").html(`<h1 class="text-center font-weight-bold">` + total_item + ` item </h1>`);
+            $(".total_harga").html(`<h1 class="text-center font-weight-bold">Rp ` + total_harga + `</h1>`);
         }
     </script>
 @endpush

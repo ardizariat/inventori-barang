@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\PO;
 use App\Models\Produk;
-use App\Models\Kategori;
 use App\Models\Traits\HasUuid;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -13,18 +13,18 @@ class BarangMasuk extends Model
     use HasFactory, HasUuid;
 
     public $incrementing = false;
-    protected $with = ['purchaseOrder'];
+    protected $with = ['po'];
     protected $table = 'barang_masuk';
     protected $primaryKey = 'id';
     protected $keyType = 'string';
     protected $fillable = [
-        'purchase_order_id',
+        'po_id',
         'no_dokumen',
         'status',
     ];
 
-    public function purchaseOrder()
+    public function po()
     {
-        return $this->belongsTo(PurchaseOrder::class, 'purchase_order_id', 'id');
+        return $this->belongsTo(PO::class, 'po_id', 'id');
     }
 }

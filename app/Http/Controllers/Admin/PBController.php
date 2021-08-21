@@ -15,16 +15,21 @@ class PBController extends Controller
     public function index(Request $request)
     {
         $title = 'Permintaan Barang PB';
+        if (session()->has('pb_id')) {
+            session()->forget('pb_id');
+        }
         if (request()->ajax()) {
             $data = PB::with('user')->orderBy('created_at', 'desc')->get();
             return datatables()->of($data)
                 ->addColumn('sect_head', function ($data) {
                     return view('admin.pb.index.sect_head', [
+                        'data' => $data,
                         'sect_head' => $data->sect_head,
                     ]);
                 })
                 ->addColumn('dept_head', function ($data) {
                     return view('admin.pb.index.dept_head', [
+                        'data' => $data,
                         'dept_head' => $data->dept_head,
                     ]);
                 })
@@ -63,6 +68,7 @@ class PBController extends Controller
         $pb->no_dokumen = $kode;
         $pb->pemohon = auth()->user()->id;
         $pb->total_item = 0;
+        $pb->total_harga = 0;
         $pb->sect_head = 'on process';
         $pb->dept_head = 'on process';
         $pb->save();
@@ -89,11 +95,22 @@ class PBController extends Controller
                 ->addColumn('qty', function ($data) {
                     return formatAngka($data->qty) . ' ' . $data->product->satuan;
                 })
-                ->rawColumns(['qty', 'nama_produk'])
+                ->addColumn('harga_satuan', function ($data) {
+                    return formatAngka($data->harga);
+                })
+                ->addColumn('subtotal', function ($data) {
+                    return formatAngka($data->subtotal);
+                })
+                ->addColumn('aksi', function ($data) {
+                    return view('admin.pb.show.aksi', [
+                        'url' => route('pb.delete-item', $data->id),
+                    ]);
+                })
+                ->rawColumns(['qty', 'nama_produk', 'harga_satuan', 'subtotal', 'aksi'])
                 ->addIndexColumn()
                 ->make(true);
         }
-        return view('admin.pb.show', compact(
+        return view('admin.pb.show.show', compact(
             'title',
             'url',
             'pb',
@@ -135,8 +152,40 @@ class PBController extends Controller
         ], 200);
     }
 
+    public function deleteItem($id)
+    {
+        $pb_detail = PBDetail::findOrFail($id);
+        $pb_id = PB::findOrFail($pb_detail->pb_id);
+
+        $total_item = $pb_id->total_item - $pb_detail->qty;
+        $total_harga = $pb_id->total_harga - $pb_detail->subtotal;
+
+        $pb_id->total_item = $total_item;
+        $pb_id->total_harga = $total_harga;
+        $pb_id->update();
+
+        $pb_detail->delete();
+
+        return response()->json(
+            null,
+            204
+        );
+    }
+
     public function destroy($id)
     {
+        $pb_id = PB::findOrFail($id);
+        $pb_details = PBDetail::where('pb_id', '=', $id)->get();
+
+        foreach ($pb_details as $detail) {
+            $detail->delete();
+        }
+
+        $pb_id->delete();
+
+        return response()->json([
+            'text' => 'Data berhasil dihapus'
+        ], 204);
     }
 
     public function downloadPdf($id)
@@ -144,7 +193,7 @@ class PBController extends Controller
         $title = 'Permintaan Barang PB';
         $pb = PB::findOrFail($id);
         $pb_detail = PBDetail::where('pb_id', '=', $id)->get();
-        $pdf = PDF::loadView('admin.pb.pdf.pb', compact(
+        $pdf = \PDF::loadView('admin.pb.pdf.pb', compact(
             'pb',
             'pb_detail',
             'title'
