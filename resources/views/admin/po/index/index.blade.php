@@ -64,6 +64,7 @@
                                         <tr>
                                             <th>No</th>
                                             <th>No Dokumen</th>
+                                            <th>Supplier</th>
                                             <th>Request By</th>
                                             <th>Item</th>
                                             <th>Total Harga</th>
@@ -109,6 +110,10 @@
                     {
                         data: "no_dokumen",
                         name: "no_dokumen"
+                    },
+                    {
+                        data: "supplier",
+                        name: "supplier"
                     },
                     {
                         data: "pemohon",

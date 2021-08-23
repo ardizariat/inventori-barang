@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\PO;
+use App\Models\User;
 use App\Models\Produk;
 use App\Models\Traits\HasUuid;
 use Illuminate\Database\Eloquent\Model;
@@ -33,5 +34,10 @@ class BarangMasuk extends Model
     public function product()
     {
         return $this->belongsTo(Produk::class, 'produk_id', 'id');
+    }
+
+    public function penerimaBarang()
+    {
+        return $this->belongsTo(User::class, 'penerima', 'id');
     }
 }

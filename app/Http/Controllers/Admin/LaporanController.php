@@ -34,7 +34,8 @@ class LaporanController extends Controller
         $awal = Carbon::parse($request->awal)->format('Y-m-d H:i:s');
         $akhir = Carbon::parse($request->akhir)->format('Y-m-d H:i:s');
 
-        $data = BarangMasuk::whereBetween('created_at', [$awal, $akhir])
+        $data = BarangMasuk::with('po')
+            ->whereBetween('created_at', [$awal, $akhir])
             ->get();
 
         $pdf = PDF::loadView('admin.laporan.pdf.barang_masuk', compact(

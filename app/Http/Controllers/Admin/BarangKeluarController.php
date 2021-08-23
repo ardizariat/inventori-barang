@@ -29,7 +29,7 @@ class BarangKeluarController extends Controller
                     ->whereDate('created_at', '<=', $to_date)
                     ->get();
             } else {
-                $data = BarangKeluar::with(['pb', 'pr'])
+                $data = BarangKeluar::with(['pb', 'pr', 'penerimaBarang'])
                     ->where('status', '=', 'sudah dikeluarkan')
                     ->orderBy('created_at', 'desc')
                     ->get();
@@ -42,12 +42,7 @@ class BarangKeluarController extends Controller
                     return $data->product->category->kategori;
                 })
                 ->addColumn('pemohon', function ($data) {
-                    if ($data->jenis_permintaan == 'pb') {
-                        return $data->pb->user->name;
-                    }
-                    if ($data->jenis_permintaan == 'pr') {
-                        return $data->pr->user->name;
-                    }
+                    return $data->penerimaBarang->name;
                 })
                 ->addColumn('tanggal', function ($data) {
                     $tanggal = Carbon::parse($data->created_at)->format('d-m-Y');

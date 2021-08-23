@@ -58,12 +58,7 @@
                         <tr>
                             <td>{{ $loop->iteration }}</td>
                             <td>
-                                @if ($item->jenis_permintaan == 'pr')
-                                    {{ $item->pr->user->name }}
-                                @endif
-                                @if ($item->jenis_permintaan == 'pb')
-                                    {{ $item->pb->user->name }}
-                                @endif
+                                {{ $item->penerimaBarang->name }}
                             </td>
                             <td>{{ $item->product->nama_produk }}</td>
                             <td>{{ $item->product->category->kategori }}</td>

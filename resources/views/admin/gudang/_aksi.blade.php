@@ -4,8 +4,8 @@
         <i class="fas fa-edit"></i>
     </button>
 
-    <a href="{{ $delete }}" data-toggle="tooltip" data-placement="top"
+    <button onclick="hapus('{{ $delete }}')" data-toggle="tooltip" data-placement="top"
         title="Hapus data {{ $data->nama }}" class="btn-delete btn btn-sm btn-outline-danger">
         <i class="fas fa-trash"></i>
-    </a>
+    </button>
 </div>

@@ -10,6 +10,7 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use Database\Seeders\BarangKeluarSeeder;
 
 class DashboardController extends Controller
 {
@@ -34,34 +35,37 @@ class DashboardController extends Controller
         $barang_masuk = [];
         $data_barang_masuk = DB::table('barang_masuk')
             ->select([
-                DB::raw('SUM(jumlah) as total'),
-                DB::raw('MONTH(tanggal) as bulan'),
-                DB::raw('YEAR(tanggal) as tahun'),
+                DB::raw('SUM(qty) as qty'),
+                DB::raw('MONTH(created_at) as bulan'),
+                DB::raw('YEAR(created_at) as tahun'),
             ])
 
             ->groupBy(['bulan', 'tahun',])
+            ->orderBy('created_at', 'asc')
+            ->whereYear('created_at', $tahun)
             ->get();
         foreach ($data_barang_masuk as $data) {
-            $barang_masuk[] = $data->total;
+            $barang_masuk[] = $data->qty;
             $bulan_barang_masuk[] = $data->bulan;
         }
         $rata2_barang_masuk_sebulan = collect($barang_masuk)->avg();
 
+
         $bulan_barang_keluar = [];
         $barang_keluar = [];
-
         $data_barang_keluar = DB::table('barang_keluar')
             ->select([
-                DB::raw('SUM(jumlah) as total'),
-                DB::raw('MONTH(tanggal) as bulan'),
-                DB::raw('YEAR(tanggal) as tahun'),
+                DB::raw('SUM(qty) as qty'),
+                DB::raw('MONTH(created_at) as bulan'),
+                DB::raw('YEAR(created_at) as tahun'),
             ])
-            ->groupBy(['tahun', 'bulan'])
-            ->whereBetween('tanggal', [$jan, $des])
-            ->get();
 
+            ->groupBy(['bulan', 'tahun',])
+            ->orderBy('created_at', 'asc')
+            ->whereYear('created_at', $tahun)
+            ->get();
         foreach ($data_barang_keluar as $data) {
-            $barang_keluar[] = $data->total;
+            $barang_keluar[] = $data->qty;
             $bulan_barang_keluar[] = $data->bulan;
         }
         $rata2_barang_keluar_sebulan = collect($barang_keluar)->avg();
@@ -70,14 +74,14 @@ class DashboardController extends Controller
             'title',
             'countProduk',
             'countKategori',
-            'bulan_barang_masuk',
-            'barang_masuk',
-            'barang_keluar',
-            'bulan_barang_keluar',
             'tahun',
             'tersedia',
             'hampir_habis',
+            'bulan_barang_masuk',
+            'barang_masuk',
             'rata2_barang_masuk_sebulan',
+            'bulan_barang_keluar',
+            'barang_keluar',
             'rata2_barang_keluar_sebulan',
         ));
     }

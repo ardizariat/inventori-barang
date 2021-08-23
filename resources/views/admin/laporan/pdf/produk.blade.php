@@ -4,9 +4,12 @@
     @php
     use Carbon\Carbon;
     @endphp
+    <div class="row">
+        <img width=" auto" height="40" src="{{ asset('images/logo.png') }}" class="rounded float-left">
+    </div>
     <header class="mb-3">
-        <h1 class="text-bold text-center">{{ $title }}</h1>
-        <div class="row mt-2 d-flex justify-content-center">
+        <h1 class="text-bold text-center text-capitalize">{{ $title }}</h1>
+        <div class="row mt-3 d-flex justify-content-center">
             <table class="float-left mx-2">
                 <tr>
                     <th>Diekspor berdasarkan</th>
@@ -22,27 +25,15 @@
                     </tr>
                 @endif
                 <tr>
-                    <th>Total Item</th>
+                    <th>Tanggal Ekspor</th>
                     <th>:</th>
-                    <td> {{ $totalItemProduk }}</td>
-                </tr>
-            </table>
-            <table class="float-right mx-2">
-                <tr>
-                    <th>Tanggal</th>
-                    <th>:</th>
-                    <td> {{ tanggal(date('Y-m-d')) }}</td>
-                </tr>
-                {{-- <tr>
-                    <th>Status</th>
-                    <th>:</th>
-                    <td class="text-capitalize"> {{ $pb->status_confirm_barang_keluar }} diterima</td>
+                    <td> {{ date('d-m-Y') }}</td>
                 </tr>
                 <tr>
                     <th>Total Item</th>
                     <th>:</th>
-                    <td> {{ formatAngka($pb->total_item) }}</td>
-                </tr> --}}
+                    <td>{{ formatAngka($totalItemProduk) }}</td>
+                </tr>
             </table>
         </div>
     </header>
@@ -56,7 +47,7 @@
                         <th>Nama Produk</th>
                         <th>Kategori</th>
                         <th>Minimal Stok</th>
-                        <th>Stok</th>
+                        <th>Stok Saat Ini</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -65,7 +56,7 @@
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $item->nama_produk }}</td>
                             <td>{{ $item->category->kategori }}</td>
-                            <td>{{ formatAngka($item->minimal_stok) }}</td>
+                            <td>{{ formatAngka($item->minimal_stok) }} {{ $item->satuan }}</td>
                             <td>{{ formatAngka($item->stok) }} {{ $item->satuan }}</td>
                         </tr>
                     @endforeach

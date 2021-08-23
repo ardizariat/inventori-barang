@@ -74,7 +74,7 @@
                                 <div class="col-7 col-stats">
                                     <div class="numbers">
                                         <p class="card-category">Rata2 Stok In</p>
-                                        <h4 class="card-title">{!! number_format($rata2_barang_masuk_sebulan, 0, ',', '.') !!}</h4>
+                                        <h4 class="card-title">{!! formatAngka($rata2_barang_masuk_sebulan) !!}</h4>
                                     </div>
                                 </div>
                             </div>
@@ -93,7 +93,7 @@
                                 <div class="col-7 col-stats">
                                     <div class="numbers">
                                         <p class="card-category">Rata2 Stok Out</p>
-                                        <h4 class="card-title">{!! number_format($rata2_barang_keluar_sebulan, 0, ',', '.') !!}</h4>
+                                        <h4 class="card-title">{!! formatAngka($rata2_barang_keluar_sebulan) !!}</h4>
                                     </div>
                                 </div>
                             </div>
@@ -105,7 +105,7 @@
                 <div class="col-md-12">
                     <div class="card full-height">
                         <div class="card-body">
-                            <canvas id="barang-masuk"></canvas>
+                            <canvas id="barang_masuk"></canvas>
                         </div>
                     </div>
                 </div>
@@ -114,7 +114,7 @@
                 <div class="col-md-12">
                     <div class="card full-height">
                         <div class="card-body">
-                            <canvas id="barang-keluar"></canvas>
+                            <canvas id="barang_keluar"></canvas>
                         </div>
                     </div>
                 </div>
@@ -140,5 +140,58 @@
                 }
             });
         }
+    </script>
+    <script>
+        var barang_masuk = document.getElementById('barang_masuk').getContext('2d');
+
+        var data_barang_masuk = new Chart(barang_masuk, {
+            type: 'line',
+            data: {
+                labels: {!! json_encode($bulan_barang_masuk) !!},
+                datasets: [{
+                    label: "Barang Masuk",
+                    backgroundColor: 'rgb(23, 125, 255)',
+                    borderColor: 'rgb(23, 125, 255)',
+                    data: {!! json_encode($barang_masuk) !!},
+                }],
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                },
+            }
+        });
+
+        var barang_keluar = document.getElementById('barang_keluar').getContext('2d');
+
+        var data_barang_keluar = new Chart(barang_keluar, {
+            type: 'line',
+            data: {
+                labels: {!! json_encode($bulan_barang_keluar) !!},
+                datasets: [{
+                    label: "Barang Keluar",
+                    backgroundColor: 'rgb(23, 125, 255)',
+                    borderColor: 'rgb(23, 125, 255)',
+                    data: {!! json_encode($barang_keluar) !!},
+                }],
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                },
+            }
+        });
     </script>
 @endpush

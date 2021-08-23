@@ -29,7 +29,7 @@ class POController extends Controller
 
         $suppliers = Supplier::pluck('nama', 'id');
         if (request()->ajax()) {
-            $data = PO::with('pr')->orderBy('created_at', 'desc')->get();
+            $data = PO::with(['pr', 'supplier'])->orderBy('created_at', 'desc')->get();
             return datatables()->of($data)
                 ->addColumn('download', function ($data) {
                     return view('admin.po.index.download', [
@@ -45,13 +45,16 @@ class POController extends Controller
                 ->addColumn('total_item', function ($data) {
                     return formatAngka($data->total_item);
                 })
+                ->addColumn('supplier', function ($data) {
+                    return $data->supplier->nama;
+                })
                 ->addColumn('total_harga', function ($data) {
                     return formatAngka($data->total_harga);
                 })
                 ->addColumn('pemohon', function ($data) {
                     return $data->pr->user->name;
                 })
-                ->rawColumns(['pemohon', 'status', 'total_item', 'total_harga', 'download'])
+                ->rawColumns(['pemohon', 'status', 'total_item', 'total_harga', 'download', 'supplier'])
                 ->addIndexColumn()
                 ->make(true);
         }
@@ -108,7 +111,7 @@ class POController extends Controller
         $pr_id = PR::findOrFail($po->pr_id);
         $tanggal = Carbon::parse($po->created_at)->format('d-m-Y');
         if (request()->ajax()) {
-            $data = PRDetail::with('product')->where('pr_id', $pr_id->id)->get();
+            $data = PRDetail::with(['product'])->where('pr_id', $pr_id->id)->get();
             return datatables()->of($data)
                 ->addColumn('nama_produk', function ($data) {
                     return $data->product->nama_produk;

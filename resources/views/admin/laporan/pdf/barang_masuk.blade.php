@@ -47,8 +47,8 @@
                 <thead>
                     <tr>
                         <th>No</th>
+                        <th>Supplier</th>
                         <th>Nama Produk</th>
-                        <th>Pemberi</th>
                         <th>Penerima</th>
                         <th>Qty</th>
                         <th>Tanggal</th>
@@ -58,8 +58,8 @@
                     @foreach ($data as $item)
                         <tr>
                             <td>{{ $loop->iteration }}</td>
+                            <td>{{ $item->po->supplier->nama }}</td>
                             <td>{{ $item->product->nama_produk }}</td>
-                            <td>{{ $item->pemberiBarang->name }}</td>
                             <td>{{ $item->penerimaBarang->name }}</td>
                             <td>{{ formatAngka($item->qty) }} {{ $item->product->satuan }}</td>
                             <td>{{ $item->created_at->format('d-m-Y') }}</td>

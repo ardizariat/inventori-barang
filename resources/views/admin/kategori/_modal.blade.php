@@ -10,7 +10,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body mb-5 mt-5">
+                <div class="modal-body">
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-md-2 pt-2">
@@ -40,12 +40,16 @@
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="text-uppercase btn btn-sm btn-danger"
-                        data-dismiss="modal">Batal</button>
-                    <button type="submit"
-                        class="none btn-save text-uppercase btn d-flex btn-sm btn-primary">Simpan</button>
-                    <img class="loader d-none" src="{{ asset('/images/loader.gif') }}" alt="">
+                <div class="row justify-content-center mb-3 d-flex btn-submit btn-row">
+                    <div class="col-md-3">
+                        <button type="button" data-dismiss="modal" class="text-uppercase btn btn-sm btn-danger">
+                            Batal
+                        </button>
+                        <button class="btn btn-primary btn-save btn-sm" type="submit">
+                            <span class="btn-text text-uppercase">Simpan</span>
+                            <i class="fas fa-spinner fa-spin" style="display:none;"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
         </form>

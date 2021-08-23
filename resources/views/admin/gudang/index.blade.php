@@ -188,15 +188,10 @@
         }
 
         // Delete data
-        $('body').on('click', '.btn-delete', function(event) {
+        function hapus(url) {
             event.preventDefault();
-            var me = $(this),
-                url = me.attr('href'),
-                csrf_token = $('meta[name=csrf-token]').attr('content');
-
             Swal.fire({
-                title: 'Apakah kamu yakin?',
-                text: "menghapus data ini",
+                title: 'Apakah kamu yakin menghapus data ini?',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -205,21 +200,24 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     $.ajax({
-                        url: url,
-                        type: "POST",
-                        data: {
-                            '_method': 'DELETE',
-                            '_token': csrf_token
-                        },
-                        success: function(response) {
-                            alert_success('success', response.text)
+                            url: url,
+                            type: `post`,
+                            data: {
+                                '_token': $(`meta[name=csrf-token]`).attr(`content`),
+                                '_method': `delete`,
+                            }
+                        })
+                        .done(response => {
+                            alert_success('success', response.text);
                             refresh_data();
-                        }
-                    });
+                        })
+                        .fail(errors => {
+                            alert_error('error', 'Gagal update data!');
+                            return;
+                        })
                 }
             });
-
-        });
+        }
     </script>
 
 @endpush

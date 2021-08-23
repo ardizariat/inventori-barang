@@ -3,9 +3,9 @@
         title="Ubah data {{ $data->kategori }}" class="btn btn-sm btn-outline-success">
         <i class="fas fa-edit"></i>
     </button>
-    <a href="{{ $delete }}" data-toggle="tooltip" data-placement="top"
+    <button onclick="hapus('{{ $delete }}')" data-toggle="tooltip" data-placement="top"
         title="Hapus data {{ $data->kategori }}" class="btn-delete btn btn-sm btn-outline-danger">
         <i class="fas fa-trash"></i>
-    </a>
+    </button>
 
 </div>
