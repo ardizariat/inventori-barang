@@ -74,7 +74,6 @@ class LaporanController extends Controller
         $akhir = Carbon::parse($request->akhir)->format('Y-m-d H:i:s');
         $data = BarangKeluar::whereBetween('created_at', [$awal, $akhir])
             ->get();
-
         $title = 'Laporan barang keluar';
         $periode = tanggal($tanggal_awal) . ' ' . tanggal($tanggal_akhir);
         $total_item = $data->sum('qty');

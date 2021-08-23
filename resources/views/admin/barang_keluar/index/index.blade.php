@@ -60,9 +60,9 @@
                                         </div>
                                     </div>
                                     <div class="col-md-3 my-2">
-                                        <a data-toggle="tooltip" data-placement="top" title="Tambah data"
+                                        <a data-toggle="tooltip" data-placement="top" title="Lihat status tiket"
                                             class="btn btn-rounded btn-outline-primary" onclick="showModal()">
-                                            <i class="fa fa-plus" aria-hidden="true"></i> Tambah Barang Keluar
+                                            <i class="fa fa-search" aria-hidden="true"></i> Lihat status tiket
                                         </a>
                                     </div>
                                 </div>
@@ -180,6 +180,7 @@
         function showModal() {
             event.preventDefault();
             $('.modal-form').modal('show');
+            $('.selectpicker').val(null).trigger('change');
             $('.pr').fadeOut('fast');
             $('.pb').fadeOut('fast');
             $('.btn-none').fadeOut('fast');
@@ -190,7 +191,7 @@
             $('.modal-form').modal('hide');
         }
 
-        function changeData(url) {
+        function pilihBarangKeluar(url) {
             var id = $('.no_dokumen select[name=no_dokumen]').val();
             $('.pr').fadeOut('fast');
             $('.pb').fadeOut('fast');
@@ -245,10 +246,6 @@
                         $('.modal-form .btn-none').show();
                     }
                 })
-                .fail(errors => {
-                    alert_error('error', 'Gagal mendapatkan data!');
-                    return;
-                });
         }
     </script>
 

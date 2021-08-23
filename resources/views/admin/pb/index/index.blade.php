@@ -5,6 +5,8 @@
 
 @push('css')
     <link rel="stylesheet" href="{{ asset('admin/js/plugin/selectpicker/css/bootstrap-select.min.css') }}">
+    <link href="{{ asset('admin/js/plugin/date-time-pickers/css/flatpicker-airbnb.css') }}" rel="stylesheet"
+        type="text/css" />
 @endpush
 
 @section('admin-content')
@@ -31,28 +33,36 @@
                 <div class="col-md-12">
                     <div class="card shadow animate__animated animate__slideInDown">
                         <div class="card-header">
-                            <form action="">
-                                <h4 class="judul">Filter</h4>
-                                <div class="row ">
-                                    <div class="col-md-5 my-2">
-                                        <select title="Pilih status" data-live-search="true" name="status"
-                                            class="form-control selectpicker filter-status">
-                                            <option value="on process">on process</option>
-                                            <option value="rejected">Rejected</option>
-                                            <option value="approved">Approved</option>
-                                        </select>
+                            <form>
+                                <h4>
+                                    <i class="fas fa-filter"></i> Filter
+                                </h4>
+                                <div class="row">
+                                    <div class="col-md-3 my-2">
+                                        <input name="from_date" type="text" autocomplete="off"
+                                            class="from_date form-control max-date">
                                     </div>
-                                    <div class="col-md-4 my-2">
-                                        <button type="submit" data-toggle="tooltip" data-placement="top"
-                                            title="Refresh data" class="btn btn-sm refresh btn-success btn-flat">
-                                            <i class="fas fa-sync-alt"></i> Refresh
-                                        </button>
+                                    <div class="col-md-3 my-2">
+                                        <input name="to_date" type="text" autocomplete="off"
+                                            class="to_date form-control date">
                                     </div>
-                                    <div class="col-md-3 my-2 float-right">
-                                        <button onclick="showModal()" data-toggle="tooltip" data-placement="top"
-                                            title="Buat Permintaan Barang PB" class="btn btn-rounded btn-outline-primary">
+                                    <div class="col-md-3 my-2">
+                                        <div class="btn-group">
+                                            <button type="submit" data-toggle="tooltip" data-placement="top"
+                                                title="Filter data" class="btn btn-sm filter btn-success btn-flat">
+                                                <i class="fas fa-filter"></i> Filter
+                                            </button>
+                                            <button type="submit" data-toggle="tooltip" data-placement="top"
+                                                title="Refresh data" class="btn btn-sm refresh btn-danger btn-flat">
+                                                <i class="fas fa-sync-alt"></i> Refresh
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 my-2">
+                                        <a data-toggle="tooltip" data-placement="top" title="Tambah data"
+                                            class="btn btn-rounded btn-outline-primary" onclick="showModal()">
                                             <i class="fa fa-plus" aria-hidden="true"></i> Buat Permintaan Barang PB
-                                        </button>
+                                        </a>
                                     </div>
                                 </div>
                             </form>
@@ -85,12 +95,14 @@
 @push('js')
     <script src="{{ asset('admin/js/plugin/datatables/datatables.min.js') }}"></script>
     <script src="{{ asset('admin/js/plugin/selectpicker/js/bootstrap-select.min.js') }}"></script>
+    <script src="{{ asset('admin/js/plugin/date-time-pickers/js/flatpickr.js') }}"></script>
+    <script src="{{ asset('admin/js/plugin/date-time-pickers/js/date-time-picker-script.js') }}"></script>
     <script>
         // Datatables load data
-        load_data_pb();
+        load_data();
 
         // Function datatables
-        function load_data_pb(status = '') {
+        function load_data(status = '') {
             $('.pb-table').DataTable({
                 serverSide: true,
                 processing: true,
@@ -139,23 +151,17 @@
             });
         }
 
-        // Refresh data
-        function refresh_data() {
-            $('.pb-table').DataTable().destroy();
-            load_data_purchase_order();
-        }
-
-        // Filter data berdasarkan option
-        $('form').on('change', '.filter-status', function(e) {
+        // Filter data berdasarkan tanggal
+        $('form').on('click', '.filter', function(e) {
             e.preventDefault();
-            var status = $('form .filter-status [name=status]').val();
+            var from_date = $('form .from_date').val(),
+                to_date = $('form .to_date').val();
 
-            if (status != '') {
+            if (from_date != '' && to_date != '') {
                 $('.pb-table').DataTable().destroy();
-                load_data_purchase_order(status);
-                $('.card-header .judul').text('Filter data berdasarkan status order');
+                load_data(from_date, to_date);
             } else {
-                Swal.fire('Oops...', 'Opsi status harus dipilih!', 'error')
+                Swal.fire('Oops...', 'Filter tanggal harus diisi semua!', 'error')
                 return;
             }
         });
@@ -163,10 +169,14 @@
         // Refresh Datatables
         $('form').on('click', '.refresh', function(e) {
             e.preventDefault();
-            var status = $('form .filter-status').val('');
-            $('.pb-table').DataTable().destroy();
-            load_data_purchase_order();
+            refresh_data();
         });
+
+        // Refresh data
+        function refresh_data() {
+            $('.pb-table').DataTable().destroy();
+            load_data();
+        }
 
         function showModal() {
             event.preventDefault();

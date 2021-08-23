@@ -15,7 +15,11 @@ class PBDetailController extends Controller
         $pb_id = session('pb_id');
         $title = 'Buat Permintaan Barang PB';
         $url = route('pb.index');
-        $produk = Produk::latest()->get();
+        $produk = Produk::where([
+            ['status', '=', 'aktif'],
+            ['stok', '>=', 5]
+        ])
+            ->get();
         if (!$pb_id) {
             return abort(404);
         }

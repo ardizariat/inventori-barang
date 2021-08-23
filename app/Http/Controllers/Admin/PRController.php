@@ -40,6 +40,7 @@ class PRController extends Controller
                     return view('admin.pr.index.aksi', [
                         'show' => route('pr.show', $data->id),
                         'destroy' => route('pr.destroy', $data->id),
+                        'data' => $data,
                     ]);
                 })
                 ->addColumn('download', function ($data) {

@@ -13,6 +13,7 @@ class PO extends Model
 
     public $incrementing = false;
     protected $table = 'po';
+    protected $with = ['pr', 'supplier'];
     protected $primaryKey = 'id';
     protected $keyType = 'string';
     protected $fillable = [

@@ -242,14 +242,11 @@
                             data: {
                                 '_token': $('meta[name=csrf-token]').attr('content'),
                                 '_method': 'put',
-                                'id': id,
                                 'value': value,
-                                'data': data,
                             }
                         })
                         .done(response => {
                             alert_success('success', response.text);
-                            location.reload();
                         })
                         .fail(errors => {
                             alert_error('error', 'gagal');

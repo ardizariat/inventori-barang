@@ -18,8 +18,17 @@ class PBController extends Controller
         if (session()->has('pb_id')) {
             session()->forget('pb_id');
         }
+        $from_date = Carbon::parse($request->from_date)->format('Y-m-d H:i:s');
+        $to_date = Carbon::parse($request->to_date)->format('Y-m-d H:i:s');
         if (request()->ajax()) {
-            $data = PB::with('user')->orderBy('created_at', 'desc')->get();
+            if (!empty($request->from_date)) {
+                $data = PB::with(['user'])
+                    ->whereDate('created_at', '>=', $from_date)
+                    ->whereDate('created_at', '<=', $to_date)
+                    ->get();
+            } else {
+                $data = PB::with('user')->orderBy('created_at', 'desc')->get();
+            }
             return datatables()->of($data)
                 ->addColumn('sect_head', function ($data) {
                     return view('admin.pb.index.sect_head', [
@@ -35,8 +44,8 @@ class PBController extends Controller
                 })
                 ->addColumn('aksi', function ($data) {
                     return view('admin.pb.index.aksi', [
-                        'show' => route('pb.show', $data->id),
                         'destroy' => route('pb.destroy', $data->id),
+                        'data' => $data
                     ]);
                 })
                 ->addColumn('download', function ($data) {

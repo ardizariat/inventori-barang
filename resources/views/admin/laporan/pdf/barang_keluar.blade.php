@@ -45,6 +45,7 @@
                 <thead>
                     <tr>
                         <th>No</th>
+                        <th>Request By</th>
                         <th>Nama Produk</th>
                         <th>Kategori</th>
                         <th>Harga</th>
@@ -56,6 +57,14 @@
                     @foreach ($data as $item)
                         <tr>
                             <td>{{ $loop->iteration }}</td>
+                            <td>
+                                @if ($item->jenis_permintaan == 'pr')
+                                    {{ $item->pr->user->name }}
+                                @endif
+                                @if ($item->jenis_permintaan == 'pb')
+                                    {{ $item->pb->user->name }}
+                                @endif
+                            </td>
                             <td>{{ $item->product->nama_produk }}</td>
                             <td>{{ $item->product->category->kategori }}</td>
                             <td>{{ formatAngka($item->product->harga) }}</td>
@@ -66,6 +75,7 @@
                 </tbody>
                 <tfoot>
                     <tr>
+                        <th></th>
                         <th></th>
                         <th></th>
                         <th></th>

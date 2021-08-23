@@ -175,6 +175,7 @@
                         data: form.serialize()
                     })
                     .done(response => {
+                        hideModal();
                         form[0].reset();
                         $('.selectpicker').val(null).trigger('change');
                         refresh_data();
@@ -213,6 +214,7 @@
                         })
                         .done(response => {
                             refresh_data();
+
                         })
                         .fail(errors => {
                             alert_error('error', 'Gagal update data!');

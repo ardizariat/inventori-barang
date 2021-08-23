@@ -25,7 +25,8 @@ class BarangKeluarController extends Controller
         if (request()->ajax()) {
             if (!empty($request->from_date)) {
                 $data = BarangKeluar::with(['pb', 'pr'])
-                    ->whereBetween('created_at', [$from_date, $to_date])
+                    ->whereDate('created_at', '>=', $from_date)
+                    ->whereDate('created_at', '<=', $to_date)
                     ->get();
             } else {
                 $data = BarangKeluar::with(['pb', 'pr'])
@@ -68,7 +69,7 @@ class BarangKeluarController extends Controller
         ));
     }
 
-    public function changeData(Request $request)
+    public function pilihBarangKeluar(Request $request)
     {
         $id = $request->id;
 
@@ -143,6 +144,10 @@ class BarangKeluarController extends Controller
             $barang_keluar->jenis_permintaan = 'pb';
             $barang_keluar->status = 'sudah dikeluarkan';
             $barang_keluar->save();
+
+            $produk = Produk::find($barang_keluar->produk_id);
+            $produk->stok = $produk->stok - $barang_keluar->qty;
+            $produk->update();
         }
 
         $pb_id->status = 'sudah diterima';
@@ -197,9 +202,14 @@ class BarangKeluarController extends Controller
             $barang_keluar->pr_id = $id;
             $barang_keluar->penerima = $pr_id->pemohon;
             $barang_keluar->qty = $pr->qty;
+            $barang_keluar->subtotal = $pr->qty * $pr->harga;
             $barang_keluar->jenis_permintaan = 'pr';
             $barang_keluar->status = 'sudah dikeluarkan';
             $barang_keluar->save();
+
+            $produk = Produk::find($barang_keluar->produk_id);
+            $produk->stok = $produk->stok - $barang_keluar->qty;
+            $produk->update();
         }
 
         return response()->json([

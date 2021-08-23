@@ -76,12 +76,22 @@
                             <td>{{ $pb->user->email }}</td>
                         </tr>
                         <tr>
+                            <th>Status Section</th>
+                            <th class="pl-5 pr-2">:</th>
+                            <td>{{ $pb->sect_head }}</td>
+                        </tr>
+                        <tr>
+                            <th>Status Dept Head</th>
+                            <th class="pl-5 pr-2">:</th>
+                            <td>{{ $pb->dept_head }}</td>
+                        </tr>
+                        <tr>
                             <th>Status</th>
                             <th class="pl-5 pr-2">:</th>
                             <td class="text-capitalize status">{{ $pb->status }} Pemohon</td>
                         </tr>
                     </table>
-                    @if ($pb->status == 'belum diterima')
+                    @if ($pb->status == 'belum diterima' && $pb->sect_head == 'approved' && $pb->dept_head == 'approved')
                         <div class="btn-group my-2">
                             <button onclick="serahTerima(`{{ route('barang-keluar.serah-terima-pb', $id) }}`)"
                                 class="btn btn-flat btn-success" data-toggle="tooltip" data-placement="top"

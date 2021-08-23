@@ -19,9 +19,14 @@
             <div class="row mt-3 d-flex justify-content-center">
                 <table class="float-left mx-2">
                     <tr>
-                        <th>No Dokumen</th>
+                        <th>No. PO</th>
                         <th>:</th>
                         <td> {{ $po->no_dokumen }}</td>
+                    </tr>
+                    <tr>
+                        <th>Tanggal Request</th>
+                        <th>:</th>
+                        <td> {{ $po->created_at->format('d-m-Y') }}</td>
                     </tr>
                     <tr>
                         <th>Request By</th>
@@ -36,25 +41,30 @@
                 </table>
                 <table class="float-right mx-2">
                     <tr>
-                        <th>Tanggal</th>
+                        <th>Supplier</th>
                         <th>:</th>
-                        <td> {{ $po->created_at->format('d-m-Y') }}</td>
+                        <td> {{ $po->supplier->nama }}</td>
+                    </tr>
+                    <tr>
+                        <th>Alamat</th>
+                        <th>:</th>
+                        <td> {{ $po->supplier->alamat }}</td>
+                    </tr>
+                    <tr>
+                        <th>Email</th>
+                        <th>:</th>
+                        <td> {{ $po->supplier->email }}</td>
                     </tr>
                     <tr>
                         <th>Status</th>
                         <th>:</th>
                         <td class="text-capitalize"> {{ $po->status }}</td>
                     </tr>
-                    <tr>
-                        <th>Total Item</th>
-                        <th>:</th>
-                        <td> {{ formatAngka($po->total_item) }}</td>
-                    </tr>
                 </table>
             </div>
         </header>
 
-        <div class="row justify-content-center">
+        <div class="row justify-content-center mt-2">
             <div class="col-md-12">
                 <table class="table">
                     <thead>

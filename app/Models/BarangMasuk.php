@@ -19,12 +19,19 @@ class BarangMasuk extends Model
     protected $keyType = 'string';
     protected $fillable = [
         'po_id',
-        'no_dokumen',
+        'produk_id',
+        'penerima',
+        'qty',
+        'subtotal',
         'status',
     ];
 
     public function po()
     {
         return $this->belongsTo(PO::class, 'po_id', 'id');
+    }
+    public function product()
+    {
+        return $this->belongsTo(Produk::class, 'produk_id', 'id');
     }
 }

@@ -20,7 +20,7 @@
                             </div>
                             <div class="col-md-10">
                                 <select title="Masukan nomor tiket" data-live-search="true" name="no_dokumen"
-                                    onchange="changeData(`{{ route('barang-keluar.change-data') }}`)"
+                                    onchange="pilihBarangKeluar(`{{ route('barang-keluar.change-data') }}`)"
                                     class="selectpicker form-control no_dokumen">
                                     @foreach ($pb as $key => $value)
                                         <option value="{{ $key }}">{{ $value }}

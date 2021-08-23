@@ -7,6 +7,8 @@ use App\Http\Controllers\Admin\PRController;
 use App\Http\Controllers\Admin\PRDetailController;
 use App\Http\Controllers\Admin\POController;
 use App\Http\Controllers\Admin\PODetailController;
+use App\Http\Controllers\Admin\BarangMasukController;
+use App\Http\Controllers\Admin\BarangKeluarController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\GudangController;
 use App\Http\Controllers\Admin\ProdukController;
@@ -15,10 +17,8 @@ use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\KategoriController;
 use App\Http\Controllers\Admin\SupplierController;
 use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\Admin\BarangMasukController;
 use App\Http\Controllers\Admin\LogActivityController;
 use App\Http\Controllers\Admin\ProfileUserController;
-use App\Http\Controllers\Admin\BarangKeluarController;
 
 Route::group(['middleware' => ['auth', 'role:super-admin|admin|direktur|dept_head|sect_head|user']], function () {
 
@@ -59,22 +59,25 @@ Route::group(['middleware' => ['auth', 'role:super-admin|admin|direktur|dept_hea
   Route::delete('/po/{id}/delete-item', [POController::class, 'deleteItem'])->name('po.delete-item');
 
 
+  //------------------------- BarangMasuk -----------------------------------// 
+  Route::resource('/barang-masuk', BarangMasukController::class)->except([
+    'store'
+  ]);
+  Route::get('/barang-masuk/po/{id}', [BarangMasukController::class, 'po'])->name('barang-masuk.po');
+  Route::post('/barang-masuk/pilih-data', [BarangMasukController::class, 'pilihBarangMasuk'])->name('barang-masuk.change-data');
+  Route::post('/barang-masuk/{id}', [BarangMasukController::class, 'store'])->name('barang-masuk.store');
+  Route::put('/barang-masuk/{id}/serah-terima-po', [BarangMasukController::class, 'serahTerimaPO'])->name('barang-masuk.serah-terima-po');
+
   //------------------------- BarangKeluar -----------------------------------// 
   Route::resource('/barang-keluar', BarangKeluarController::class)->except([
     'store'
   ]);
-  Route::get('/barang-keluar/{id}/pb', [BarangKeluarController::class, 'pb'])->name('barang-keluar.pb');
-  Route::get('/barang-keluar/{id}/pr', [BarangKeluarController::class, 'pr'])->name('barang-keluar.pr');
-  Route::post('/barang-keluar/change-data', [BarangKeluarController::class, 'changeData'])->name('barang-keluar.change-data');
+  Route::get('/barang-keluar/pb/{id}', [BarangKeluarController::class, 'pb'])->name('barang-keluar.pb');
+  Route::get('/barang-keluar/pr/{id}', [BarangKeluarController::class, 'pr'])->name('barang-keluar.pr');
+  Route::post('/barang-keluar/pilih-data', [BarangKeluarController::class, 'pilihBarangKeluar'])->name('barang-keluar.change-data');
   Route::post('/barang-keluar/{id}', [BarangKeluarController::class, 'store'])->name('barang-keluar.store');
   Route::put('/barang-keluar/{id}/serah-terima-pb', [BarangKeluarController::class, 'serahTerimaPB'])->name('barang-keluar.serah-terima-pb');
   Route::put('/barang-keluar/{id}/serah-terima-pr', [BarangKeluarController::class, 'serahTerimaPR'])->name('barang-keluar.serah-terima-pr');
-
-  //------------------------- BarangKeluar -----------------------------------// 
-  Route::resource('/barang-masuk', BarangMasukController::class)->except([
-    'edit', 'create'
-  ]);
-  Route::post('/change-data', [BarangMasukController::class, 'changeData'])->name('barang-masuk.change-data');
 
   //------------------------- Laporan -----------------------------------// 
   Route::get('/laporan/barang-masuk', [LaporanController::class, 'barangMasuk'])->name('laporan.barang-masuk');

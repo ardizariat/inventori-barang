@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\PO;
 use Carbon\Carbon;
-use App\Models\Produk;
 use App\Models\BarangMasuk;
 use Illuminate\Http\Request;
-use App\Models\PurchaseOrder;
-use App\Models\PurchaseOrderDetail;
 use App\Http\Controllers\Controller;
 
 class BarangMasukController extends Controller
@@ -17,99 +15,65 @@ class BarangMasukController extends Controller
         $title = 'Barang Masuk';
         $from_date = Carbon::parse($request->from_date)->format('Y-m-d H:i:s');
         $to_date = Carbon::parse($request->to_date)->format('Y-m-d H:i:s');
+        $po = PO::pluck('no_dokumen', 'id');
+
         if (request()->ajax()) {
             if (!empty($request->from_date)) {
-                $data = BarangMasuk::whereBetween('created_at', [$from_date, $to_date])->get();
+                $data = BarangMasuk::with(['po'])
+                    ->whereDate('created_at', '>=', $from_date)
+                    ->whereDate('created_at', '<=', $to_date)
+                    ->get();
             } else {
-                $data = BarangMasuk::query()->orderBy('created_at', 'desc');
+                $data = BarangMasuk::with(['po'])
+                    ->where('status', '=', 'sudah diterima')
+                    ->orderBy('created_at', 'desc')
+                    ->get();
             }
-            return datatables()->of($data)
-                ->addColumn('aksi', function ($data) {
-                    return view('admin.barang_masuk._aksi', [
-                        'show' => route('barang-masuk.show', $data->purchase_order_id),
-                    ]);
-                })
-                ->addColumn('status', function ($data) {
-                    return view('admin.barang_masuk._status', [
-                        'data' => $data
-                    ]);
-                })
-                ->addColumn('total_item', function ($data) {
-                    $total_item = $data->purchaseOrder->total_item;
-                    return formatAngka($total_item);
-                })
-                ->addColumn('total_harga', function ($data) {
-                    $total_harga = $data->purchaseOrder->total_harga;
-                    return formatAngka($total_harga);
-                })
-                ->addColumn('tanggal', function ($data) {
-                    return Carbon::parse($data->created_at)->format('d-m-Y');
-                })
-                ->rawColumns(['total_item', 'total_harga', 'status', 'aksi', 'tanggal'])
-                ->addIndexColumn()
-                ->make(true);
-        }
-
-        return view('admin.barang_masuk.index', compact(
-            'title',
-        ));
-    }
-
-    public function show($id)
-    {
-        $title = 'Detail PO';
-        $url = route('barang-masuk.index');
-        $barang_masuk = BarangMasuk::where('purchase_order_id', '=', $id)->first();
-        $barang_masuk_id = $barang_masuk->id;
-        $tanggal = Carbon::parse($barang_masuk->created_at)->format('d-m-Y');
-        if (request()->ajax()) {
-            $data = PurchaseOrderDetail::with('product')->where('purchase_order_id', '=', $id)->get();
             return datatables()->of($data)
                 ->addColumn('nama_produk', function ($data) {
                     return $data->product->nama_produk;
                 })
+                ->addColumn('kategori', function ($data) {
+                    return $data->product->category->kategori;
+                })
+                ->addColumn('supplier', function ($data) {
+                    return $data->po->supplier->nama;
+                })
+                ->addColumn('tanggal', function ($data) {
+                    $tanggal = Carbon::parse($data->created_at)->format('d-m-Y');
+                    return $tanggal;
+                })
                 ->addColumn('qty', function ($data) {
-                    return formatAngka($data->qty) . ' ' . $data->product->satuan;
+                    $qty = formatAngka($data->qty) . ' ' . $data->product->satuan;
+                    return $qty;
                 })
-                ->addColumn('subtotal', function ($data) {
-                    return formatAngka($data->subtotal);
-                })
-                ->addColumn('harga', function ($data) {
-                    return formatAngka($data->harga);
-                })
-                ->rawColumns(['harga', 'subtotal', 'qty', 'nama_produk'])
+                ->rawColumns(['nama_produk', 'supplier', 'kategori', 'qty', 'tanggal'])
                 ->addIndexColumn()
                 ->make(true);
         }
-        return view('admin.barang_masuk.show', compact(
+
+        return view('admin.barang_masuk.index.index', compact(
             'title',
-            'barang_masuk_id',
-            'id',
-            'url',
-            'barang_masuk',
-            'tanggal',
+            'po',
         ));
     }
 
-    public function update($id)
+    public function pilihBarangMasuk(Request $request)
     {
-        $barang_masuk = BarangMasuk::findOrFail($id);
-        $po_id = $barang_masuk->purchaseOrder->id;
-        $po_detail = PurchaseOrderDetail::where('purchase_order_id', '=', $po_id)->get();
-        $barang_masuk->status = 'diterima';
-        $barang_masuk->update();
-
-        foreach ($po_detail as $item) {
-            $produk = Produk::findOrFail($item->produk_id);
-            $produk->stok = $produk->stok + $item->qty;
-            $produk->supplier_id = $item->supplier_id;
-            $produk->update();
+        if (request()->json()) {
+            $id = $request->id;
+            $po = PO::find($id);
+            $pemohon = $po->pr->user->name;
+            $supplier = $po->supplier->nama;
+            $tanggal = $po->created_at->format('d-m-Y');
+            $url = route('barang-masuk.po', $po->id);
+            return response()->json([
+                'data' => $po,
+                'url' => $url,
+                'supplier' => $supplier,
+                'pemohon' => $pemohon,
+                'tanggal' => $tanggal,
+            ], 200);
         }
-
-        activity()->log('menambahkan barang keluar');
-
-        return response()->json([
-            'text' => 'Barang berhasil masuk ke dalam stok!'
-        ], 200);
     }
 }

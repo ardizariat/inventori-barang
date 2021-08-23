@@ -5,7 +5,6 @@
 
 @push('css')
     <link rel="stylesheet" href="{{ asset('admin/js/plugin/selectpicker/css/bootstrap-select.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('admin/js/plugin/file-input/css/fileinput.min.css') }}">
     <link href="{{ asset('admin/js/plugin/date-time-pickers/css/flatpicker-airbnb.css') }}" rel="stylesheet"
         type="text/css" />
 @endpush
@@ -30,12 +29,14 @@
                     </li>
                 </ul>
             </div>
-            <div class="card shadow animate__animated animate__jackInTheBox">
-                <div class="card-header">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <form action="">
-                                <h4><i class="fas fa-filter"></i> Filter</h4>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card  shadow animate__animated animate__zoomInRight">
+                        <div class="card-header">
+                            <form>
+                                <h4>
+                                    <i class="fas fa-filter"></i> Filter
+                                </h4>
                                 <div class="row">
                                     <div class="col-md-3 my-2">
                                         <input name="from_date" type="text" autocomplete="off"
@@ -43,9 +44,9 @@
                                     </div>
                                     <div class="col-md-3 my-2">
                                         <input name="to_date" type="text" autocomplete="off"
-                                            class="to_date form-control max-date">
+                                            class="to_date form-control date">
                                     </div>
-                                    <div class="col-md-3 mt-1 my-2">
+                                    <div class="col-md-3 my-2">
                                         <div class="btn-group">
                                             <button type="submit" data-toggle="tooltip" data-placement="top"
                                                 title="Filter data" class="btn btn-sm filter btn-success btn-flat">
@@ -60,20 +61,17 @@
                                 </div>
                             </form>
                         </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <table id="barangmasuk-table" class="table table-striped">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="barangmasuk-table table table-hover">
                                     <thead>
                                         <tr>
-                                            <th>No</th>
-                                            <th>No Dokumen</th>
-                                            <th>Total Item</th>
-                                            <th>Total Harga</th>
-                                            <th>Tanggal</th>
-                                            <th>Status</th>
-                                            <th>Aksi</th>
+                                            <th width="5%">No</th>
+                                            <th width="20%">Supplier</th>
+                                            <th width="20%">Nama Barang</th>
+                                            <th width="20%">Kategori</th>
+                                            <th width="20%">Tanggal</th>
+                                            <th width="15%">Qty</th>
                                         </tr>
                                     </thead>
                                 </table>
@@ -88,19 +86,15 @@
 
 @push('js')
     <script src="{{ asset('admin/js/plugin/datatables/datatables.min.js') }}"></script>
-    <script src="{{ asset('admin/js/plugin/selectpicker/js/bootstrap-select.min.js') }}"></script>
     <script src="{{ asset('admin/js/plugin/date-time-pickers/js/flatpickr.js') }}"></script>
     <script src="{{ asset('admin/js/plugin/date-time-pickers/js/date-time-picker-script.js') }}"></script>
-
     <script>
-        $('.selectpicker').selectpicker();
-
         // Datatables load data
         load_data();
 
         // Function datatables
         function load_data(from_date = '', to_date = '') {
-            $('#barangmasuk-table').DataTable({
+            $('.barangmasuk-table').DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: {
@@ -117,30 +111,24 @@
                         sortable: false
                     },
                     {
-                        data: 'no_dokumen',
-                        name: 'no_dokumen'
+                        data: 'supplier',
+                        name: 'supplier'
                     },
                     {
-                        data: 'total_item',
-                        name: 'total_item'
+                        data: 'nama_produk',
+                        name: 'nama_produk'
                     },
                     {
-                        data: 'total_harga',
-                        name: 'total_harga'
+                        data: 'kategori',
+                        name: 'kategori'
                     },
                     {
                         data: 'tanggal',
                         name: 'tanggal'
                     },
                     {
-                        data: 'status',
-                        name: 'status'
-                    },
-                    {
-                        data: 'aksi',
-                        name: 'aksi',
-                        searchable: false,
-                        sortable: false
+                        data: 'qty',
+                        name: 'qty'
                     },
                 ],
                 pageLength: 15,
@@ -158,7 +146,7 @@
                 to_date = $('form .to_date').val();
 
             if (from_date != '' && to_date != '') {
-                $('#barangmasuk-table').DataTable().destroy();
+                $('.barangmasuk-table').DataTable().destroy();
                 load_data(from_date, to_date);
             } else {
                 Swal.fire('Oops...', 'Filter tanggal harus diisi semua!', 'error')
@@ -169,16 +157,44 @@
         // Refresh Datatables
         $('form').on('click', '.refresh', function(e) {
             e.preventDefault();
-            var from_date = $('form .from_date').val(''),
-                to_date = $('form .to_date').val('');
-            $('#barangmasuk-table').DataTable().destroy();
-            load_data();
+            refresh_data();
         });
 
         // Refresh data
         function refresh_data() {
-            $('#barangmasuk-table').DataTable().destroy();
+            $('.barangmasuk-table').DataTable().destroy();
             load_data();
+        }
+
+        function pilihBarangMasuk(url) {
+            var id = $('.no_dokumen select[name=no_dokumen]').val();
+            $('.po').fadeOut('fast');
+            $('.btn-none').fadeOut('fast');
+            $.ajax({
+                    url: url,
+                    type: 'post',
+                    dataType: 'json',
+                    data: {
+                        '_token': '{{ csrf_token() }}',
+                        'id': id
+                    }
+                })
+                .done(response => {
+                    let pemohon = response.pemohon,
+                        url = response.url,
+                        tanggal = response.tanggal,
+                        supplier = response.supplier,
+                        total_item = response.data.total_item,
+                        status = response.data.status;
+                    $('.modal-barang-masuk .pemohon').text(pemohon);
+                    $('.modal-barang-masuk .supplier').text(supplier);
+                    $('.modal-barang-masuk .status').text(status);
+                    $('.modal-barang-masuk .tanggal').text(tanggal);
+                    $('.modal-barang-masuk .total_item').text(total_item);
+                    $('.modal-barang-masuk .btn-detail').attr("href", url);
+                    $('.modal-barang-masuk .po').show();
+                    $('.modal-barang-masuk .btn-none').show();
+                })
         }
     </script>
 

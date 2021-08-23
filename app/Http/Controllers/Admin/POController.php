@@ -5,12 +5,14 @@ namespace App\Http\Controllers\Admin;
 use App\Models\PO;
 use App\Models\PR;
 use Carbon\Carbon;
+use App\Models\Produk;
 use App\Models\PODetail;
 use App\Models\PRDetail;
 use App\Models\Supplier;
 use App\Models\BarangMasuk;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class POController extends Controller
 {
@@ -100,7 +102,7 @@ class POController extends Controller
 
     public function show($id)
     {
-        $title = 'Detail Permintaan Pembelian Barang PR';
+        $title = 'Detail PO';
         $url = route('pr.index');
         $po = PO::findOrFail($id);
         $pr_id = PR::findOrFail($po->pr_id);
@@ -114,7 +116,7 @@ class POController extends Controller
                 ->addColumn('qty', function ($data) {
                     return formatAngka($data->qty) . ' ' . $data->product->satuan;
                 })
-                ->addColumn('harga_satuan', function ($data) {
+                ->addColumn('harga', function ($data) {
                     return formatAngka($data->harga);
                 })
                 ->addColumn('subtotal', function ($data) {
@@ -125,7 +127,7 @@ class POController extends Controller
                         'url' => route('pr.delete-item', $data->id),
                     ]);
                 })
-                ->rawColumns(['qty', 'nama_produk', 'harga_satuan', 'subtotal', 'aksi'])
+                ->rawColumns(['qty', 'nama_produk', 'harga', 'subtotal', 'aksi'])
                 ->addIndexColumn()
                 ->make(true);
         }
@@ -149,15 +151,35 @@ class POController extends Controller
             $pr = PR::find($po->pr_id);
             $pr->status_po = 'complete';
             $pr->update();
+
+            $pr_details = PRDetail::where('pr_id', '=', $po->pr_id)->get();
+            foreach ($pr_details as $pr_detail) {
+                $barang_masuk = new BarangMasuk();
+                $barang_masuk->po_id = $po->id;
+                $barang_masuk->produk_id = $pr_detail->produk_id;
+                $barang_masuk->penerima = Auth::id();
+                $barang_masuk->qty = $pr_detail->qty;
+                $barang_masuk->subtotal = $pr_detail->subtotal;
+                $barang_masuk->status = 'sudah diterima';
+                $barang_masuk->save();
+
+                $produk = Produk::find($barang_masuk->produk_id);
+                $produk->stok = $produk->stok + $barang_masuk->qty;
+                $produk->status = 'aktif';
+                $produk->update();
+            }
+            return response()->json([
+                'text' => 'Data berhasil diperbarui dan sudah masuk ke dalam data barang masuk!',
+                'data' => $po
+            ], 200);
         }
         if ($status == 'pending') {
             $po->status = 'pending';
             $po->update();
+            return response()->json([
+                'text' => 'Data berhasil dipending',
+            ], 200);
         }
-        return response()->json([
-            'text' => 'Data berhasil diperbarui',
-            'data' => $po
-        ], 200);
     }
 
     public function destroy($id)

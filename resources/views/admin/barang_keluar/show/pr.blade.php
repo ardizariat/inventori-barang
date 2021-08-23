@@ -89,11 +89,13 @@
                         <tr>
                             <th>Status Stok Barang</th>
                             <th class="pl-5 pr-2">:</th>
-                            @if ($pr->po->status == 'complete')
-                                <td class="text-capitalize">Sudah Tersedia</td>
-                            @else
-                                <td class="text-capitalize">Belum Tersedia</td>
-                            @endif
+                            @isset($pr->po->pr_id)
+                                @if ($pr->po->status == 'complete')
+                                    <td class="text-capitalize">Sudah Tersedia</td>
+                                @else
+                                    <td class="text-capitalize">Belum Tersedia</td>
+                                @endif
+                            @endisset
                         </tr>
                         <tr>
                             <th>Status Barang Keluar</th>
@@ -101,15 +103,17 @@
                             <td class="text-capitalize status">{{ $pr->status }} Pemohon</td>
                         </tr>
                     </table>
-                    @if ($pr->status == 'belum diterima' && $pr->po->status == 'complete')
-                        <div class="btn-group my-2">
-                            <button onclick="serahTerima(`{{ route('barang-keluar.serah-terima-pr', $id) }}`)"
-                                class="btn btn-flat btn-success" data-toggle="tooltip" data-placement="top"
-                                title="Serah terima barang">
-                                <i class="fas fa-user-check"></i>Konfirmasi Serah Terima
-                            </button>
-                        </div>
-                    @endif
+                    @isset($pr->po->pr_id)
+                        @if ($pr->status == 'belum diterima' && $pr->po->status == 'complete')
+                            <div class="btn-group my-2">
+                                <button onclick="serahTerima(`{{ route('barang-keluar.serah-terima-pr', $id) }}`)"
+                                    class="btn btn-flat btn-success" data-toggle="tooltip" data-placement="top"
+                                    title="Serah terima barang">
+                                    <i class="fas fa-user-check"></i>Konfirmasi Serah Terima
+                                </button>
+                            </div>
+                        @endif
+                    @endisset
                 </div>
             </div>
             <div class="card my-2 shadow">
