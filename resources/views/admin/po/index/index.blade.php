@@ -152,6 +152,8 @@
 
         function showModal() {
             event.preventDefault();
+            $('.modal-form form')[0].reset();
+            $('.selectpicker').val(null).trigger('change');
             $('.modal-form').modal('show');
         }
 
@@ -161,10 +163,43 @@
         }
 
         $(function() {
+            $('form').on('keyup', 'input[name=pr_id]', function() {
+                var val = $(this).val();
+                if (val != '') {
+                    $.ajax({
+                            url: `{{ route('po.data') }}`,
+                            type: 'post',
+                            data: {
+                                '_token': $(`meta[name=csrf-token]`).attr(`content`),
+                                'value': val
+                            }
+                        })
+                        .done(output => {
+                            if (output != '') {
+                                $('.pr-hide').removeClass('d-none');
+                                $('.pr-hide').fadeIn();
+                                $('.pr-hide').html(output);
+                            }
+                        })
+                }
+            });
+
+            $(".pr-hide").on("click", "a", function(e) {
+                e.preventDefault();
+                var value = $(this).text();
+                var id = $(this).data('id');
+                $(".modal-form input[name=pr_id]").val(value);
+                $(".modal-form .pr").val(id);
+                $(".pr-hide").fadeOut("fast");
+            });
+
             $('.modal-form').on('click', '.btn-save', function(e) {
                 e.preventDefault();
                 let form = $('.modal-form form'),
+                    pr = $('.modal-form .pr').val(),
+                    supplier = $('.modal-form select[name=supplier]').val(),
                     url = form.attr('action');
+
                 form.find('.invalid-feedback').remove();
                 form.find('.form-control').removeClass('is-invalid');
 
@@ -177,11 +212,17 @@
                         complete: function() {
                             hideLoader();
                         },
-                        data: form.serialize()
+                        data: {
+                            '_token': $(`meta[name=csrf-token]`).attr(`content`),
+                            '_method': `post`,
+                            'pr': pr,
+                            'supplier': supplier
+                        }
                     })
                     .done(response => {
                         hideModal();
                         form[0].reset();
+                        $('.modal-form .pr').val('')
                         $('.selectpicker').val(null).trigger('change');
                         refresh_data();
                         alert_success('success', response.text);

@@ -19,24 +19,6 @@
                             <th width="10%" align="center">Aksi</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        @foreach ($produk as $item)
-                            <tr>
-                                <td width="5%">{{ $loop->iteration }}</td>
-                                <td width="15%">
-                                    <span class="badge badge-success">{{ $item->kode }}</span>
-                                </td>
-                                <td>{{ $item->nama_produk }}</td>
-                                <td>{{ formatAngka($item->stok) }} {{ $item->satuan }}</td>
-                                <td width="10%" align="center">
-                                    <button @if ($item->stok == 0) disabled @endif onclick="pilihProduk('{{ $item->id }}')"
-                                        class="btn btn-sm btn-primary">
-                                        <i class="fas fa-check-circle"></i> Tambah
-                                    </button>
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
                 </table>
             </div>
         </div>

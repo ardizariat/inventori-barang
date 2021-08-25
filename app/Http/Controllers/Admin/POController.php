@@ -13,6 +13,7 @@ use App\Models\BarangMasuk;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class POController extends Controller
 {
@@ -83,6 +84,8 @@ class POController extends Controller
 
         // PR
         $pr = PR::findOrFail($pr_id);
+        $pr->status_po = 'on process';
+        $pr->update();
         $total_item = $pr->total_item;
         $total_harga = $pr->total_harga;
 
@@ -93,7 +96,7 @@ class POController extends Controller
         $po->supplier_id = $supplier_id;
         $po->total_harga = $total_harga;
         $po->total_item = $total_item;
-        $po->status = 'pending';
+        $po->status = 'on process';
         $po->save();
 
         return response()->json([
@@ -215,5 +218,30 @@ class POController extends Controller
         ]);
         activity()->log('download file pdf pengajuan Purchase Order');
         return $pdf->stream('Purchase Order');
+    }
+
+    public function data(Request $request)
+    {
+        $value = $request->value;
+        if ($value != '') {
+            $data = DB::table('pr')
+                ->where([
+                    ['status', '=', 'belum diterima'],
+                    ['status_po', '=', 'pending'],
+                    ['sect_head', '=', 'approved'],
+                    ['dept_head', '=', 'approved'],
+                    ['status_po', '=', 'pending'],
+                    ['no_dokumen', 'LIKE', "%{$value}%"],
+                ])
+                ->get();
+            $output = '<div class="dropdown-menu d-block position-relative">';
+            foreach ($data as $item) {
+                $output .= '
+                <a href="#" class="item dropdown-item" data-id="' . $item->id . '">' . $item->no_dokumen . '</a>
+                ';
+            }
+            $output .= '</div>';
+            echo $output;
+        }
     }
 }

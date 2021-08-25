@@ -138,16 +138,25 @@ class PBDetailController extends Controller
         ], 200);
     }
 
-    public function produk()
+    public function produk($id)
     {
         if (request()->ajax()) {
-            $data = Produk::latest()->get();
+            $pb = $id;
+            $data = Produk::where([
+                ['status', '=', 'aktif'],
+                ['stok', '>=', 5]
+            ])
+                ->get();
             return datatables()->of($data)
                 ->addColumn('stok', function ($data) {
                     return $data->stok . ' ' . $data->satuan;
                 })
-                ->addColumn('aksi', function ($data) {
-                    $pb_detail = PBDetail::where('produk_id', '=', $data->id)->get();
+                ->addColumn('aksi', function ($data) use ($pb) {
+                    $pb_detail = PBDetail::where([
+                        ['pb_id', '=', $pb],
+                        ['produk_id', '=', $data->id],
+                    ])
+                        ->get();
                     return view('admin.pb.create.produk_aksi', [
                         'pb_detail' => $pb_detail,
                         'data' => $data,

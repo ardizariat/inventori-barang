@@ -44,8 +44,8 @@ Route::group(['middleware' => ['auth', 'role:super-admin|admin|direktur|dept_hea
   Route::put('/pb/{id}/update-status', [PBController::class, 'updateStatus'])->name('pb.update-status');
   Route::delete('/pb/{id}/delete-item', [PBController::class, 'deleteItem'])->name('pb.delete-item');
 
+  Route::get('/pb-detail/produk/{id}', [PBDetailController::class, 'produk'])->name('pb-detail.produk');
   Route::resource('/pb-detail', PBDetailController::class);
-  Route::get('/pb/produk', [PBDetailController::class, 'produk'])->name('pb.produk');
 
   //------------------------- PR -----------------------------------//
   Route::resource('/pr', PRController::class);
@@ -54,12 +54,14 @@ Route::group(['middleware' => ['auth', 'role:super-admin|admin|direktur|dept_hea
   Route::delete('/pr/{id}/delete-item', [PRController::class, 'deleteItem'])->name('pr.delete-item');
   Route::delete('/pr/{id}/cancel', [PRController::class, 'cancel'])->name('pr.cancel');
 
+  Route::get('/pr-detail/produk/{id}', [PRDetailController::class, 'produk'])->name('pr-detail.produk');
   Route::resource('/pr-detail', PRDetailController::class);
   Route::post('/pr-detail/produk', [PRDetailController::class, 'produkStore'])->name('pr.produk.store');
 
   //------------------------- PO -----------------------------------// 
   Route::resource('/po', POController::class);
   Route::post('/po/{id}/download-pdf', [POController::class, 'downloadPdf'])->name('po.download-pdf');
+  Route::post('/po/data', [POController::class, 'data'])->name('po.data');
   Route::delete('/po/{id}/delete-item', [POController::class, 'deleteItem'])->name('po.delete-item');
 
 

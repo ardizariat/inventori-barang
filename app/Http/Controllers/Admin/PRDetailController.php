@@ -167,4 +167,34 @@ class PRDetailController extends Controller
             'text' => 'Data berhasil dihapus'
         ], 204);
     }
+
+    public function produk($id)
+    {
+        if (request()->ajax()) {
+            $pr = $id;
+            $data = Produk::where([
+                ['status', '=', 'aktif'],
+                ['stok', '>=', 5]
+            ])
+                ->get();
+            return datatables()->of($data)
+                ->addColumn('stok', function ($data) {
+                    return $data->stok . ' ' . $data->satuan;
+                })
+                ->addColumn('aksi', function ($data) use ($pr) {
+                    $pr_detail = PRDetail::where([
+                        ['pr_id', '=', $pr],
+                        ['produk_id', '=', $data->id],
+                    ])
+                        ->get();
+                    return view('admin.pr.create.produk_aksi', [
+                        'pr_detail' => $pr_detail,
+                        'data' => $data,
+                    ]);
+                })
+                ->rawColumns(['aksi', 'stok'])
+                ->addIndexColumn()
+                ->make(true);
+        }
+    }
 }

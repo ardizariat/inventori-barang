@@ -27,7 +27,7 @@ class CreatePrTable extends Migration
             $table->enum('direktur', ['rejected', 'approved', 'on process'])->default('on process');
             $table->date('tgl_approve_direktur')->nullable();
             $table->enum('status', ['sudah diterima', 'belum diterima'])->default('belum diterima');
-            $table->enum('status_po', ['pending', 'complete'])->default('pending');
+            $table->enum('status_po', ['pending', 'on process', 'complete'])->default('pending');
             $table->timestamps();
 
             $table->foreign('pemohon')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');

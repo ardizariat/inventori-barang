@@ -123,7 +123,41 @@
         load_data_produk();
 
         function load_data_produk() {
-            $('.produk-table').DataTable();
+            $('.produk-table').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: "{{ route('pb-detail.produk', $pb->id) }}",
+                columns: [{
+                        data: "DT_RowIndex",
+                        name: "DT_RowIndex",
+                        searchable: false,
+                        sortable: false
+                    },
+                    {
+                        data: "kode",
+                        name: "kode"
+                    },
+                    {
+                        data: "nama_produk",
+                        name: "nama_produk"
+                    },
+                    {
+                        data: "stok",
+                        name: "stok"
+                    },
+                    {
+                        data: "aksi",
+                        name: "aksi",
+                        searchable: false,
+                        sortable: false
+                    },
+                ],
+                pageLength: 15,
+                "lengthMenu": [15, 25, 50, 75, 100],
+                "language": {
+                    "emptyTable": "Data tidak ada"
+                },
+            })
         }
 
         function load_data_pb_detail() {
@@ -218,12 +252,14 @@
 
         function tampilModalProduk() {
             event.preventDefault();
+            $('.produk-table').DataTable().ajax.reload();
             $('.modal-produk').modal('show');
         }
 
         function pilihProduk(id) {
             event.preventDefault();
             var produk_id = document.getElementById("produk_id").value = id;
+            $('.produk-table').DataTable().ajax.reload();
             tambahProduk();
             hideModalProduk();
         }

@@ -114,6 +114,7 @@
     <script src="{{ asset('admin/js/plugin/date-time-pickers/js/date-time-picker-script.js') }}"></script>
 
     <script>
+        $(".date").flatpickr();
         $(document).ready(function() {
 
             $('form').on('change', '.type', function(e) {

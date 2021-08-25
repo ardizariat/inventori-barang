@@ -183,9 +183,17 @@
         function showModal() {
             event.preventDefault();
             $('.modal-produk').modal('show');
+            $('.modal-produk form')[0].reset();
+            let form = $('.modal-produk form');
+            form.find('.invalid-feedback').remove();
+            form.find('.form-control').removeClass('is-invalid');
         }
 
         function hideModal() {
+            $('.modal-produk form')[0].reset();
+            let form = $('.modal-produk form');
+            form.find('.invalid-feedback').remove();
+            form.find('.form-control').removeClass('is-invalid');
             $('.modal-produk').modal('hide');
         }
 

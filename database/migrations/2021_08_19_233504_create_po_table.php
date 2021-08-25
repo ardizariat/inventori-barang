@@ -20,7 +20,7 @@ class CreatePoTable extends Migration
             $table->uuid('pr_id');
             $table->bigInteger('total_harga');
             $table->bigInteger('total_item');
-            $table->enum('status', ['pending', 'complete'])->default('pending');
+            $table->enum('status', ['pending', 'on process', 'complete'])->default('pending');
             $table->timestamps();
 
             $table->foreign('supplier_id')->references('id')->on('suppliers')->onDelete('restrict')->onUpdate('cascade');
