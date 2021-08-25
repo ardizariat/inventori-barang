@@ -99,25 +99,25 @@
                 </a>
                 <ul class="dropdown-menu notif-box animated fadeIn" aria-labelledby="notifDropdown">
                     <li>
-                        {{-- <div class="dropdown-title">Kamu mempunyai {{ stok() }} notifikasi</div> --}}
+                        <div class="dropdown-title">Kamu mempunyai {{ stok() }} notifikasi</div>
                     </li>
                     <li>
                         <div class="notif-scroll scrollbar-outer">
                             <div class="notif-center">
-                                {{-- @foreach (messageStok() as $message)
-                                <a href="#">
-                                    <div class="notif-icon notif-primary">
-                                        {{ $loop->iteration }}
-                                        <i class="fas fa-tasks"></i>
-                                    </div>
-                                    <div class="notif-content">
-                                        <span class="block">
-                                            {{ $message->nama_produk }}
-                                        </span>
-                                        <span class="time">Stok barang ini sisa {{ $message->stok }}</span>
-                                    </div>
-                                </a>
-                                @endforeach --}}
+                                @foreach (messageStok() as $message)
+                                    <a>
+                                        <div class="notif-icon notif-primary">
+                                            {{ $loop->iteration }}
+                                            <i class="fas fa-tasks"></i>
+                                        </div>
+                                        <div class="notif-content">
+                                            <span class="block">
+                                                {{ $message->nama_produk }}
+                                            </span>
+                                            <span class="time">Stok barang ini sisa {{ $message->stok }}</span>
+                                        </div>
+                                    </a>
+                                @endforeach
                             </div>
                         </div>
                     </li>

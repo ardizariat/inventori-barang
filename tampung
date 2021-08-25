@@ -1,76 +1,21 @@
-@extends('admin.laporan.pdf.layouts')
 
-@section('content-pdf')
-    <div class="row">
-        <img width=" auto" height="40" src="{{ asset('images/logo.png') }}" class="rounded float-left">
-    </div>
-    <header class="mb-3">
-        <h1 class="text-bold text-center text-capitalize">{{ $title }}</h1>
-        <div class="row mt-3 d-flex justify-content-center">
-            <table class="float-left mx-2">
-                <tr>
-                    <th>Diekspor berdasarkan</th>
-                    <th>:</th>
-                    <td> {{ $typeExport }}</td>
-                </tr>
-                @if ($awal && $akhir)
-                    <tr>
-                        <th>Periode</th>
-                        <th>:</th>
-                        <td> {{ Carbon::parse($awal)->format('d-m-Y') }} - {{ Carbon::parse($akhir)->format('d-m-Y') }}
-                        </td>
-                    </tr>
-                @endif
-                <tr>
-                    <th>Total Item</th>
-                    <th>:</th>
-                    <td> {{ formatAngka($total_item) }} Item</td>
-                </tr>
-                <tr>
-                    <th>Total Harga</th>
-                    <th>:</th>
-                    <td>Rp. {{ formatAngka($total_harga) }}</td>
-                </tr>
-            </table>
-        </div>
-    </header>
-
-    <div class="row justify-content-center">
-        <div class="col-md-12">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>No</th>
-                        <th>Nama Produk</th>
-                        <th>Kategori</th>
-                        <th>Minimal Stok</th>
-                        <th>Stok</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($data as $item)
-                        <tr>
-                            <td>{{ $loop->iteration }}</td>
-                            <td>{{ $item->nama_produk }}</td>
-                            <td>{{ $item->category->kategori }}</td>
-                            <td>{{ formatAngka($item->minimal_stok) }}</td>
-                            <td>{{ formatAngka($item->stok) }} {{ $item->satuan }}</td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-            <tfoot>
-                <tr>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th>TOTAL</th>
-                    <th>{{ formatAngka($total_item) }} Item</th>
-                    <th>Rp {{ formatAngka($total_harga) }}</th>
-                </tr>
-            </tfoot>
-            </table>
-        </div>
-    </div>
-@stop
+                    <tbody>
+                        @foreach ($produk as $item)
+                            <tr>
+                                <td width="5%">{{ $loop->iteration }}</td>
+                                <td width="15%">
+                                    <span class="badge badge-success">{{ $item->kode }}</span>
+                                </td>
+                                <td>{{ $item->nama_produk }}</td>
+                                <td>{{ formatAngka($item->stok) }} {{ $item->satuan }}</td>
+                                <td width="10%" align="center">
+                                    <button @foreach ($pb_detail as $detail)
+                                        @if ($detail->produk_id == $item->id) disabled @endif
+                                        @endforeach onclick="pilihProduk('{{ $item->id }}')"
+                                        class="btn btn-sm btn-primary">
+                                        <i class="fas fa-check-circle"></i> Tambah
+                                    </button>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>

@@ -33,13 +33,17 @@
     <link rel="stylesheet" href="{{ asset('admin/js/plugin/izitoast/css/iziToast.min.css') }}">
     <link rel="stylesheet" href="{{ asset('admin/js/plugin/sweetalert-2/sweetalert2.min.css') }}">
     <link rel="stylesheet" href="{{ asset('admin/js/plugin/animate-css/animate.min.css') }}">
-    @stack('css')
+    <link rel="stylesheet" href="{{ asset('admin/css/custom.css') }}">
 
-    <!-- CSS Just for demo purpose, don't include it in your project -->
-    {{-- <link rel="stylesheet" href="{{ asset('admin/css/demo.css') }}"> --}}
+    @stack('css')
 </head>
 
 <body>
+    <div id="preloader">
+        <div class="loading">
+            <img src="{{ asset('images/loader.gif') }}">
+        </div>
+    </div>
     <div class="wrapper">
         <div class="main-header">
             <!-- Logo Header -->
@@ -137,18 +141,17 @@
     @stack('js')
 
     <script>
-        $(".date").flatpickr();
+        var load = document.getElementById("preloader");
+        window.addEventListener('load', function() {
+            load.style.display = "none";
+        });
+
         $(document).ready(function() {
             $('.dropdown-user').on('click', '.btn-logout', function(e) {
                 e.preventDefault();
                 console.log('ok');
                 $('.modal-logout').modal('show');
             })
-        });
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
         });
 
         function preview(selector, temporarayFile, width = 200, height = 300) {

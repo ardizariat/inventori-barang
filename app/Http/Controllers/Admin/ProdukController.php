@@ -233,4 +233,53 @@ class ProdukController extends Controller
             'text' => 'Data berhasil dihapus'
         ], 200);
     }
+
+    public function barangMasuk($id)
+    {
+        if (request()->ajax()) {
+            $data = BarangMasuk::with('product', 'po', 'penerimaBarang')
+                ->where('produk_id', '=', $id)
+                ->latest()
+                ->get();
+            return datatables()->of($data)
+                ->addColumn('penerima', function ($data) {
+                    return $data->penerimaBarang->name;
+                })
+                ->addColumn('supplier', function ($data) {
+                    return $data->po->supplier->nama ?? '';
+                })
+                ->addColumn('tanggal', function ($data) {
+                    return $data->created_at->format('d-m-Y');
+                })
+                ->addColumn('qty', function ($data) {
+                    return formatAngka($data->qty) . ' ' . $data->product->satuan;
+                })
+                ->rawColumns(['penerima', 'qty', 'tanggal', 'supplier'])
+                ->addIndexColumn()
+                ->make(true);
+        }
+    }
+
+    public function barangKeluar($id)
+    {
+        if (request()->ajax()) {
+            $data = BarangKeluar::with('product', 'penerimaBarang')
+                ->where('produk_id', '=', $id)
+                ->latest()
+                ->get();
+            return datatables()->of($data)
+                ->addColumn('penerima', function ($data) {
+                    return $data->penerimaBarang->name;
+                })
+                ->addColumn('tanggal', function ($data) {
+                    return $data->created_at->format('d-m-Y');
+                })
+                ->addColumn('qty', function ($data) {
+                    return formatAngka($data->qty) . ' ' . $data->product->satuan;
+                })
+                ->rawColumns(['penerima', 'qty', 'tanggal'])
+                ->addIndexColumn()
+                ->make(true);
+        }
+    }
 }

@@ -32,6 +32,9 @@ Route::group(['middleware' => ['auth', 'role:super-admin|admin|direktur|dept_hea
   Route::resource('/gudang', GudangController::class);
 
   Route::resource('/produk', ProdukController::class);
+  Route::get('/produk/barang-masuk/{id}', [ProdukController::class, 'barangMasuk'])->name('produk.barang-masuk');
+  Route::get('/produk/barang-keluar/{id}', [ProdukController::class, 'barangKeluar'])->name('produk.barang-keluar');
+
 
   Route::resource('/user', UserController::class);
 
@@ -42,6 +45,7 @@ Route::group(['middleware' => ['auth', 'role:super-admin|admin|direktur|dept_hea
   Route::delete('/pb/{id}/delete-item', [PBController::class, 'deleteItem'])->name('pb.delete-item');
 
   Route::resource('/pb-detail', PBDetailController::class);
+  Route::get('/pb/produk', [PBDetailController::class, 'produk'])->name('pb.produk');
 
   //------------------------- PR -----------------------------------//
   Route::resource('/pr', PRController::class);

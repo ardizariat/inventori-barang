@@ -25,7 +25,7 @@ class GudangSeeder extends Seeder
             DB::table('gudang')->insert([
                 'id' => Str::uuid(),
                 'nama' => $faker->name(),
-                'kode' =>  kode($count++, 4),
+                'kode' =>  'GD-' . kode($count++, 4),
                 'lokasi' => $faker->address(),
                 'status' => $faker->randomElement(['aktif', 'tidak aktif']),
                 'created_at' => now(),

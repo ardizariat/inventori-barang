@@ -24,12 +24,14 @@ class PBDetailController extends Controller
             return abort(404);
         }
         $pb = PB::findOrFail($pb_id);
+        $pb_detail = PBDetail::where('pb_id', '=', $pb->id)->get();
 
         return view('admin.pb.create.create', compact(
             'produk',
             'title',
             'url',
             'pb',
+            'pb_detail'
         ));
     }
 
@@ -134,5 +136,26 @@ class PBDetailController extends Controller
         return response()->json([
             'text' => 'Data berhasil dihapus!'
         ], 200);
+    }
+
+    public function produk()
+    {
+        if (request()->ajax()) {
+            $data = Produk::latest()->get();
+            return datatables()->of($data)
+                ->addColumn('stok', function ($data) {
+                    return $data->stok . ' ' . $data->satuan;
+                })
+                ->addColumn('aksi', function ($data) {
+                    $pb_detail = PBDetail::where('produk_id', '=', $data->id)->get();
+                    return view('admin.pb.create.produk_aksi', [
+                        'pb_detail' => $pb_detail,
+                        'data' => $data,
+                    ]);
+                })
+                ->rawColumns(['aksi', 'stok'])
+                ->addIndexColumn()
+                ->make(true);
+        }
     }
 }

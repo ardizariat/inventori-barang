@@ -309,7 +309,6 @@
             });
         });
 
-
         function deleteItem(url) {
             event.preventDefault();
             $.ajax({
