@@ -11,7 +11,7 @@
             <div class="modal-body">
                 <div class="alert alert-info">
                     <p>Identitas dibawah akan dimasukan ke dalam sistem pengajuan permintaan pembelian barang PR</p>
-                    <p>Jika sesuai, silahkan tekan lanjutkan jika sesuai dengan data anda!</p>
+                    <p>Jika sesuai, silahkan tekan lanjutkan!</p>
                 </div>
                 <table class="table">
                     <thead>

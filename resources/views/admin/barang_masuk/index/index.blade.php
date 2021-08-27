@@ -10,7 +10,6 @@
 @endpush
 
 @section('admin-content')
-
     <div class="content">
         <div class="page-inner">
             <div class="page-header">
@@ -58,6 +57,12 @@
                                             </button>
                                         </div>
                                     </div>
+                                    <div class="col-md-3 my-2">
+                                        <a data-toggle="tooltip" data-placement="top" title="Tambah Barang Masuk"
+                                            class="btn btn-rounded btn-outline-primary" onclick="showModal()">
+                                            <i class="fa fa-search" aria-hidden="true"></i> Tambah Barang Masuk
+                                        </a>
+                                    </div>
                                 </div>
                             </form>
                         </div>
@@ -82,6 +87,7 @@
             </div>
         </div>
     </div>
+    @includeIf('admin.barang_masuk.index.modal')
 @endsection
 
 @push('js')
@@ -165,6 +171,74 @@
         function refresh_data() {
             $('.barangmasuk-table').DataTable().destroy();
             load_data();
+        }
+
+        function showModal() {
+            event.preventDefault();
+            $('.modal-form').modal('show');
+            $('.selectpicker').val(null).trigger('change');
+            $('.modal-form form')[0].reset();
+            $('.po').fadeOut('fast');
+            $('.btn-none').fadeOut('fast');
+        }
+
+        function hideModal() {
+            event.preventDefault();
+            $('.modal-form').modal('hide');
+        }
+
+        function cariData(url) {
+            let value = $('input[name=po_id]').val(),
+                csrf_token = $('meta[name=csrf-token]').attr('content');
+
+            $.ajax({
+                    url: url,
+                    type: 'post',
+                    dataType: 'html',
+                    data: {
+                        '_token': csrf_token,
+                        'value': value,
+                    }
+                })
+                .done(response => {
+                    $('.po-hide').removeClass('d-none');
+                    $('.po-hide').fadeIn();
+                    $('.po-hide').html(response);
+                });
+        }
+
+        function pilihData(id, value, url) {
+            event.preventDefault();
+            $('.modal-form input[name=po_id]').val(value);
+            $('.modal-form input[name=po]').val(id);
+            $('.po-hide').fadeOut();
+            let csrf_token = $('meta[name=csrf-token]').attr('content');
+            $.ajax({
+                    url: url,
+                    type: 'post',
+                    dataType: 'json',
+                    data: {
+                        '_token': csrf_token,
+                        'id': id
+                    }
+                })
+                .done(response => {
+                    var no_dokumen = response.data.no_dokumen,
+                        tanggal = response.tanggal,
+                        supplier = response.supplier,
+                        total_item = response.data.total_item,
+                        status = response.data.status,
+                        url = response.url;
+
+                    $('.po').fadeIn('fast');
+                    $('.btn-none').fadeIn('fast');
+                    $('.no_dokumen').text(no_dokumen);
+                    $('.tanggal').text(tanggal);
+                    $('.supplier').text(supplier);
+                    $('.total_item').text(total_item);
+                    $('.status').text(status);
+                    $('.btn-detail').attr('href', url);
+                })
         }
 
         function pilihBarangMasuk(url) {

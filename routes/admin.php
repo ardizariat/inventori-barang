@@ -69,10 +69,10 @@ Route::group(['middleware' => ['auth', 'role:super-admin|admin|direktur|dept_hea
   Route::resource('/barang-masuk', BarangMasukController::class)->except([
     'store'
   ]);
-  Route::get('/barang-masuk/po/{id}', [BarangMasukController::class, 'po'])->name('barang-masuk.po');
-  Route::post('/barang-masuk/pilih-data', [BarangMasukController::class, 'pilihBarangMasuk'])->name('barang-masuk.change-data');
-  Route::post('/barang-masuk/{id}', [BarangMasukController::class, 'store'])->name('barang-masuk.store');
-  Route::put('/barang-masuk/{id}/serah-terima-po', [BarangMasukController::class, 'serahTerimaPO'])->name('barang-masuk.serah-terima-po');
+  Route::get('/barang-masuk/{id}/po', [BarangMasukController::class, 'showPo'])->name('barang-masuk.po-show');
+  Route::post('/barang-masuk/po/', [BarangMasukController::class, 'po'])->name('barang-masuk.po');
+  Route::post('/barang-masuk/show-po/', [BarangMasukController::class, 'dataPo'])->name('barang-masuk.show-po');
+  Route::put('/barang-masuk/terima-barang/{id}/po', [BarangMasukController::class, 'terimaBarang'])->name('barang-masuk.terima-barang.po');
 
   //------------------------- BarangKeluar -----------------------------------// 
   Route::resource('/barang-keluar', BarangKeluarController::class)->except([

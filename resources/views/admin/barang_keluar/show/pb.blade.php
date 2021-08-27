@@ -91,15 +91,22 @@
                             <td class="text-capitalize status">{{ $pb->status }} Pemohon</td>
                         </tr>
                     </table>
-                    @if ($pb->status == 'belum diterima' && $pb->sect_head == 'approved' && $pb->dept_head == 'approved')
-                        <div class="btn-group my-2">
+                    <div class="btn-group my-2">
+                        @if ($pb->status == 'belum diterima' && $pb->sect_head == 'approved' && $pb->dept_head == 'approved')
                             <button onclick="serahTerima(`{{ route('barang-keluar.serah-terima-pb', $id) }}`)"
                                 class="btn btn-flat btn-success" data-toggle="tooltip" data-placement="top"
                                 title="Serah terima barang">
                                 <i class="fas fa-user-check"></i>Konfirmasi Serah Terima
                             </button>
-                        </div>
-                    @endif
+                        @endif
+                        <form target="_blank" action="{{ route('pb.download-pdf', $pb->id) }}" method="post">
+                            @csrf
+                            <button class="btn btn-flat btn-danger" data-toggle="tooltip" data-placement="top"
+                                title="Download">
+                                <i class="fas fa-download"></i>Download pdf
+                            </button>
+                        </form>
+                    </div>
                 </div>
             </div>
             <div class="card my-2 shadow">

@@ -9,14 +9,32 @@
                 </button>
             </div>
             <div class="modal-body">
-                <p>
-                    PB adalah permintaan barang yang ada di stok room, apabila barang yang anda cari tidak ada atau
-                    kosong. Silahkan ajukan pembelian barang dimenu Buat PR.
-                </p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                <a href="{{ route('pb.create') }}" class="btn btn-primary">Ya, Ajukan permintaan barang PB</a>
+                <div class="alert alert-info">
+                    <p>Identitas dibawah akan dimasukan ke dalam sistem pengajuan permintaan barang PB</p>
+                    <p>Jika sesuai, silahkan tekan lanjutkan!</p>
+                </div>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Nama</th>
+                            <th>:</th>
+                            <td>{{ auth()->user()->name ?? '' }}</td>
+                        </tr>
+                        <tr>
+                            <th>Email</th>
+                            <th>:</th>
+                            <td>{{ auth()->user()->email ?? '' }}</td>
+                        </tr>
+                    </thead>
+                </table>
+                <div class="row justify-content-center">
+                    <button type="button" class="btn-flat btn btn-danger mx-1" data-dismiss="modal">
+                        <i class="fas fa-times"></i> Batal
+                    </button>
+                    <a href="{{ route('pb.create') }}" class="btn-flat btn btn-info">
+                        Lanjutkan <i class="fas fa-sign-in-alt"></i>
+                    </a>
+                </div>
             </div>
         </div>
     </div>

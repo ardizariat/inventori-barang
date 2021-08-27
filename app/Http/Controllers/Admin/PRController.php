@@ -15,6 +15,23 @@ class PRController extends Controller
     public function index(Request $request)
     {
         $title = 'Permintaan Barang PR';
+
+        // Kalo permintaan barang kga diisi user
+        $pr_null = PR::where([
+            ['total_item', '<=', 0],
+            ['total_harga', '<=', 0],
+        ])
+            ->get();
+        if (isset($pr_null)) {
+            foreach ($pr_null as $pr) {
+                $pr_detail = PRDetail::where('pr_id', '=', $pr->id)->get();
+                foreach ($pr_detail as $detail) {
+                    $detail->delete();
+                }
+                $pr->delete();
+            }
+        }
+
         if (request()->ajax()) {
             $data = PR::with('user')->orderBy('created_at', 'desc')->get();
             return datatables()->of($data)

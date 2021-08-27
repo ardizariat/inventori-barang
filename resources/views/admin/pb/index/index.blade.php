@@ -4,13 +4,9 @@
 @endsection
 
 @push('css')
-    <link rel="stylesheet" href="{{ asset('admin/js/plugin/selectpicker/css/bootstrap-select.min.css') }}">
-    <link href="{{ asset('admin/js/plugin/date-time-pickers/css/flatpicker-airbnb.css') }}" rel="stylesheet"
-        type="text/css" />
 @endpush
 
 @section('admin-content')
-
     <div class="content">
         <div class="page-inner">
             <div class="page-header">
@@ -33,56 +29,25 @@
                 <div class="col-md-12">
                     <div class="card shadow animate__animated animate__slideInDown">
                         <div class="card-header">
-                            <form>
-                                <h4>
-                                    <i class="fas fa-filter"></i> Filter
-                                </h4>
-                                <div class="row">
-                                    <div class="col-md-3 my-2">
-                                        <input name="from_date" type="text" autocomplete="off"
-                                            class="from_date form-control max-date">
-                                    </div>
-                                    <div class="col-md-3 my-2">
-                                        <input name="to_date" type="text" autocomplete="off"
-                                            class="to_date form-control date">
-                                    </div>
-                                    <div class="col-md-3 my-2">
-                                        <div class="btn-group">
-                                            <button type="submit" data-toggle="tooltip" data-placement="top"
-                                                title="Filter data" class="btn btn-sm filter btn-success btn-flat">
-                                                <i class="fas fa-filter"></i> Filter
-                                            </button>
-                                            <button type="submit" data-toggle="tooltip" data-placement="top"
-                                                title="Refresh data" class="btn btn-sm refresh btn-danger btn-flat">
-                                                <i class="fas fa-sync-alt"></i> Refresh
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3 my-2">
-                                        <a data-toggle="tooltip" data-placement="top" title="Tambah data"
-                                            class="btn btn-rounded btn-outline-primary" onclick="showModal()">
-                                            <i class="fa fa-plus" aria-hidden="true"></i> Buat Permintaan Barang PB
-                                        </a>
-                                    </div>
-                                </div>
-                            </form>
+                            <a data-toggle="tooltip" data-placement="top" title="Tambah data"
+                                class="btn btn-rounded btn-outline-primary" onclick="showModal()">
+                                <i class="fa fa-plus" aria-hidden="true"></i> Buat Permintaan Barang PB
+                            </a>
                         </div>
                         <div class="card-body">
-                            <form action="" class="form-kategori">
-                                <table class="pb-table table table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th>No</th>
-                                            <th>No Dokumen</th>
-                                            <th>Request By</th>
-                                            <th>Sect. Head</th>
-                                            <th>Dept. Head</th>
-                                            <th>Aksi</th>
-                                            <th>Unduh</th>
-                                        </tr>
-                                    </thead>
-                                </table>
-                            </form>
+                            <table class="pb-table table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>No Dokumen</th>
+                                        <th>Request By</th>
+                                        <th>Sect. Head</th>
+                                        <th>Dept. Head</th>
+                                        <th>Aksi</th>
+                                        <th>Unduh</th>
+                                    </tr>
+                                </thead>
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -94,9 +59,6 @@
 
 @push('js')
     <script src="{{ asset('admin/js/plugin/datatables/datatables.min.js') }}"></script>
-    <script src="{{ asset('admin/js/plugin/selectpicker/js/bootstrap-select.min.js') }}"></script>
-    <script src="{{ asset('admin/js/plugin/date-time-pickers/js/flatpickr.js') }}"></script>
-    <script src="{{ asset('admin/js/plugin/date-time-pickers/js/date-time-picker-script.js') }}"></script>
     <script>
         // Datatables load data
         load_data();

@@ -4,7 +4,6 @@
 @endsection
 
 @push('css')
-    <link rel="stylesheet" href="{{ asset('admin/js/plugin/selectpicker/css/bootstrap-select.min.css') }}">
 @endpush
 
 @section('admin-content')
@@ -31,49 +30,26 @@
                 <div class="col-md-12">
                     <div class="card shadow animate__animated animate__slideInDown">
                         <div class="card-header">
-                            <form action="">
-                                <h4 class="judul">Filter</h4>
-                                <div class="row ">
-                                    <div class="col-md-5 my-2">
-                                        <select title="Pilih status" data-live-search="true" name="status"
-                                            class="form-control selectpicker filter-status">
-                                            <option value="on process">on process</option>
-                                            <option value="rejected">Rejected</option>
-                                            <option value="approved">Approved</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-4 my-2">
-                                        <button type="submit" data-toggle="tooltip" data-placement="top"
-                                            title="Refresh data" class="btn btn-sm refresh btn-success btn-flat">
-                                            <i class="fas fa-sync-alt"></i> Refresh
-                                        </button>
-                                    </div>
-                                    <div class="col-md-3 my-2 float-right">
-                                        <button onclick="showModal()" data-toggle="tooltip" data-placement="top"
-                                            title="Buat PO" class="btn btn-rounded btn-outline-primary">
-                                            <i class="fa fa-plus" aria-hidden="true"></i> Buat PO
-                                        </button>
-                                    </div>
-                                </div>
-                            </form>
+                            <button onclick="showModal()" data-toggle="tooltip" data-placement="top" title="Buat PO"
+                                class="btn btn-rounded btn-outline-primary">
+                                <i class="fa fa-plus" aria-hidden="true"></i> Buat PO
+                            </button>
                         </div>
                         <div class="card-body">
-                            <form action="" class="form-kategori">
-                                <table class="po-table table table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th>No</th>
-                                            <th>No Dokumen</th>
-                                            <th>Supplier</th>
-                                            <th>Request By</th>
-                                            <th>Item</th>
-                                            <th>Total Harga</th>
-                                            <th>Status</th>
-                                            <th>Unduh</th>
-                                        </tr>
-                                    </thead>
-                                </table>
-                            </form>
+                            <table class="po-table table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>No Dokumen</th>
+                                        <th>Supplier</th>
+                                        <th>Request By</th>
+                                        <th>Item</th>
+                                        <th>Total Harga</th>
+                                        <th>Status</th>
+                                        <th>Unduh</th>
+                                    </tr>
+                                </thead>
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -85,7 +61,6 @@
 
 @push('js')
     <script src="{{ asset('admin/js/plugin/datatables/datatables.min.js') }}"></script>
-    <script src="{{ asset('admin/js/plugin/selectpicker/js/bootstrap-select.min.js') }}"></script>
     <script>
         // Datatables load data
         load_data_po();

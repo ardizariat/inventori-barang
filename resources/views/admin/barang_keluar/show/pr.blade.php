@@ -103,17 +103,24 @@
                             <td class="text-capitalize status">{{ $pr->status }} Pemohon</td>
                         </tr>
                     </table>
-                    @isset($pr->po->pr_id)
-                        @if ($pr->status == 'belum diterima' && $pr->po->status == 'complete')
-                            <div class="btn-group my-2">
+                    <div class="btn-group my-2">
+                        @isset($pr->po->pr_id)
+                            @if ($pr->status == 'belum diterima' && $pr->po->status == 'complete')
                                 <button onclick="serahTerima(`{{ route('barang-keluar.serah-terima-pr', $id) }}`)"
-                                    class="btn btn-flat btn-success" data-toggle="tooltip" data-placement="top"
+                                    class="btn-serah-terima btn btn-flat btn-success" data-toggle="tooltip" data-placement="top"
                                     title="Serah terima barang">
                                     <i class="fas fa-user-check"></i>Konfirmasi Serah Terima
                                 </button>
-                            </div>
-                        @endif
-                    @endisset
+                            @endif
+                        @endisset
+                        <form target="_blank" action="{{ route('pr.download-pdf', $pr->id) }}" method="post">
+                            @csrf
+                            <button class="btn btn-flat btn-danger" data-toggle="tooltip" data-placement="top"
+                                title="Download">
+                                <i class="fas fa-download"></i>Download pdf
+                            </button>
+                        </form>
+                    </div>
                 </div>
             </div>
             <div class="card my-2 shadow">
@@ -137,6 +144,7 @@
             </div>
         </div>
     </div>
+
 @endsection
 
 @push('js')
@@ -209,7 +217,7 @@
                         .done(response => {
                             alert_success('success', response.text);
                             $('.info .status').text('Sudah Diterima Pemohon');
-                            $('.info .btn-group').fadeOut();
+                            $('.btn-serah-terima').fadeOut();
                             refresh_data();
                         })
                         .fail(errors => {

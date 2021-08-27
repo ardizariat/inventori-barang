@@ -18,6 +18,23 @@ class PBController extends Controller
         if (session()->has('pb_id')) {
             session()->forget('pb_id');
         }
+
+        // Kalo permintaan barang kga diisi user
+        $pb_null = PB::where([
+            ['total_item', '<=', 0],
+            ['total_harga', '<=', 0],
+        ])
+            ->get();
+        if (isset($pb_null)) {
+            foreach ($pb_null as $pb) {
+                $pb_detail = PBDetail::where('pb_id', '=', $pb->id)->get();
+                foreach ($pb_detail as $detail) {
+                    $detail->delete();
+                }
+                $pb->delete();
+            }
+        }
+
         $from_date = Carbon::parse($request->from_date)->format('Y-m-d H:i:s');
         $to_date = Carbon::parse($request->to_date)->format('Y-m-d H:i:s');
         if (request()->ajax()) {

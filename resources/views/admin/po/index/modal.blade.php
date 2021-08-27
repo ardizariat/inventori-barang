@@ -24,13 +24,6 @@
                                     class="pr_id-dari-po form-control">
                                 <div class="d-none pr-hide">
                                 </div>
-                                {{-- <select title="Masukan nomor tiket" data-live-search="true" name="pr"
-                                class="selectpicker form-control pr">
-                                @foreach ($pr as $key => $value)
-                                <option value="{{ $key }}">{{ $value }}
-                                </option>
-                                @endforeach
-                            </select> --}}
                             </div>
                         </div>
                         <div class="row form-group">
