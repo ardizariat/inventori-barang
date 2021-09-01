@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\PB;
+use App\Models\PR;
 use Carbon\Carbon;
 use App\Models\Gudang;
 use App\Models\Produk;
@@ -147,4 +149,22 @@ function bulan($tanggal)
   $pecahkan = explode('-', $tanggal);
 
   return  $bulan[(int)$pecahkan[1]];
+}
+
+function approveSection()
+{
+  $pb = PB::where('sect_head', '!=', 'approved')->count();
+  $pr = PR::where('sect_head', '!=', 'approved')->count();
+  $count = $pb + $pr;
+  return $count;
+}
+function pb()
+{
+  $pb = PB::where('sect_head', '!=', 'approved')->get();
+  return $pb;
+}
+function pr()
+{
+  $pr = PR::where('sect_head', '!=', 'approved')->get();
+  return $pr;
 }

@@ -49,12 +49,14 @@
                                             <i class="fas fa-sync-alt"></i> Refresh
                                         </button>
                                     </div>
+                                    @role('super-admin|admin')
                                     <div class="col-md-3 my-2">
                                         <a href="{{ route('produk.create') }}" data-toggle="tooltip" data-placement="top"
                                             title="Tambah data" class="btn btn-rounded btn-outline-primary">
                                             <i class="fa fa-plus" aria-hidden="true"></i> Tambah Produk
                                         </a>
                                     </div>
+                                    @endrole
                                 </div>
                             </form>
                         </div>

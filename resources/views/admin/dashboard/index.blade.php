@@ -149,7 +149,7 @@
             data: {
                 labels: {!! json_encode($bulan_barang_masuk) !!},
                 datasets: [{
-                    label: "Barang Masuk",
+                    label: "Belanja Barang Masuk",
                     backgroundColor: 'rgb(23, 125, 255)',
                     borderColor: 'rgb(23, 125, 255)',
                     data: {!! json_encode($barang_masuk) !!},
@@ -175,7 +175,7 @@
             data: {
                 labels: {!! json_encode($bulan_barang_keluar) !!},
                 datasets: [{
-                    label: "Barang Keluar",
+                    label: "Pengeluaran Barang Keluar",
                     backgroundColor: 'rgb(23, 125, 255)',
                     borderColor: 'rgb(23, 125, 255)',
                     data: {!! json_encode($barang_keluar) !!},

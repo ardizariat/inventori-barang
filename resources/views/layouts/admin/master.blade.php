@@ -49,11 +49,11 @@
             <!-- Logo Header -->
             <div class="animate__animated animate__bounceInUp logo-header" data-background-color="blue">
 
-                <a href="index.html" class="logo text-white">
+                <a href="{{ route('fe.index') }}" class="logo text-white">
                     <img src="{{ $setting->getLogo() }}" class="navbar-brand rounded" width="40" height="40">
                     <span class="px-3 nama-aplikasi font-weight-bold" style="width: 6rem;"">{{ $setting->nama_aplikasi }}</span>
                 </a>
-                <button class=" navbar-toggler sidenav-toggler ml-auto" type="button" data-toggle="collapse"
+                <button class="   navbar-toggler sidenav-toggler ml-auto" type="button" data-toggle="collapse"
                         data-target="collapse" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon">
                             <i class="icon-menu"></i>

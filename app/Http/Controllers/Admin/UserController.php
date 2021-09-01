@@ -5,9 +5,11 @@ namespace App\Http\Controllers\Admin;
 use Carbon\Carbon;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Spatie\Permission\Models\Permission;
 
 class UserController extends Controller
 {
@@ -44,17 +46,52 @@ class UserController extends Controller
     ));
   }
 
-  public function destroy(Request $request, $id)
+  public function create()
   {
-    $user = User::findOrFail($id);
-    if ($user->foto) {
-      Storage::delete('user/' . $user->foto);
+    $title = 'Tambah User';
+    $permissions = DB::table('permissions')
+      ->select('name')
+      ->get();
+    $roles = DB::table('roles')
+      ->select('name')
+      ->get();
+    return view('admin.user.create', compact(
+      'title',
+      'permissions',
+      'roles'
+    ));
+  }
+
+  public function store(Request $request)
+  {
+    $request->validate([
+      'name' => 'required',
+      'username' => 'required|unique:users,username',
+      'email' => 'required|unique:users,email',
+      'role' => 'required',
+    ]);
+
+    $role = $request->role;
+    $name = $request->name;
+    $username = $request->username;
+    $email = $request->email;
+    $permissions = $request->permissions;
+
+    $user = new User();
+    $user->name = $name;
+    $user->username = $username;
+    $user->email = $email;
+    $user->password = bcrypt('admin');
+    $user->save();
+    if (isset($role)) {
+      $user->assignRole($role);
     }
-    $delete = $user->destroy();
-    if ($delete) {
-      return response()->json([
-        'text' => 'Produk berhasil dihapus!'
-      ], 200);
+    if (isset($permissions)) {
+      $user->givePermissionTo($permissions);
     }
+    return response()->json([
+      'text' => "user berhasil ditambahkan",
+      'data' => $user
+    ], 201);
   }
 }

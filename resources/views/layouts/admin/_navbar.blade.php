@@ -91,38 +91,63 @@
                     </li>
                 </ul>
             </li> -->
+            {{-- @role('sect_head')
             <li class="nav-item dropdown hidden-caret">
                 <a class="nav-link dropdown-toggle" href="#" id="notifDropdown" role="button" data-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="false">
                     <i class="fa fa-bell"></i>
-                    <span class="notification">{{ stok() }}</span>
+                    <span class="notification">{{ approveSection() }}</span>
                 </a>
                 <ul class="dropdown-menu notif-box animated fadeIn" aria-labelledby="notifDropdown">
                     <li>
-                        <div class="dropdown-title">Kamu mempunyai {{ stok() }} notifikasi</div>
+                        <div class="dropdown-title">Kamu mempunyai {{ approveSection() }} permintaan yang belum
+                            diapprove</div>
                     </li>
                     <li>
                         <div class="notif-scroll scrollbar-outer">
                             <div class="notif-center">
-                                @foreach (messageStok() as $message)
-                                    <a>
-                                        <div class="notif-icon notif-primary">
-                                            {{ $loop->iteration }}
-                                            <i class="fas fa-tasks"></i>
-                                        </div>
-                                        <div class="notif-content">
-                                            <span class="block">
-                                                {{ $message->nama_produk }}
-                                            </span>
-                                            <span class="time">Stok barang ini sisa {{ $message->stok }}</span>
-                                        </div>
-                                    </a>
-                                @endforeach
+                                @if (approveSection() > 0)
+                                    @foreach (pb() as $message)
+                                        <a>
+                                            <div class="notif-icon notif-primary">
+                                                {{ $loop->iteration }}
+                                                <i class="fas fa-tasks"></i>
+                                            </div>
+                                            <div class="notif-content">
+                                                <span class="block">
+                                                    {{ $message->no_dokumen }}
+                                                </span>
+                                                <span class="time">
+                                                    Permintaan dari
+                                                    {{ $message->user->name }}
+                                                </span>
+                                            </div>
+                                        </a>
+                                    @endforeach
+                                    @foreach (pr() as $message)
+                                        <a>
+                                            <div class="notif-icon notif-primary">
+                                                {{ $loop->iteration }}
+                                                <i class="fas fa-tasks"></i>
+                                            </div>
+                                            <div class="notif-content">
+                                                <span class="block">
+                                                    {{ $message->no_dokumen }}
+                                                </span>
+                                                <span class="time">
+                                                    Permintaan dari
+                                                    {{ $message->user->name }}
+                                                </span>
+                                            </div>
+                                        </a>
+                                    @endforeach
+                                @endif
                             </div>
                         </div>
                     </li>
                 </ul>
             </li>
+            @endrole --}}
             <!-- <li class="nav-item dropdown hidden-caret">
                 <a class="nav-link" data-toggle="dropdown" href="#" aria-expanded="false">
                     <i class="fas fa-layer-group"></i>

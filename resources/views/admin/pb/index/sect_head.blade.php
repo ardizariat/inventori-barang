@@ -9,7 +9,7 @@
     <a href="{{ route('pb.show', $data->id) }}" data-toggle="tooltip" data-placement="top"
         title="Lihat detail permintaan" class="badge badge-success text-capitalize">Approved</a>
 @endif
-@elserole
+@else
 @if ($sect_head == 'on process')
     <span class="badge badge-warning text-capitalize">{{ $sect_head }}</span>
 @elseif ($sect_head == 'rejected')

@@ -4,6 +4,7 @@
 @endsection
 
 @push('css')
+    <link rel="stylesheet" href="{{ asset('admin/js/plugin/selectpicker/css/bootstrap-select.min.css') }}">
 @endpush
 
 @section('admin-content')
@@ -61,6 +62,7 @@
 
 @push('js')
     <script src="{{ asset('admin/js/plugin/datatables/datatables.min.js') }}"></script>
+    <script src="{{ asset('admin/js/plugin/selectpicker/js/bootstrap-select.min.js') }}"></script>
     <script>
         // Datatables load data
         load_data_po();

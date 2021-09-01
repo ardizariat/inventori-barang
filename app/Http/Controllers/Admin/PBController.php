@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
+use PDF;
 use App\Models\PB;
 use Carbon\Carbon;
 use App\Models\Produk;
 use App\Models\PBDetail;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use PDF;
+use Illuminate\Support\Facades\Auth;
 
 class PBController extends Controller
 {
@@ -34,17 +35,20 @@ class PBController extends Controller
                 $pb->delete();
             }
         }
+        $user = auth()->user();
 
         $from_date = Carbon::parse($request->from_date)->format('Y-m-d H:i:s');
         $to_date = Carbon::parse($request->to_date)->format('Y-m-d H:i:s');
         if (request()->ajax()) {
-            if (!empty($request->from_date)) {
+            if (!empty($request->from_date) && $user->hasRole('super-admin|admin|sect_head|dept_head|direktur')) {
                 $data = PB::with(['user'])
                     ->whereDate('created_at', '>=', $from_date)
                     ->whereDate('created_at', '<=', $to_date)
                     ->get();
-            } else {
+            } elseif ($user->hasRole('super-admin|admin|sect_head|dept_head|direktur')) {
                 $data = PB::with('user')->orderBy('created_at', 'desc')->get();
+            } elseif ($user->hasRole('user')) {
+                $data = PB::where('pemohon', '=', $user->id)->get();
             }
             return datatables()->of($data)
                 ->addColumn('sect_head', function ($data) {

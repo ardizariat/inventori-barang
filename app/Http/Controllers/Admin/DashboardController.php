@@ -35,7 +35,7 @@ class DashboardController extends Controller
         $barang_masuk = [];
         $data_barang_masuk = DB::table('barang_masuk')
             ->select([
-                DB::raw('SUM(qty) as qty'),
+                DB::raw('SUM(subtotal) as total'),
                 DB::raw('MONTH(created_at) as bulan'),
                 DB::raw('YEAR(created_at) as tahun'),
             ])
@@ -45,7 +45,7 @@ class DashboardController extends Controller
             ->whereYear('created_at', $tahun)
             ->get();
         foreach ($data_barang_masuk as $data) {
-            $barang_masuk[] = $data->qty;
+            $barang_masuk[] = $data->total;
             $bulan_barang_masuk[] = $data->bulan;
         }
         $rata2_barang_masuk_sebulan = collect($barang_masuk)->avg();
@@ -55,7 +55,7 @@ class DashboardController extends Controller
         $barang_keluar = [];
         $data_barang_keluar = DB::table('barang_keluar')
             ->select([
-                DB::raw('SUM(qty) as qty'),
+                DB::raw('SUM(subtotal) as total'),
                 DB::raw('MONTH(created_at) as bulan'),
                 DB::raw('YEAR(created_at) as tahun'),
             ])
@@ -65,7 +65,7 @@ class DashboardController extends Controller
             ->whereYear('created_at', $tahun)
             ->get();
         foreach ($data_barang_keluar as $data) {
-            $barang_keluar[] = $data->qty;
+            $barang_keluar[] = $data->total;
             $bulan_barang_keluar[] = $data->bulan;
         }
         $rata2_barang_keluar_sebulan = collect($barang_keluar)->avg();

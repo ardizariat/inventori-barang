@@ -105,7 +105,7 @@ class BarangMasukController extends Controller
         $data = PO::findOrFail($request->id);
         $tanggal = $data->created_at->format('d-m-Y');
         $supplier = $data->supplier->nama;
-        $url = route('barang-masuk.show', $data->id);
+        $url = route('barang-masuk.po-show', $data->id);
         return response()->json([
             'data' => $data,
             'tanggal' => $tanggal,

@@ -2,6 +2,27 @@
     <div class="sidebar-wrapper scrollbar scrollbar-inner">
         <div class="sidebar-content">
             <ul class="nav nav-primary">
+                @role('sect_head|dept_head|direktur')
+                <li class="nav-item {{ request()->routeIs('produk.index') ? 'active' : '' }}">
+                    <a href="{{ route('produk.index') }}">
+                        <i class="fas fa-tasks"></i>
+                        <p>Produk</p>
+                    </a>
+                </li>
+                <li class="nav-item {{ request()->routeIs('barang-keluar.index') ? 'active' : '' }}">
+                    <a href="{{ route('barang-keluar.index') }}">
+                        <i class="fas fa-truck-loading"></i>
+                        <p>Barang Keluar</p>
+                    </a>
+                </li>
+                <li class="nav-item {{ request()->routeIs('barang-masuk.index') ? 'active' : '' }}">
+                    <a href="{{ route('barang-masuk.index') }}">
+                        <i class="fas fa-truck-moving"></i>
+                        <p>Barang Masuk</p>
+                    </a>
+                </li>
+                @endrole
+                @role('super-admin|admin')
                 <li class="nav-item {{ request()->routeIs('dashboard.index') ? 'active' : '' }}">
                     <a href="{{ route('dashboard.index') }}">
                         <i class="fas fa-home"></i>
@@ -57,34 +78,10 @@
                         </ul>
                     </div>
                 </li>
-                <li class="nav-item {{ request()->routeIs('pb.index') ? 'active' : '' }}">
-                    <a href="{{ route('pb.index') }}">
-                        <i class="fab fa-adn"></i>
-                        <p>Request PB</p>
-                    </a>
-                </li>
-                <li class="nav-item {{ request()->routeIs('pr.index') ? 'active' : '' }}">
-                    <a href="{{ route('pr.index') }}">
-                        <i class="fab fa-r-project"></i>
-                        <p>Request PR</p>
-                    </a>
-                </li>
                 <li class="nav-item {{ request()->routeIs('po.index') ? 'active' : '' }}">
                     <a href="{{ route('po.index') }}">
                         <i class="fas fa-shopping-cart"></i>
                         <p>Purchase Order</p>
-                    </a>
-                </li>
-                <li class="nav-item {{ request()->routeIs('barang-keluar.index') ? 'active' : '' }}">
-                    <a href="{{ route('barang-keluar.index') }}">
-                        <i class="fas fa-truck-loading"></i>
-                        <p>Barang Keluar</p>
-                    </a>
-                </li>
-                <li class="nav-item {{ request()->routeIs('barang-masuk.index') ? 'active' : '' }}">
-                    <a href="{{ route('barang-masuk.index') }}">
-                        <i class="fas fa-truck-moving"></i>
-                        <p>Barang Masuk</p>
                     </a>
                 </li>
                 <li class="nav-item {{ request()->routeIs('user.index') ? 'active' : '' }}">
@@ -99,7 +96,6 @@
                         <p>Riwayat Pengguna</p>
                     </a>
                 </li>
-
                 <li class="nav-item">
                     <a data-toggle="collapse" href="#forms">
                         <i class="far fa-clipboard"></i>
@@ -130,6 +126,19 @@
                     <a href="{{ route('setting.index') }}">
                         <i class="fas fa-cogs"></i>
                         <p>Pengaturan</p>
+                    </a>
+                </li>
+                @endrole
+                <li class="nav-item {{ request()->routeIs('pb.index') ? 'active' : '' }}">
+                    <a href="{{ route('pb.index') }}">
+                        <i class="fab fa-adn"></i>
+                        <p>Request PB</p>
+                    </a>
+                </li>
+                <li class="nav-item {{ request()->routeIs('pr.index') ? 'active' : '' }}">
+                    <a href="{{ route('pr.index') }}">
+                        <i class="fab fa-r-project"></i>
+                        <p>Request PR</p>
                     </a>
                 </li>
             </ul>

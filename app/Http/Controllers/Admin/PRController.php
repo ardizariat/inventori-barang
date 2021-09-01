@@ -15,7 +15,7 @@ class PRController extends Controller
     public function index(Request $request)
     {
         $title = 'Permintaan Barang PR';
-
+        $user = auth()->user();
         // Kalo permintaan barang kga diisi user
         $pr_null = PR::where([
             ['total_item', '<=', 0],
@@ -33,7 +33,11 @@ class PRController extends Controller
         }
 
         if (request()->ajax()) {
-            $data = PR::with('user')->orderBy('created_at', 'desc')->get();
+            if ($user->hasRole('super-admin|admin|sect_head|dept_head|direktur')) {
+                $data = PR::with('user')->orderBy('created_at', 'desc')->get();
+            } elseif ($user->hasRole('user')) {
+                $data = PR::where('pemohon', '=', $user->id)->get();
+            }
             return datatables()->of($data)
                 ->addColumn('sect_head', function ($data) {
                     return view('admin.pr.index.sect_head', [

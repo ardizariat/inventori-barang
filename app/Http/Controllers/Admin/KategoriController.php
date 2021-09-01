@@ -59,13 +59,11 @@ class KategoriController extends Controller
 
         activity()->log('membuat kategori ' . $data->kategori);
 
-
-
         if ($save) {
             return response()->json([
                 'data' => $data,
                 'text' => 'Kategori berhasil ditambahkan!'
-            ], 200);
+            ], 201);
         }
     }
 
