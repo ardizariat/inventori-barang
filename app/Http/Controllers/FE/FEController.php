@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers\FE;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Artisan;
 
 class FEController extends Controller
 {
