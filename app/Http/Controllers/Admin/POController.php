@@ -99,6 +99,8 @@ class POController extends Controller
         $po->status = 'on process';
         $po->save();
 
+        activity()->log('membuat PO ' . $kode);
+
         return response()->json([
             'data' => $po,
             'text' => 'PO berhasil dibuat!',
@@ -186,17 +188,6 @@ class POController extends Controller
                 'text' => 'Data berhasil dipending',
             ], 200);
         }
-    }
-
-    public function destroy($id)
-    {
-        $purchase_order_id = PODetail::where('purchase_order_id', '=', $id)->get();
-        foreach ($purchase_order_id as $detail) {
-            $detail->delete();
-        }
-        $purchase_order = PO::findOrFail($id);
-        $purchase_order->delete();
-        return response()->json(null, 204);
     }
 
     public function downloadPdf($id)

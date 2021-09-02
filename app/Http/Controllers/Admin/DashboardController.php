@@ -2,14 +2,19 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\PB;
+use App\Models\PR;
 use Carbon\Carbon;
+use App\Models\User;
 use App\Models\Produk;
 use App\Models\Kategori;
+use App\Models\Supplier;
 use App\Models\BarangMasuk;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Database\Seeders\BarangKeluarSeeder;
 
 class DashboardController extends Controller
@@ -23,6 +28,8 @@ class DashboardController extends Controller
 
         $countProduk = Produk::count();
         $countKategori = Kategori::count();
+        $countSupplier = Supplier::count();
+        $countUser = User::count();
 
         $dt = Carbon::now();
         $jan = $dt->startOfYear();
@@ -70,10 +77,49 @@ class DashboardController extends Controller
         }
         $rata2_barang_keluar_sebulan = collect($barang_keluar)->avg();
 
+        $user = Auth::user();
+        if ($user->hasRole('user')) {
+            $pb = PB::where('pemohon', '=', $user->id)
+                ->orderBy('created_at', 'desc')
+                ->take(5)
+                ->get();
+            $pr = PR::where('pemohon', '=', $user->id)
+                ->orderBy('created_at', 'desc')
+                ->take(5)
+                ->get();
+
+            $pb_approve = PB::where([
+                ['pemohon', '=', $user->id],
+                ['status', '=', 'sudah diterima']
+            ])
+                ->count();
+            $pr_approve = PR::where([
+                ['pemohon', '=', $user->id],
+                ['status', '=', 'sudah diterima']
+            ])
+                ->count();
+
+            $total_approve = $pr_approve + $pb_approve;
+
+
+            return view('admin.dashboard.index', compact(
+                'pb',
+                'pr',
+                'total_approve',
+                'title',
+                'tahun',
+            ));
+        }
+
+        if ($user->hasRole('user')) {
+        }
+
         return view('admin.dashboard.index', compact(
             'title',
             'countProduk',
             'countKategori',
+            'countUser',
+            'countSupplier',
             'tahun',
             'tersedia',
             'hampir_habis',

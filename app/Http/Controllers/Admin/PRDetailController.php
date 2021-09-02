@@ -22,6 +22,8 @@ class PRDetailController extends Controller
         }
         $pr = PR::findOrFail($pr_id);
 
+        activity()->log('membuat permintaan pembelian barang PR');
+
         return view('admin.pr.create.create', compact(
             'categories',
             'title',
@@ -81,7 +83,7 @@ class PRDetailController extends Controller
         $pr->total_harga = $pr->total_harga + $pr_detail->harga;
         $pr->update();
 
-        activity()->log('menambahkan produk ' . $produk->nama_produk);
+        activity()->log('menambahkan produk ' . $produk->nama_produk . ' dari permintaan barang PR');
 
         return response()->json([
             'text' => 'Produk berhasil ditambahkan!'

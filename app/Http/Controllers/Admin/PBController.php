@@ -39,6 +39,7 @@ class PBController extends Controller
 
         $from_date = Carbon::parse($request->from_date)->format('Y-m-d H:i:s');
         $to_date = Carbon::parse($request->to_date)->format('Y-m-d H:i:s');
+
         if (request()->ajax()) {
             if (!empty($request->from_date) && $user->hasRole('super-admin|admin|sect_head|dept_head|direktur')) {
                 $data = PB::with(['user'])
@@ -64,9 +65,11 @@ class PBController extends Controller
                     ]);
                 })
                 ->addColumn('aksi', function ($data) {
+                    $user = Auth::user();
                     return view('admin.pb.index.aksi', [
                         'destroy' => route('pb.destroy', $data->id),
-                        'data' => $data
+                        'data' => $data,
+                        'user' => $user
                     ]);
                 })
                 ->addColumn('download', function ($data) {

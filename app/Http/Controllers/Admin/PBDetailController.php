@@ -7,6 +7,7 @@ use App\Models\Produk;
 use App\Models\PBDetail;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class PBDetailController extends Controller
 {
@@ -25,6 +26,8 @@ class PBDetailController extends Controller
         }
         $pb = PB::findOrFail($pb_id);
         $pb_detail = PBDetail::where('pb_id', '=', $pb->id)->get();
+
+        activity()->log('membuat permintaan barang PB');
 
         return view('admin.pb.create.create', compact(
             'produk',
@@ -81,7 +84,7 @@ class PBDetailController extends Controller
                     return $data->product->nama_produk;
                 })
                 ->addColumn('harga', function ($data) {
-                    return $data->product->harga;
+                    return formatAngka($data->product->harga);
                 })
                 ->addColumn('satuan', function ($data) {
                     return $data->product->satuan;

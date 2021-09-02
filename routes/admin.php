@@ -75,7 +75,7 @@ Route::group(['middleware' => ['auth', 'role:super-admin|admin|direktur|dept_hea
 
   //------------------------- PO -----------------------------------// 
   Route::resource('/po', POController::class)->except([
-    'create', 'edit'
+    'create', 'edit', 'destroy'
   ]);
   Route::post('/po/{id}/download-pdf', [POController::class, 'downloadPdf'])->name('po.download-pdf');
   Route::post('/po/data', [POController::class, 'data'])->name('po.data');
@@ -128,6 +128,11 @@ Route::group(['middleware' => ['auth', 'role:super-admin|admin|direktur|dept_hea
 });
 
 Route::group(['middleware' => ['auth', 'role:user|super-admin|admin|direktur|dept_head|sect_head']], function () {
+
+  //------------------------- dashboard -----------------------------------//
+  Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
+  Route::get('/dashboard/date', [DashboardController::class, 'date'])->name('dashboard.date');
+
   //------------------------- PB -----------------------------------//
   Route::resource('/pb', PBController::class)->except([
     'store', 'edit', 'update'
