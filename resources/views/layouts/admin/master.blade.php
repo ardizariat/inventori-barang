@@ -3,9 +3,9 @@
 
 <head>
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>{{ $setting->nama_aplikasi }} | @yield('title')</title>
+  <title>{{ $setting->nama_aplikasi ?? '' }} @yield('title')</title>
   <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
-  <link rel="icon" href="{{ $setting->getLogo() }}" type="image/png">
+  <link rel="icon" href="{{ $setting->getLogo() ?? '' }}" type="image/png">
   <meta name="csrf-token" content="{{ csrf_token() }}">
 
   <!-- Fonts and icons -->
@@ -50,11 +50,11 @@
       <div class="animate__animated animate__bounceInUp logo-header" data-background-color="blue">
 
         <a href="{{ route('fe.index') }}" class="logo text-white">
-          <img src="{{ $setting->getLogo() }}" class="navbar-brand rounded" width="40" height="40">
-          <span class="px-3 nama-aplikasi font-weight-bold" style="width: 6rem;"">{{ $setting->nama_aplikasi }}</span>
+          <img src="{{ $setting->getLogo() ?? '' }}" class="navbar-brand rounded" width="40" height="40">
+          <span class="px-3 nama-aplikasi font-weight-bold" style="width: 6rem;"">{{ $setting->nama_aplikasi ?? '' }}</span>
                 </a>
-                <button class="     navbar-toggler sidenav-toggler ml-auto" type="button" data-toggle="collapse"
-            data-target="collapse" aria-expanded="false" aria-label="Toggle navigation">
+                <button class="              navbar-toggler sidenav-toggler ml-auto" type="button"
+            data-toggle="collapse" data-target="collapse" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon">
               <i class="icon-menu"></i>
             </span>
@@ -120,7 +120,6 @@
 
   <!--   Core JS Files   -->
   <script src="{{ asset('admin/js/core/jquery-3.6.0.min.js') }}"></script>
-  {{-- <script src="{{ asset('admin/js/core/jquery.3.2.1.min.js') }}"></script> --}}
 
   <script src="{{ asset('admin/js/core/popper.min.js') }}"></script>
   <script src="{{ asset('admin/js/core/bootstrap.min.js') }}"></script>
@@ -193,9 +192,6 @@
       $(".btn .btn-text").text(text);
     }
   </script>
-
-  <!-- Atlantis DEMO methods, don't include it in your project! -->
-  {{-- <script src="{{ asset('admin/js/setting-demo.js') }}"></script> --}}
 </body>
 
 </html>

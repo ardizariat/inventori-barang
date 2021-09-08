@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use Carbon\Carbon;
 use Faker\Factory as Faker;
 use Illuminate\Support\Str;
 use Illuminate\Database\Seeder;
@@ -17,12 +16,11 @@ class ProdukSeeder extends Seeder
      */
     public function run()
     {
-        $faker = \Faker\Factory::create('id_ID');
-        $faker->addProvider(new \Bezhanov\Faker\Provider\Commerce($faker));
+        $faker = Faker::create('id_ID');
         for ($i = 1; $i <= 500; $i++) {
             DB::table('produk')->insert([
                 'id' => Str::uuid(),
-                'nama_produk' => $faker->productName,
+                'nama_produk' => $faker->name,
                 'kategori_id' => $faker->randomElement([
                     '0c297618-c771-4f14-b449-21183f74748b',
                     '0ccaf1f0-e359-4407-996c-8923eb62ec03',

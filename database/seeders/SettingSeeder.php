@@ -22,7 +22,7 @@ class SettingSeeder extends Seeder
             'telepon' => '085780258444',
             'logo' => null,
             'alamat' => 'Jl. Dahlia',
-            'deskripsi' => null,
+            'deskripsi' => 'Aplikasi inventori barang masuk dan barang keluar',
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ]);
