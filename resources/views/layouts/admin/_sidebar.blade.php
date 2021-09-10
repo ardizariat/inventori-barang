@@ -39,6 +39,12 @@
             <p>Barang Masuk</p>
           </a>
         </li>
+        <li class="nav-item {{ request()->routeIs('activity-log.index') ? 'active' : '' }}">
+          <a href="{{ route('activity-log.index') }}">
+            <i class="fas fa-history"></i>
+            <p>Riwayat Pengguna</p>
+          </a>
+        </li>
         @endrole
         @role('super-admin|admin')
         <li class="nav-item {{ request()->routeIs('dashboard.index') ? 'active' : '' }}">
@@ -188,6 +194,12 @@
           <a href="{{ route('pr.index') }}">
             <i class="fab fa-r-project"></i>
             <p>Request PR</p>
+          </a>
+        </li>
+        <li class="nav-item {{ request()->routeIs('activity-log.index') ? 'active' : '' }}">
+          <a href="{{ route('activity-log.index') }}">
+            <i class="fas fa-history"></i>
+            <p>Riwayat Pengguna</p>
           </a>
         </li>
         @endrole

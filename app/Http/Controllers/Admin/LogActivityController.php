@@ -12,19 +12,16 @@ class LogActivityController extends Controller
     public function index(Request $request)
     {
         $title = 'Riwayat Aktifitas User';
-        $super_admin = auth()->user()->hasRole("super-admin");
-        $admin = auth()->user()->hasRole("admin");
-        $user = auth()->user()->hasRole("user");
+        $user = auth()->user();
         $id = auth()->user()->id;
 
         if (request()->ajax()) {
-            if ($super_admin == true) {
+            if ($user->hasRole('super-admin')) {
                 $data = ActivityLog::query()->latest();
-            }
-            if ($admin == true || $user == true) {
-                $data = ActivityLog::where('causer_id', '=', $id)
-                    ->latest()
-                    ->get();
+            } elseif ($user->hasRole('admin')) {
+                $data = ActivityLog::whereNotIn('causer_id', [1])->get();
+            } else {
+                $data = ActivityLog::where('causer_id', '=', $user->id)->get();
             }
             return datatables()
                 ->of($data)
@@ -35,7 +32,7 @@ class LogActivityController extends Controller
                     return $data->user->email;
                 })
                 ->addColumn('waktu', function ($data) {
-                    return $data->created_at->format('d-m-Y, H:i');
+                    return $data->created_at->format('d M Y, H:i:s');
                 })
                 ->addColumn('aktifitas', function ($data) {
                     return view('admin.activity_log._descriptions', [

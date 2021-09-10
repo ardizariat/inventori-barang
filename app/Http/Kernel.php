@@ -70,6 +70,6 @@ class Kernel extends HttpKernel
 
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('activitylog:clean')->daily();
+        $schedule->command('activitylog:clean')->seconds();
     }
 }

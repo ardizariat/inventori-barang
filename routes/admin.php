@@ -154,4 +154,7 @@ Route::group(['middleware' => ['auth', 'role:user|super-admin|admin|direktur|dep
     'index', 'edit', 'store'
   ]);
   Route::post('/pr-detail/produk', [PRDetailController::class, 'produkStore'])->name('pr.produk.store');
+
+  //------------------------- Actvity Log -----------------------------------// 
+  Route::get('/riwayat-aktifitas', [LogActivityController::class, 'index'])->name('activity-log.index');
 });
