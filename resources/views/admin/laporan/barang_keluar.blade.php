@@ -35,7 +35,7 @@
                             <form target="_blank" action="{{ route('laporan.barang-keluar.pdf') }}" method="post">
                                 @csrf
                                 <div class="row my-4">
-                                    <div class="col-md-4">
+                                    <div class="col-md-4 my-2">
                                         <input type="text" value="{{ old('awal') }}" placeholder="Tanggal Awal"
                                             name="awal" class="max-date @error('awal') is-invalid @enderror form-control">
                                         @error('awal')
@@ -44,7 +44,7 @@
                                             </div>
                                         @enderror
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-4 my-2">
                                         <input value="{{ old('akhir') }}" type="text" placeholder="Tanggal Akhir"
                                             name="akhir" class="date @error('akhir') is-invalid @enderror form-control">
                                         @error('akhir')
@@ -53,7 +53,7 @@
                                             </div>
                                         @enderror
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-4 my-2">
                                         <button type="submit" data-toggle="tooltip" data-placement="top"
                                             title="Download file" class="btn btn-danger">
                                             <i class="fas fa-file-pdf"></i> Ekpor
