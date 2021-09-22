@@ -69,36 +69,34 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <table class="table pr-detail-table">
-                                <thead>
-                                    <tr>
-                                        <th width="5%">No</th>
-                                        <th width="18%">Nama</th>
-                                        <th width="18%">Qty</th>
-                                        <th width="18%">Satuan</th>
-                                        <th width="18%">Harga</th>
-                                        <th width="18%">Subtotal</th>
-                                        <th>Aksi</th>
-                                    </tr>
-                                </thead>
-                                <tfoot class="bg-light" align="center">
-                                    <tr>
-                                        <td colspan="2" class="text-bold">
-                                            <h2 class="font-weight-bold text-uppercase">Total</h2>
-                                        </td>
-                                        <td colspan="2" class="font-weight-bold total_item">
-                                        </td>
-                                        <td colspan="3" class="font-weight-bold total_harga">
-                                        </td>
-                                    </tr>
-                                </tfoot>
-                            </table>
-                        </div>
+                    <div class="table-responsive">
+                        <table class="table pr-detail-table">
+                            <thead>
+                                <tr>
+                                    <th width="2%">No</th>
+                                    <th width="18%">Nama</th>
+                                    <th scope="col" width="50%">Qty</th>
+                                    <th width="18%">Satuan</th>
+                                    <th>Harga</th>
+                                    <th>Subtotal</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tfoot class="bg-light" align="center">
+                                <tr>
+                                    <td colspan="1" class="text-bold">
+                                        <h2 class="font-weight-bold text-uppercase">Total</h2>
+                                    </td>
+                                    <td colspan="3" class="font-weight-bold total_item">
+                                    </td>
+                                    <td colspan="3" class="font-weight-bold total_harga">
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
                     </div>
-                    <div class="row justify-content-center d-flex">
-                        <div class="col-md-4">
+                    <div class="row justify-content-center mt-2 d-flex">
+                        <div class="col-8">
                             <button data-toggle="tooltip" data-placement="top" title="Batal"
                                 onclick="batal(`{{ route('pr.cancel', $pr_id) }}`,`{{ route('pr.index') }}` )"
                                 class="btn btn-danger btn-flat">

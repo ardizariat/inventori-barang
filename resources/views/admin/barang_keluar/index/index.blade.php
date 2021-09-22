@@ -76,11 +76,11 @@
                   <thead>
                     <tr>
                       <th width="5%">No</th>
-                      <th width="20%">Request By</th>
-                      <th width="20%">Nama Barang</th>
-                      <th width="20%">Kategori</th>
-                      <th width="20%">Tanggal</th>
-                      <th width="15%">Qty</th>
+                      <th width="15%">Request By</th>
+                      <th width="25%">Nama Barang</th>
+                      <th>Kategori</th>
+                      <th>Tanggal</th>
+                      <th>Qty</th>
                     </tr>
                   </thead>
                 </table>

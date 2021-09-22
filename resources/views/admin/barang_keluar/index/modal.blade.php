@@ -110,18 +110,16 @@
                                 </thead>
                             </table>
                         </div>
-                        <div class="row justify-content-center btn-none">
-                            <div class="col-md-4">
-                                <button type="button" class="text-capitalize btn btn-danger"
-                                    data-dismiss="modal">Tutup</button>
-                                <a type="submit" data-toggle="tooltip" data-placement="top"
-                                    title="Lihat detail permintaan barang"
-                                    class="btn-detail text-capitalize btn btn-info">
-                                    <i class="fas fa-eye"></i> Lihat Detail
-                                </a>
-                            </div>
-                        </div>
                     </div>
+                </div>
+                <div class="modal-footer d-flex justify-content-center btn-none">
+                    <button type="button" class="text-capitalize btn btn-danger"
+                        data-dismiss="modal">Tutup</button>
+                    <a type="submit" data-toggle="tooltip" data-placement="top"
+                        title="Lihat detail permintaan barang"
+                        class="btn-detail text-white text-capitalize btn btn-info">
+                        <i class="fas fa-eye"></i> Lihat Detail
+                    </a>
                 </div>
             </div>
         </form>

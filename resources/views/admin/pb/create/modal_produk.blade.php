@@ -9,17 +9,19 @@
                 </button>
             </div>
             <div class="modal-body">
-                <table class="table produk-table table-striped">
-                    <thead>
-                        <tr>
-                            <th width="5%">No</th>
-                            <th width="15%">Kode</th>
-                            <th>Nama</th>
-                            <th>Stok</th>
-                            <th width="10%" align="center">Aksi</th>
-                        </tr>
-                    </thead>
-                </table>
+                <div class="table-responsive">
+                    <table class="table produk-table table-striped">
+                        <thead>
+                            <tr>
+                                <th width="5%">No</th>
+                                <th width="15%">Kode</th>
+                                <th>Nama</th>
+                                <th>Stok</th>
+                                <th width="10%" align="center">Aksi</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

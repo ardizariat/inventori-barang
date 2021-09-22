@@ -43,7 +43,7 @@
                                 <label>Harga</label>
                             </div>
                             <div class="col-md-10">
-                                <input type="text" name="harga" autocomplete="off" class="harga form-control"
+                                <input type="number" name="harga" autocomplete="off" class="harga form-control"
                                     placeholder="Masukkan harga">
                             </div>
                         </div>
@@ -87,7 +87,7 @@
                         </div>
                     </div>
                     <div class="row justify-content-center d-flex btn-submit btn-row">
-                        <div class="col-md-4">
+                        <div class="col-md-4 col-6">
                             <button type="reset" value="Reset" class="text-uppercase btn btn-sm btn-danger">
                                 Reset Form
                             </button>

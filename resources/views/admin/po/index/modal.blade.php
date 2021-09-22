@@ -40,19 +40,15 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="row justify-content-center d-flex btn-submit btn-row">
-                            <div class="col-md-4">
-                                <button type="button" value="Batal" data-dismiss="modal"
-                                    class="text-uppercase btn btn-danger">
-                                    Batal
-                                </button>
-                                <button class="btn btn-primary btn-save" type="submit">
-                                    <span class="btn-text text-uppercase">Buat PO</span>
-                                    <i class="fas fa-spinner fa-spin" style="display:none;"></i>
-                                </button>
-                            </div>
-                        </div>
                     </div>
+                </div>
+                <div class="modal-footer d-flex justify-content-center">
+                    <button type="button" class="text-uppercase btn btn-danger"
+                        data-dismiss="modal">Batal</button>
+                    <button class="btn btn-primary btn-save" type="submit">
+                        <span class="btn-text text-uppercase">Simpan</span>
+                        <i class="fas fa-spinner fa-spin" style="display:none;"></i>
+                    </button>
                 </div>
             </div>
         </form>

@@ -100,7 +100,8 @@ class ProdukController extends Controller
         $data->satuan = $request->satuan;
         $data->minimal_stok = $request->minimal_stok;
         $data->harga = $request->harga;
-        $data->stok = 0;
+        $data->stok = 1;
+        $data->status = 'aktif';
         $data->keterangan = $request->keterangan;
         if ($request->hasFile('gambar')) {
             $request->validate([

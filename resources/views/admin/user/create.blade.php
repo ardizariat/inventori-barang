@@ -91,20 +91,18 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row justify-content-center d-flex btn-submit btn-row">
-                                    <div class="col-md-4">
-                                        <button type="reset" value="Reset" class="text-uppercase btn btn-danger">
-                                            Batal
-                                        </button>
-                                        <button onclick="simpan(`{{ route('user.store') }}`)"
-                                            class="btn btn-primary btn-save" type="submit">
-                                            <span class="btn-text text-uppercase">Simpan</span>
-                                            <i class="fas fa-spinner fa-spin" style="display:none;"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
+                            </div>
+                            <div class="card-footer justify-content-center d-flex btn-submit btn-row">
+                                <button type="reset" value="Reset" class="mr-2 text-uppercase btn btn-danger">
+                                    Batal
+                                </button>
+                                <button onclick="simpan(`{{ route('user.store') }}`)"
+                                    class="btn btn-primary btn-save" type="submit">
+                                    <span class="btn-text text-uppercase">Simpan</span>
+                                    <i class="fas fa-spinner fa-spin" style="display:none;"></i>
+                                </button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>

@@ -71,15 +71,14 @@
           </div>
         </div>
         <div class="card-body">
-          <div class="row">
-            <div class="col-md-12">
+          <div class="table-responsive">
               <table class="table pb-detail-table">
                 <thead>
                   <tr>
-                    <th width="5%">No</th>
+                    <th width="3%">No</th>
                     <th>Nama</th>
-                    <th>Harga</th>
-                    <th width="23%">Qty</th>
+                    <th width="10%">Harga</th>
+                    <th scope="col" width="50%">Qty</th>
                     <th>Satuan</th>
                     <th>Subtotal</th>
                     <th>Aksi</th>
@@ -98,8 +97,7 @@
                 </tfoot>
               </table>
             </div>
-          </div>
-          <div class="row justify-content-center d-flex">
+          <div class="row justify-content-center mt-3 d-flex">
             <div class="col-md-4">
               <button data-toggle="tooltip" data-placement="top" title="Ajukan permintaan barang"
                 onclick="submitForm('{{ route('pb.index') }}')" class="btn btn-block btn-round btn-dark btn-flat">

@@ -43,8 +43,8 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <form action="" class="form-kategori">
-                                    <table id="gudang-table" class="table table-hover">
+                                <form class="form-kategori">
+                                    <table class="table table-hover gudang-table">
                                         <thead>
                                             <tr>
                                                 <th>No</th>
@@ -76,7 +76,7 @@
 
         // Datatables
         function load_data() {
-            $('#gudang-table').DataTable({
+            $('.gudang-table').DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: "{{ route('gudang.index') }}",
@@ -115,7 +115,7 @@
 
         // Refresh data
         function refresh_data() {
-            $('#gudang-table').DataTable().destroy();
+            $('.gudang-table').DataTable().destroy();
             load_data();
         }
 

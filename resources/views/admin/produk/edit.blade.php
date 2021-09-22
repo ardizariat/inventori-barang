@@ -134,11 +134,11 @@
                                         </div>
                                     </div>
                                     <div class="row justify-content-center d-flex btn-submit btn-row">
-                                        <div class="col-md-4">
-                                            <a href="{{ $url }}" class="text-uppercase btn btn-sm btn-danger">
+                                        <div class="col-8">
+                                            <a href="{{ $url }}" class="text-uppercase btn btn-danger">
                                                 Batal
                                             </a>
-                                            <button class="btn btn-success btn-save btn-sm" type="submit">
+                                            <button class="btn btn-success btn-save  type="submit">
                                                 <span class="btn-text text-uppercase">Simpan</span>
                                                 <i class="fas fa-spinner fa-spin" style="display:none;"></i>
                                             </button>

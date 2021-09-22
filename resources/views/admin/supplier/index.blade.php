@@ -42,8 +42,8 @@
                             </h4>
                         </div>
                         <div class="card-body">
-                            <div class="table-responsive">
-                                <form action="" class="form-supplier">
+                            <form action="" class="form-supplier">
+                                <div class="table-responsive">
                                     <table id="supplier-table" class="table table-hover">
                                         <thead>
                                             <tr>
@@ -55,8 +55,8 @@
                                             </tr>
                                         </thead>
                                     </table>
-                                </form>
-                            </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>

@@ -1,0 +1,60 @@
+.tombol {
+    text-transform: uppercase;
+    border-radius: 40px;
+}
+
+.navbar {
+    position: relative;
+    z-index: 1;
+}
+
+.navbar-brand,
+.nav-link,
+.nav-item {
+    color: white;
+}
+
+.jumbotron {
+    background-image: url(../images/jumbotron.jpg);
+    background-size: cover;
+    height: 540px;
+    position: relative;
+    text-align: center;
+}
+
+.jumbotron .display-4 {
+    margin-top: 150px;
+    text-shadow: 1px, 1px, 1px, rgba(0, 0, 0, 0.6);
+    font-size: 40px;
+}
+
+.jumbotron .container {
+    z-index: 1;
+    position: relative;
+}
+
+.jumbotron::after {
+    content: "";
+    display: block;
+    height: 100%;
+    width: 100%;
+    background-image: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 1),
+        rgba(0, 0, 0, 0.5)
+    );
+    position: absolute;
+    bottom: 0;
+}
+
+/* Versi Mobile */
+@media (min-width: 992px) {
+    .jumbotron {
+        margin-top: -75px;
+        height: 640px;
+    }
+
+    .jumbotron .display-4 {
+        font-size: 62px;
+    }
+}

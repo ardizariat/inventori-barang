@@ -50,9 +50,11 @@ class UserController extends Controller
   {
     $title = 'Tambah User';
     $permissions = DB::table('permissions')
+      ->where('id', '>', 1)
       ->select('name')
       ->get();
     $roles = DB::table('roles')
+      ->where('id', '>', 1)
       ->select('name')
       ->get();
     return view('admin.user.create', compact(

@@ -76,7 +76,7 @@
                                             <label>Harga</label>
                                         </div>
                                         <div class="col-md-10">
-                                            <input type="text" name="harga" autocomplete="off" class="harga form-control"
+                                            <input type="number" name="harga" autocomplete="off" class="harga form-control"
                                                 placeholder="Masukkan harga">
                                         </div>
                                     </div>
@@ -129,19 +129,15 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row justify-content-center d-flex btn-submit btn-row">
-                                    <div class="col-md-4">
-                                        <button type="reset" value="Reset" class="text-uppercase btn btn-sm btn-danger">
-                                            Batal
-                                        </button>
-                                        <button class="btn btn-primary btn-save btn-sm" type="submit">
-                                            <span class="btn-text text-uppercase">Simpan</span>
-                                            <i class="fas fa-spinner fa-spin" style="display:none;"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
+                            </div>
+                            <div class="card-footer d-flex justify-content-center">
+                                <button type="reset" class="mr-2 text-uppercase btn btn-danger">Reset</button>
+                                <button class="btn btn-primary btn-save" type="submit">
+                                    <span class="btn-text text-uppercase">Simpan</span>
+                                    <i class="fas fa-spinner fa-spin" style="display:none;"></i>
+                                </button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -162,12 +158,8 @@
                     $.ajax({
                             url: form.attr('action'),
                             type: form.attr('method'),
-                            beforeSend: function() {
-                                loading();
-                            },
-                            complete: function() {
-                                hideLoader();
-                            },
+                            beforeSend: loading(),
+                            complete: hideLoader(),
                             data: new FormData($(form)[0]),
                             async: false,
                             processData: false,

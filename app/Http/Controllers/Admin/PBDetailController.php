@@ -16,11 +16,6 @@ class PBDetailController extends Controller
         $pb_id = session('pb_id');
         $title = 'Buat Permintaan Barang PB';
         $url = route('pb.index');
-        $produk = Produk::where([
-            ['status', '=', 'aktif'],
-            ['stok', '>=', 5]
-        ])
-            ->get();
         if (!$pb_id) {
             return abort(404);
         }
@@ -30,7 +25,6 @@ class PBDetailController extends Controller
         activity()->log('membuat permintaan barang PB');
 
         return view('admin.pb.create.create', compact(
-            'produk',
             'title',
             'url',
             'pb',
@@ -52,6 +46,14 @@ class PBDetailController extends Controller
         $pb_detail->harga = $harga;
         $pb_detail->subtotal = $harga;
         $pb_detail->save();
+
+        $pb = PB::findOrFail($pb_id);
+        $pb_details = PBDetail::where('pb_id', $pb_id)->get();
+        $total_item = $pb_details->sum('qty');
+        $total_harga = $pb_details->sum('subtotal');
+        $pb->total_item = $total_item;
+        $pb->total_harga = $total_harga;
+        $pb->update();
 
         activity()->log('Menambahkan item produk permintaan barang PB');
 
@@ -147,7 +149,7 @@ class PBDetailController extends Controller
             $pb = $id;
             $data = Produk::where([
                 ['status', '=', 'aktif'],
-                ['stok', '>=', 5]
+                ['stok', '>=', 1]
             ])
                 ->get();
             return datatables()->of($data)

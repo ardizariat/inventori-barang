@@ -49,16 +49,13 @@
                         </div>
                     </div>
                 </div>
-                <div class="row justify-content-center mb-3 d-flex btn-submit btn-row">
-                    <div class="col-md-3">
-                        <button type="button" data-dismiss="modal" class="text-uppercase btn btn-sm btn-danger">
-                            Batal
-                        </button>
-                        <button class="btn btn-primary btn-save btn-sm" type="submit">
-                            <span class="btn-text text-uppercase">Simpan</span>
-                            <i class="fas fa-spinner fa-spin" style="display:none;"></i>
-                        </button>
-                    </div>
+                <div class="modal-footer d-flex justify-content-center">
+                    <button type="button" class="text-uppercase btn btn-sm btn-danger"
+                        data-dismiss="modal">Batal</button>
+                    <button class="btn btn-primary btn-save btn-sm" type="submit">
+                        <span class="btn-text text-uppercase">Simpan</span>
+                        <i class="fas fa-spinner fa-spin" style="display:none;"></i>
+                    </button>
                 </div>
             </div>
         </form>

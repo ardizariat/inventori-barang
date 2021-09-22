@@ -62,18 +62,20 @@
                         </div>
                         <div class="card-body">
                             <form action="" class="form-kategori">
-                                <table id="produk-table" class="table table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th>No</th>
-                                            <th>Nama Produk</th>
-                                            <th>Kategori</th>
-                                            <th>Minimal Stok</th>
-                                            <th>Stok</th>
-                                            <th>Opsi</th>
-                                        </tr>
-                                    </thead>
-                                </table>
+                                <div class="table-responsive">
+                                    <table id="produk-table" class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>No</th>
+                                                <th>Nama Produk</th>
+                                                <th>Kategori</th>
+                                                <th>Minimal Stok</th>
+                                                <th>Stok</th>
+                                                <th>Opsi</th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
                             </form>
                         </div>
                     </div>

@@ -45,6 +45,26 @@ class UserSeeder extends Seeder
 
         // admin
         $user = User::create([
+            'name' => 'Ardi Nor Dzariat',
+            'username' => 'ardizariat',
+            'password' => bcrypt('admin'),
+            'email' => 'ardizariat@gmail.com',
+            'email_verified_at' => null,
+            'foto' => null,
+            'remember_token' => null,
+            'status' =>  'aktif',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+        $roles = 'super-admin';
+        $permissions = ['full-permission'];
+        $user->assignRole([$roles]);
+        $user->givePermissionTo([$permissions]);
+        $role = Role::find(1);
+        $role->givePermissionTo([$permissions]);
+
+        // admin
+        $user = User::create([
             'name' => 'Admin',
             'username' => 'admin',
             'password' => bcrypt('admin'),

@@ -37,20 +37,22 @@
                             </button>
                         </div>
                         <div class="card-body">
-                            <table class="po-table table table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>No</th>
-                                        <th>No Dokumen</th>
-                                        <th>Supplier</th>
-                                        <th>Request By</th>
-                                        <th>Item</th>
-                                        <th>Total Harga</th>
-                                        <th>Status</th>
-                                        <th>Unduh</th>
-                                    </tr>
-                                </thead>
-                            </table>
+                            <div class="table-responsive">
+                                <table class="po-table table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>No</th>
+                                            <th>No Dokumen</th>
+                                            <th>Supplier</th>
+                                            <th>Request By</th>
+                                            <th>Item</th>
+                                            <th>Total Harga</th>
+                                            <th>Status</th>
+                                            <th>Unduh</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>

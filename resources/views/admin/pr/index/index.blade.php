@@ -36,20 +36,22 @@
                             </button>
                         </div>
                         <div class="card-body">
-                            <table class="pr-table table table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>No</th>
-                                        <th>No Dokumen</th>
-                                        <th>Request By</th>
-                                        <th>Sect. Head</th>
-                                        <th>Dept. Head</th>
-                                        <th>Direktur</th>
-                                        <th>Aksi</th>
-                                        <th>Unduh</th>
-                                    </tr>
-                                </thead>
-                            </table>
+                            <div class="table-responsive">
+                                <table class="pr-table table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>No</th>
+                                            <th>No Dokumen</th>
+                                            <th>Request By</th>
+                                            <th>Sect. Head</th>
+                                            <th>Dept. Head</th>
+                                            <th>Direktur</th>
+                                            <th>Aksi</th>
+                                            <th>Unduh</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>

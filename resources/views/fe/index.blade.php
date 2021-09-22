@@ -2,71 +2,79 @@
 <html lang="en">
 
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-  <meta name="description" content="" />
-  <meta name="author" content="" />
-  <title>Inventori</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>{{ $setting->nama_aplikasi ?? '' }} @yield('title')</title>
+  <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
   <link rel="icon" href="{{ $setting->getLogo() ?? '' }}" type="image/png">
-  <!-- Bootstrap Icons-->
-  <link rel="stylesheet" href="{{ asset('fe/css/bootstrap-icons.css') }}">
-  <!-- Google fonts-->
-  <link href="https://fonts.googleapis.com/css?family=Merriweather+Sans:400,700" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic"
-    rel="stylesheet" type="text/css" />
-  <!-- SimpleLightbox plugin CSS-->
-  <link rel="stylesheet" href="{{ asset('fe/css/simpleLightbox.min.css') }}">
-  <!-- Core theme CSS (includes Bootstrap)-->
-  <link href="{{ asset('fe/css/styles.css') }}" rel="stylesheet" />
+  <meta name="csrf-token" content="{{ csrf_token() }}">
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  
+  <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 </head>
 
-<body id="page-top">
-  <!-- Navigation-->
-  <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">
-    <div class="container px-4 px-lg-5">
-      <div class="collapse navbar-collapse" id="navbarResponsive">
-        <ul class="navbar-nav ms-auto my-2 my-lg-0">
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light">
+   <div class="container">
+    <a class="navbar-brand text-white" href="#">
+      <h3>
+        <strong>
+          {{ $setting->nama_aplikasi ?? 'Inventori' }}
+        </strong>
+      </h3>
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item dropdown">
           @auth
-            <li class="nav-item"><a class="nav-link">{{ auth()->user()->name }}</a>
-            </li>
+          <a class="nav-link text-white dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            {{ auth()->user()->name }}
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="{{ route('profile-user.index') }}">My Profile</a>
+            <a class="dropdown-item" href="{{ route('profile-user.edit') }}">Edit Profile</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">
+              <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <x-dropdown-link :href="route('logout')"
+                        onclick="event.preventDefault();
+                                    this.closest('form').submit();">
+                    {{ __('Log Out') }}
+                </x-dropdown-link>
+            </form>
+            </a>
+          </div>
           @endauth
-        </ul>
-      </div>
+        </li>
+      </ul>
     </div>
+   </div>
   </nav>
-  <!-- Masthead-->
-  <header class="masthead">
-    <div class="container px-4 px-lg-5 h-100">
-      <div class="row gx-4 gx-lg-5 h-100 align-items-center justify-content-center text-center">
-        <div class="col-lg-8 align-self-end">
-          <h1 class="text-white text-capitalize font-weight-bold">
-            selamat datang di aplikasi inventori
-          </h1>
-          <hr class="divider" />
-        </div>
-        <div class="col-lg-8 align-self-baseline">
-          @auth
-            <a class="btn btn-primary btn-xl" href="{{ route('dashboard.index') }}">Masuk Ke Sistem</a>
-          @else
-            <a class="btn btn-primary btn-xl" href="{{ route('login') }}">Login</a>
-          @endauth
-        </div>
-      </div>
+
+  <section>
+    <div class="jumbotron jumbotron-fluid">
+     <div class="container">
+      <h1 class="mb-3 display-4 text-white text-center"><strong>Selamat datang</strong> di aplikasi 
+        <br>
+        <strong>inventori</strong> barang</h1>
+        <a href="{{ route('dashboard.index') }}" class="text-white btn align-items-center btn-outline-primary tombol">         
+          Masuk ke sistem 
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
+          </svg>
+        </a>
+     </div>
     </div>
-  </header>
-  <!-- Footer-->
-  <footer class="bg-light py-5">
-    <div class="container px-4 px-lg-5">
-      <div class="small text-center text-muted">Copyright &copy; {{ date('Y') }} - Ardi Nor Dzariat</div>
-    </div>
-  </footer>
-  <!-- Bootstrap core JS-->
-  <script src="{{ asset('fe/js/bootstrap.bundle.min.js') }}"></script>
-  <!-- SimpleLightbox plugin JS-->
-  <script src="{{ asset('fe/js/simpleLightbox.min.js') }}"></script>
-  <!-- Core theme JS-->
-  <script src="{{ asset('fe/js/scripts.js') }}"></script>
-  <script src="{{ asset('fe/js/sb-forms-0.4.1.js') }}"></script>
+  </section>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </body>
 
 </html>

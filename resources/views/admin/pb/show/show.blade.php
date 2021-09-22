@@ -164,21 +164,19 @@
             {{-- Table --}}
             <div class="card my-2 shadow">
                 <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <table class="pb-detail-table table table-striped">
-                                <thead>
-                                    <tr>
-                                        <th width="2%">No</th>
-                                        <th>Nama Barang</th>
-                                        <th>Qty</th>
-                                        <th>Harga Satuan</th>
-                                        <th>Subtotal</th>
-                                        <th>Aksi</th>
-                                    </tr>
-                                </thead>
-                            </table>
-                        </div>
+                    <div class="table-responsive">
+                        <table class="pb-detail-table table table-striped">
+                            <thead>
+                                <tr>
+                                    <th width="2%">No</th>
+                                    <th>Nama Barang</th>
+                                    <th>Qty</th>
+                                    <th>Harga Satuan</th>
+                                    <th>Subtotal</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                        </table>
                     </div>
                 </div>
             </div>

@@ -116,20 +116,18 @@
             </div>
             <div class="card my-2 shadow">
                 <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <table class="barang-masuk-po-table table table-striped">
-                                <thead>
-                                    <tr>
-                                        <th width="5%">No</th>
-                                        <th width="20%">Nama Barang</th>
-                                        <th width="20%">Harga Satuan</th>
-                                        <th width="15%">Qty</th>
-                                        <th width="20%">Subtotal</th>
-                                    </tr>
-                                </thead>
-                            </table>
-                        </div>
+                    <div class="table-responsive">
+                        <table class="barang-masuk-po-table table table-striped">
+                            <thead>
+                                <tr>
+                                    <th width="5%">No</th>
+                                    <th width="20%">Nama Barang</th>
+                                    <th width="20%">Harga Satuan</th>
+                                    <th width="15%">Qty</th>
+                                    <th width="20%">Subtotal</th>
+                                </tr>
+                            </thead>
+                        </table>
                     </div>
                 </div>
             </div>
