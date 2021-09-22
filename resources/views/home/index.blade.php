@@ -8,9 +8,8 @@
   <link rel="icon" href="{{ $setting->getLogo() ?? '' }}" type="image/png">
   <meta name="csrf-token" content="{{ csrf_token() }}">
 
-  <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
-  
-  <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+  <link rel="stylesheet" href="{{ asset('fe/css/bootstrap.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('fe/css/style.css') }}">
 </head>
 
 <body>
@@ -72,9 +71,9 @@
     </div>
   </section>
 
-  <script src="{{ asset('js/jquery-3.2.1.slim.min.js') }}"></script>
-  <script src="{{ asset('js/popper.min.js') }}"></script>
-  <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+  <script src="{{ asset('fe/js/jquery-3.2.1.slim.min.js') }}"></script>
+  <script src="{{ asset('fe/js/popper.min.js') }}"></script>
+  <script src="{{ asset('fe/js/bootstrap.min.js') }}"></script>
 </body>
 
 </html>
