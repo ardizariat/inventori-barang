@@ -10,6 +10,6 @@ class FEController extends Controller
 {
     public function index()
     {
-        return view('fe.index');
+        return view('home.index');
     }
 }
