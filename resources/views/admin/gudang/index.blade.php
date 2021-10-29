@@ -1,6 +1,6 @@
 @extends('layouts.admin.master')
 @section('title')
-    {{ $title }}
+{{ $title }}
 @endsection
 
 @push('css')
@@ -8,71 +8,71 @@
 
 @section('admin-content')
 
-    <div class="content">
-        <div class="page-inner">
-            <div class="page-header">
-                <h4 class="page-title">{{ $title }}</h4>
-                <ul class="breadcrumbs">
-                    <li class="nav-home">
-                        <a href="#">
-                            <i class="flaticon-home"></i>
-                        </a>
-                    </li>
-                    <li class="separator">
-                        <i class="flaticon-right-arrow"></i>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#">Data Gudang</a>
-                    </li>
-                </ul>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="card shadow animate__animated animate__bounce">
-                        <div class="card-header">
-                            <button onclick="" type="submit"
-                                class="animate__animated animate__zoomInDown d-none btn btn-hapus-multiple  btn-danger">
-                                <i class="fas fa-trash"></i> Hapus
+<div class="content">
+    <div class="page-inner">
+        <div class="page-header">
+            <h4 class="page-title">{{ $title }}</h4>
+            <ul class="breadcrumbs">
+                <li class="nav-home">
+                    <a href="#">
+                        <i class="flaticon-home"></i>
+                    </a>
+                </li>
+                <li class="separator">
+                    <i class="flaticon-right-arrow"></i>
+                </li>
+                <li class="nav-item">
+                    <a href="#">Data Gudang</a>
+                </li>
+            </ul>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card shadow animate__animated animate__bounce">
+                    <div class="card-header">
+                        <button onclick="" type="submit"
+                            class="animate__animated animate__zoomInDown d-none btn btn-hapus-multiple  btn-danger">
+                            <i class="fas fa-trash"></i> Hapus
+                        </button>
+                        <h4 class="card-title float-right">
+                            <button class="btn btn-rounded btn-outline-primary"
+                                onclick="addForm('{{ route('gudang.store') }}')">
+                                <i class="fa fa-plus" aria-hidden="true"></i> Tambah Gudang
                             </button>
-                            <h4 class="card-title float-right">
-                                <button class="btn btn-rounded btn-outline-primary"
-                                    onclick="addForm('{{ route('gudang.store') }}')">
-                                    <i class="fa fa-plus" aria-hidden="true"></i> Tambah Gudang
-                                </button>
-                            </h4>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <form class="form-kategori">
-                                    <table class="table table-hover gudang-table">
-                                        <thead>
-                                            <tr>
-                                                <th>No</th>
-                                                <th>Kode</th>
-                                                <th>Nama</th>
-                                                <th>Lokasi</th>
-                                                <th>Aksi</th>
-                                            </tr>
-                                        </thead>
-                                    </table>
-                                </form>
-                            </div>
+                        </h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <form class="form-kategori">
+                                <table class="table table-hover gudang-table">
+                                    <thead>
+                                        <tr>
+                                            <th>No</th>
+                                            <th>Kode</th>
+                                            <th>Nama</th>
+                                            <th>Lokasi</th>
+                                            <th>Aksi</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </form>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
-    @includeIf('admin.gudang._modal')
+@includeIf('admin.gudang._modal')
 
 @endsection
 
 @push('js')
-    <script src="{{ asset('admin/js/plugin/datatables/datatables.min.js') }}"></script>
+<script src="{{ asset('admin/js/plugin/datatables/datatables.min.js') }}"></script>
 
-    <script>
-        load_data();
+<script>
+    load_data();
 
         // Datatables
         function load_data() {
@@ -201,13 +201,14 @@
                 if (result.isConfirmed) {
                     $.ajax({
                             url: url,
-                            type: `post`,
+                            type: 'post',
                             data: {
                                 '_token': $(`meta[name=csrf-token]`).attr(`content`),
-                                '_method': `delete`,
+                                '_method': 'delete',
                             }
                         })
                         .done(response => {
+                            console.log(response);
                             alert_success('success', response.text);
                             refresh_data();
                         })
@@ -218,6 +219,6 @@
                 }
             });
         }
-    </script>
+</script>
 
 @endpush
