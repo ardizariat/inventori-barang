@@ -2,9 +2,9 @@
 
 namespace App\Repositories;
 
-use App\Models\Gudang;
 use App\Http\Requests\Admin\GudangRequest;
 use App\Repositories\Interfaces\GudangRepositoryInterface;
+use App\Models\Gudang;
 
 
 class GudangRepository implements GudangRepositoryInterface
