@@ -22,17 +22,15 @@ class BarangMasukSeeder extends Seeder
             DB::table('barang_masuk')->insert([
                 'id' => Str::uuid(),
                 'produk_id' => $faker->randomElement([
-                    '150ed824-581d-48dc-b544-c15ba1fca4ba',
-                    '229415ee-c155-4051-99a3-7e4438506bfc',
-                    '234c1676-3ddf-4df6-8cc1-f6b15800c261',
-                    '332c0972-659e-40e6-b312-31cc5494e003',
-                    '422e2164-9da0-4ae5-91a3-dec34c83ddae',
-                    '5b816ba0-80c6-4c5d-89d8-2ff570cd5cfa'
+                    '00600b97-1c3d-4232-bd70-5f9bf2e1fee7',
+                    '008a929b-c359-4b0a-9a9b-5b7caf0c7f05',
+                    '0120532c-ee70-4325-8336-54a459a09d82',
+                    '01372cfb-e23d-4342-bbba-03361214b0b8'
                 ]),
                 'po_id' => $faker->randomElement([
-                    '2521fc2c-9402-4a75-8f33-68db0341d138',
-                    'cb61eaec-146c-49fd-b1b9-f4eaf32b9038',
-                    'ff834871-3b55-40fb-9721-3242032c6df6',
+                    '2521fc2c-9402-4a75-8f33-68db01d138',
+                    'cb61eaec-146c-49fd-b1b9-f4eafb9038',
+                    'ff834871-3b55-40fb-9721-32422c6df6',
                 ]),
                 'penerima' => rand(1, 6),
                 'qty' => $faker->randomElement([10, 20, 30, 40, 50, 60, 70, 80, 90, 100]),

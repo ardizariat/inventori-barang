@@ -137,6 +137,8 @@ class PBController extends Controller
                 ->addColumn('aksi', function ($data) {
                     return view('admin.pb.show.aksi', [
                         'url' => route('pb.delete-item', $data->id),
+                        'sect_head' => $data->sect_head,
+                        'dept_head' => $data->dept_head,
                     ]);
                 })
                 ->rawColumns(['qty', 'nama_produk', 'harga_satuan', 'subtotal', 'aksi'])
